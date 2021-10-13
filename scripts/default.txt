@@ -1,0 +1,75 @@
+##########################################################################
+#
+# Ashita v4 Default Script
+#
+# This script is executed at the start of the game to allow for the user
+# to configure their game instance automatically. Use this script to load 
+# plugins, addons or adjust different settings as you see fit.
+#
+# File Syntax:
+#
+#  - Comments start with '#'.
+#  - Commands start with '/'.
+#
+##########################################################################
+
+/wait 5
+
+##########################################################################
+#
+# Load Plugins
+#
+##########################################################################
+
+/load addons
+/load thirdparty
+
+##########################################################################
+#
+# Load Addons
+#
+##########################################################################
+
+/addon load distance
+/addon load fps
+/addon load timestamp
+/addon load tparty
+
+##########################################################################
+#
+# Keybinds
+#
+##########################################################################
+
+/bind ` /ashita
+/bind SYSRQ /screenshot hide
+/bind ^v /paste
+/bind F11 /ambient
+/bind F12 /fps show
+/bind ^F1 /input /ta <a10>
+/bind ^F2 /input /ta <a11>
+/bind ^F3 /input /ta <a12>
+/bind ^F4 /input /ta <a13>
+/bind ^F5 /input /ta <a14>
+/bind ^F6 /input /ta <a15>
+/bind !F1 /input /ta <a20>
+/bind !F2 /input /ta <a21>
+/bind !F3 /input /ta <a22>
+/bind !F4 /input /ta <a23>
+/bind !F5 /input /ta <a24>
+/bind !F6 /input /ta <a25>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/echo Default.txt was executed..
