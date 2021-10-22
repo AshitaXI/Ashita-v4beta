@@ -13,5 +13,5 @@ Config exposes the following commands:
 
 Some example settings are:
 
-  * 18 - Language Filter
+  * 24 - Language Filter
   * 65 - Auto-Disconnect
