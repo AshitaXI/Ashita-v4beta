@@ -45,9 +45,9 @@ ffi.cdef[[
         int32_t MinValue;       /* The configuration entry minimum value.  */
         int32_t MaxValue;       /* The configuration entry maximum value. (-1 if not used.) */
         int32_t DefaultValue;   /* The configuration entry default value. (Used when not able to clamp a value within min/max.) */
-        uint32_t Unknown0001;   /* Unknown (VTable pointer for the specific configuration entry. Not always used, seems to be for reinitializations and such.) */
+        uint32_t VTableCaller;  /* The configuration entry callback helper VTable pointer. Holds a callback pointer and parameter (if one is set). */
         uint8_t Flags;          /* The configuration entry flags. (0x01 means the value will force-update even if the value already matches.) */
-        uint8_t Unknown0002[3]; /* Padding. (For alignment.) */
+        uint8_t Unknown0001[3]; /* Padding. (For alignment.) */
     } configentry_t;
 ]];
 
@@ -58,25 +58,6 @@ local config = T{
     this = nil,
     info = nil,
 };
-
---[[
-* event: load
-* desc : Event called when the addon is being loaded.
---]]
-ashita.events.register('load', 'load_cb', function ()
-    -- Find the function to get configuration values..
-    local ptr = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B44240450E8????????C383C8FFC3', 0, 0);
-    config.get = ffi.cast('get_config_value_t', ptr);
-
-    -- Find the function to set configuration values..
-    config.set = ffi.cast('set_config_value_t', ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B4424088B5424045052E8????????C383C8FFC3', 0, 0));
-
-    -- Find the function to get configuration value entries..
-    config.info = ffi.cast('get_config_entry_t', ashita.memory.find('FFXiMain.dll', 0, '8B490485C974108B4424048D14808D04508D0481C2040033C0C20400', 0, 0));
-
-    -- Obtain the 'this' pointer for the configuration data..
-    config.this = ffi.cast('uint32_t**', ptr + 2)[0][0];
-end);
 
 --[[
 * Prints the addon help information.
@@ -103,6 +84,25 @@ local function print_help(isError)
         print(chat.header(addon.name):append(chat.error('Usage: ')):append(chat.message(v[1]):append(' - ')):append(chat.color1(6, v[2])));
     end);
 end
+
+--[[
+* event: load
+* desc : Event called when the addon is being loaded.
+--]]
+ashita.events.register('load', 'load_cb', function ()
+    -- Find the function to get configuration values..
+    local ptr = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B44240450E8????????C383C8FFC3', 0, 0);
+    config.get = ffi.cast('get_config_value_t', ptr);
+
+    -- Find the function to set configuration values..
+    config.set = ffi.cast('set_config_value_t', ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B4424088B5424045052E8????????C383C8FFC3', 0, 0));
+
+    -- Find the function to get configuration value entries..
+    config.info = ffi.cast('get_config_entry_t', ashita.memory.find('FFXiMain.dll', 0, '8B490485C974108B4424048D14808D04508D0481C2040033C0C20400', 0, 0));
+
+    -- Obtain the 'this' pointer for the configuration data..
+    config.this = ffi.cast('uint32_t**', ptr + 2)[0][0];
+end);
 
 --[[
 * event: command
