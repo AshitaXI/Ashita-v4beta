@@ -439,7 +439,7 @@ local function D3DCOLOR_ARGB(a, r, g, b)
     local c_g = bit.lshift(bit.band(g, 0xFF), 8);
     local c_b = bit.band(b, 0xFF);
 
-    return bit.band(bit.bor(c_a, c_r, c_g, c_b), 0xFFFFFFFF);
+    return tonumber('0x' .. bit.tohex(bit.band(bit.bor(c_a, c_r, c_g, c_b), 0xFFFFFFFF)));
 end
 
 --[[

@@ -31,6 +31,10 @@ local ffi   = require('ffi');
 local C     = ffi.C;
 
 ffi.cdef[[
+    enum {
+        D3DX_DEFAULT = 0xffffffff,
+    };
+
     typedef enum _D3DXIMAGE_FILEFORMAT {
         D3DXIFF_BMP         = 0,
         D3DXIFF_JPG         = 1,
@@ -89,6 +93,7 @@ ffi.cdef[[
      */
     typedef struct ID3DXBuffer      ID3DXBuffer;
     typedef struct ID3DXFont        ID3DXFont;
+    typedef struct ID3DXSprite      ID3DXSprite;
 
     /**
      * ID3DXBuffer Interface
@@ -134,6 +139,32 @@ ffi.cdef[[
     struct ID3DXFont
     {
         struct ID3DXFontVtbl* lpVtbl;
+    };
+
+    /**
+     * ID3DXSprite Interface
+     */
+    typedef struct ID3DXSpriteVtbl {
+        /*** IUnknown methods ***/
+        HRESULT __stdcall (*QueryInterface)(ID3DXSprite* This, REFIID iid, void** ppvObj);
+        ULONG   __stdcall (*AddRef)(ID3DXSprite* This);
+        ULONG   __stdcall (*Release)(ID3DXSprite* This);
+    
+        /*** ID3DXSprite methods ***/
+        HRESULT __stdcall (*GetDevice)(ID3DXSprite* This, IDirect3DDevice8** ppDevice);
+
+        HRESULT __stdcall (*Begin)(ID3DXSprite* This);
+        HRESULT __stdcall (*Draw)(ID3DXSprite* This, IDirect3DTexture8* pSrcTexture, const RECT* pSrcRect, const D3DXVECTOR2* pScaling, const D3DXVECTOR2* pRotationCenter, FLOAT Rotation, const D3DXVECTOR2* pTranslation, D3DCOLOR Color);
+        HRESULT __stdcall (*DrawTransform)(ID3DXSprite* This, IDirect3DTexture8* pSrcTexture, const RECT* pSrcRect, const D3DXMATRIX* pTransform, D3DCOLOR Color);
+        HRESULT __stdcall (*End)(ID3DXSprite* This);
+    
+        HRESULT __stdcall (*OnLostDevice)(ID3DXSprite* This);
+        HRESULT __stdcall (*OnResetDevice)(ID3DXSprite* This);
+    } ID3DXSpriteVtbl;
+
+    struct ID3DXSprite
+    {
+        struct ID3DXSpriteVtbl* lpVtbl;
     };
 ]];
 
@@ -204,6 +235,49 @@ ID3DXFont = ffi.metatype('ID3DXFont', {
 });
 
 --[[
+* ID3DXSprite Vtbl Forwarding
+--]]
+ID3DXSprite = ffi.metatype('ID3DXSprite', {
+    __index = {
+        -- IUnknown Methods
+        QueryInterface  = IUnknown.QueryInterface,
+        AddRef          = IUnknown.AddRef,
+        Release         = IUnknown.Release,
+
+        -- ID3DXSprite Methods
+        GetDevice = function (self, ppDevice)
+            local device_ptr    = ffi.new('IDirect3DDevice8*[1]');
+            local res           = self.lpVtbl.GetDevice(self, device_ptr);
+            local device        = nil;
+
+            if (res == C.S_OK) then
+                device = ffi.new('IDirect3DDevice8*', device_ptr[0]);
+            end
+
+            return res, device;
+        end,
+        Begin = function (self)
+            return self.lpVtbl.Begin(self);
+        end,
+        Draw = function (self, pSrcTexture, pSrcRect, pScaling, pRotationCenter, Rotation, pTranslation, Color)
+            return self.lpVtbl.Draw(self, pSrcTexture, pSrcRect, pScaling, pRotationCenter, Rotation, pTranslation, Color);
+        end,
+        DrawTransform = function (self, pSrcTexture, pSrcRect, pTransform, Color)
+            return self.lpVtbl.DrawTransform(self, pSrcTexture, pSrcRect, pTransform, Color);
+        end,
+        End = function (self)
+            return self.lpVtbl.End(self);
+        end,
+        OnLostDevice = function (self)
+            return self.lpVtbl.OnLostDevice(self);
+        end,
+        OnResetDevice = function (self)
+            return self.lpVtbl.OnResetDevice(self);
+        end,
+    },
+});
+
+--[[
 * The following functions are from the Direct3D 8 SDK 'd3dx8.lib' file. Addons.dll exports these functions as forwards to allow addons
 * to make use of them easily without needing to load/import any other special files. If there is a function below that you feel you need
 * or want to make use of, feel free to contact the Ashita development team for help with getting any of the additional requirements added
@@ -216,9 +290,9 @@ ID3DXFont = ffi.metatype('ID3DXFont', {
 
 ffi.cdef[[
     // d3dx8core.h
-    HRESULT __stdcall D3DXCreateFont(IDirect3DDevice8* pDevice, HFONT hFont, ID3DXFont* ppFont);
-    HRESULT __stdcall D3DXCreateFontIndirect(IDirect3DDevice8* pDevice, const LOGFONTA* pLogFont, ID3DXFont* ppFont);
-    //HRESULT __stdcall D3DXCreateSprite(IDirect3DDevice8* pDevice, ID3DXSprite* ppSprite);
+    HRESULT __stdcall D3DXCreateFont(IDirect3DDevice8* pDevice, HFONT hFont, ID3DXFont** ppFont);
+    HRESULT __stdcall D3DXCreateFontIndirect(IDirect3DDevice8* pDevice, const LOGFONTA* pLogFont, ID3DXFont** ppFont);
+    HRESULT __stdcall D3DXCreateSprite(IDirect3DDevice8* pDevice, ID3DXSprite** ppSprite);
     //HRESULT __stdcall D3DXCreateRenderToSurface(IDirect3DDevice8* pDevice, UINT Width, UINT Height, D3DFORMAT Format, BOOL DepthStencil, D3DFORMAT DepthStencilFormat, LPD3DXRENDERTOSURFACE* ppRenderToSurface);
     //HRESULT __stdcall D3DXCreateRenderToEnvMap(IDirect3DDevice8* pDevice, UINT Size, D3DFORMAT Format, BOOL DepthStencil, D3DFORMAT DepthStencilFormat, LPD3DXRenderToEnvMap* ppRenderToEnvMap);
     HRESULT __stdcall D3DXAssembleShaderFromFileA(const char* pSrcFile, DWORD Flags, ID3DXBuffer** ppConstants, ID3DXBuffer** ppCompiledShader, ID3DXBuffer** ppCompilationErrors);
