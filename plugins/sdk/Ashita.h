@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.04;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.05;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -326,6 +326,16 @@ namespace Ashita
         CenterY        = 1 << 2, // Font will be drawn centered.
         RightJustified = 1 << 3, // Font will be drawn right-justified.
         Outlined       = 1 << 4, // Font will be drawn with a colored outline.
+        ManualRender   = 1 << 5, // Font will be drawn manually by the owner with Render().
+    };
+
+    /**
+     * Primitive Draw Flags Enumeration
+     */
+    enum class PrimitiveDrawFlags : uint32_t
+    {
+        None         = 0 << 0, // None.
+        ManualRender = 1 << 0, // Primitive will be drawn manually by the owner with Render().
     };
 
     /**
@@ -376,6 +386,7 @@ namespace Ashita
     DEFINE_ENUMCLASS_OPERATORS(Ashita::FontBorderFlags);
     DEFINE_ENUMCLASS_OPERATORS(Ashita::FontCreateFlags);
     DEFINE_ENUMCLASS_OPERATORS(Ashita::FontDrawFlags);
+    DEFINE_ENUMCLASS_OPERATORS(Ashita::PrimitiveDrawFlags);
 
 } // namespace Ashita
 
@@ -1368,6 +1379,7 @@ interface IResourceManager
 interface IPrimitiveObject
 {
     // Methods
+    virtual void Render(void) const                                                                  = 0;
     virtual bool SetTextureFromFile(const char* path)                                                = 0;
     virtual bool SetTextureFromMemory(const void* data, uint32_t size, D3DCOLOR colorKey)            = 0;
     virtual bool SetTextureFromResource(const char* moduleName, const char* resName)                 = 0;
@@ -1376,43 +1388,45 @@ interface IPrimitiveObject
     virtual bool HitTest(int32_t x, int32_t y) const                                                 = 0;
 
     // Properties
-    virtual const char* GetAlias(void) const                   = 0;
-    virtual float GetTextureOffsetX(void) const                = 0;
-    virtual float GetTextureOffsetY(void) const                = 0;
-    virtual bool GetBorderVisible(void) const                  = 0;
-    virtual D3DCOLOR GetBorderColor(void) const                = 0;
-    virtual Ashita::FontBorderFlags GetBorderFlags(void) const = 0;
-    virtual RECT GetBorderSizes(void) const                    = 0;
-    virtual bool GetVisible(void) const                        = 0;
-    virtual float GetPositionX(void) const                     = 0;
-    virtual float GetPositionY(void) const                     = 0;
-    virtual bool GetCanFocus(void) const                       = 0;
-    virtual bool GetLocked(void) const                         = 0;
-    virtual bool GetLockedZ(void) const                        = 0;
-    virtual float GetScaleX(void) const                        = 0;
-    virtual float GetScaleY(void) const                        = 0;
-    virtual float GetWidth(void) const                         = 0;
-    virtual float GetHeight(void) const                        = 0;
-    virtual D3DCOLOR GetColor(void) const                      = 0;
+    virtual const char* GetAlias(void) const                    = 0;
+    virtual float GetTextureOffsetX(void) const                 = 0;
+    virtual float GetTextureOffsetY(void) const                 = 0;
+    virtual bool GetBorderVisible(void) const                   = 0;
+    virtual D3DCOLOR GetBorderColor(void) const                 = 0;
+    virtual Ashita::FontBorderFlags GetBorderFlags(void) const  = 0;
+    virtual RECT GetBorderSizes(void) const                     = 0;
+    virtual bool GetVisible(void) const                         = 0;
+    virtual float GetPositionX(void) const                      = 0;
+    virtual float GetPositionY(void) const                      = 0;
+    virtual bool GetCanFocus(void) const                        = 0;
+    virtual bool GetLocked(void) const                          = 0;
+    virtual bool GetLockedZ(void) const                         = 0;
+    virtual float GetScaleX(void) const                         = 0;
+    virtual float GetScaleY(void) const                         = 0;
+    virtual float GetWidth(void) const                          = 0;
+    virtual float GetHeight(void) const                         = 0;
+    virtual Ashita::PrimitiveDrawFlags GetDrawFlags(void) const = 0;
+    virtual D3DCOLOR GetColor(void) const                       = 0;
 
-    virtual void SetAlias(const char* alias)                   = 0;
-    virtual void SetTextureOffsetX(float x)                    = 0;
-    virtual void SetTextureOffsetY(float y)                    = 0;
-    virtual void SetBorderVisible(bool visible)                = 0;
-    virtual void SetBorderColor(D3DCOLOR color)                = 0;
-    virtual void SetBorderFlags(Ashita::FontBorderFlags flags) = 0;
-    virtual void SetBorderSizes(RECT rect)                     = 0;
-    virtual void SetVisible(bool visible)                      = 0;
-    virtual void SetPositionX(float x)                         = 0;
-    virtual void SetPositionY(float y)                         = 0;
-    virtual void SetCanFocus(bool focus)                       = 0;
-    virtual void SetLocked(bool locked)                        = 0;
-    virtual void SetLockedZ(bool locked)                       = 0;
-    virtual void SetScaleX(float x)                            = 0;
-    virtual void SetScaleY(float y)                            = 0;
-    virtual void SetWidth(float width)                         = 0;
-    virtual void SetHeight(float height)                       = 0;
-    virtual void SetColor(D3DCOLOR color)                      = 0;
+    virtual void SetAlias(const char* alias)                    = 0;
+    virtual void SetTextureOffsetX(float x)                     = 0;
+    virtual void SetTextureOffsetY(float y)                     = 0;
+    virtual void SetBorderVisible(bool visible)                 = 0;
+    virtual void SetBorderColor(D3DCOLOR color)                 = 0;
+    virtual void SetBorderFlags(Ashita::FontBorderFlags flags)  = 0;
+    virtual void SetBorderSizes(RECT rect)                      = 0;
+    virtual void SetVisible(bool visible)                       = 0;
+    virtual void SetPositionX(float x)                          = 0;
+    virtual void SetPositionY(float y)                          = 0;
+    virtual void SetCanFocus(bool focus)                        = 0;
+    virtual void SetLocked(bool locked)                         = 0;
+    virtual void SetLockedZ(bool locked)                        = 0;
+    virtual void SetScaleX(float x)                             = 0;
+    virtual void SetScaleY(float y)                             = 0;
+    virtual void SetWidth(float width)                          = 0;
+    virtual void SetHeight(float height)                        = 0;
+    virtual void SetDrawFlags(Ashita::PrimitiveDrawFlags flags) = 0;
+    virtual void SetColor(D3DCOLOR color)                       = 0;
 
     // Properties (Callbacks)
     virtual fontkeyboardevent_f GetKeyboardCallback(void) const = 0;
@@ -1439,6 +1453,7 @@ interface IPrimitiveManager
 interface IFontObject
 {
     // Methods
+    virtual void Render(void)                        = 0;
     virtual void GetTextSize(SIZE * size) const      = 0;
     virtual bool HitTest(int32_t x, int32_t y) const = 0;
 
