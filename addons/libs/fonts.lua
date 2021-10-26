@@ -112,6 +112,25 @@ fontlib.methods = T{
     ['real_x']          = { 'GetRealPositionX', nil },
     ['real_y']          = { 'GetRealPositionY', nil },
 
+    -- Functional Forwards
+    ['render'] = { nil, nil,
+        function (self)
+            self:Render();
+        end
+    },
+    ['get_text_size'] = { nil, nil,
+        function (self)
+            local size = SIZE.new();
+            self:GetTextSize(size);
+            return size.cx, size.cy;
+        end
+    },
+    ['hit_test'] = { nil, nil,
+        function (self, x, y)
+            return self:HitTest(x, y);
+        end
+    },
+
     -- Non-wrapped Forwards
     ['background'] = {
         function (self)
@@ -218,6 +237,11 @@ fontlib.fontobj_mt = {
                 return f(self.obj);
             end
 
+            -- Handle call forwards..
+            f = fontlib.methods[k][3];
+            if (type(f) == 'function') then
+                return f;
+            end
             return nil;
         end
 
