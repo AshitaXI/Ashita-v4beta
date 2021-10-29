@@ -340,10 +340,10 @@ settingslib.load = function (defaults, alias)
     save_settings(settings, alias);
 
     -- Cache the settings information..
-    settingslib.cache[alias] = T{ };
+    settingslib.cache[alias] = settingslib.cache[alias] or T{ };
     settingslib.cache[alias].alias = alias;
     settingslib.cache[alias].defaults = defaults;
-    settingslib.cache[alias].events = T{ };
+    settingslib.cache[alias].events = settingslib.cache[alias].events or T{ };
     settingslib.cache[alias].settings = settings;
 
     -- Invoke callbacks registered for the settings changes..
@@ -481,7 +481,7 @@ settingslib.register = function (settingsAlias, eventAlias, callback)
 
     -- Ensure the settings entry exists..
     if (settingslib.cache[s] == nil) then
-        return false;
+        settingslib.cache[s] = T{ };
     end
 
     -- Create the event table if it doesn't exist..
