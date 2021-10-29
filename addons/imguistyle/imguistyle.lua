@@ -211,7 +211,7 @@ ashita.events.register('command', 'command_cb', function (e)
         return;
     end
 
-    -- Block all fps related commands..
+    -- Block all imguistyle related commands..
     e.blocked = true;
 
     -- Handle: /imguistyle - Toggle the style editor window.
