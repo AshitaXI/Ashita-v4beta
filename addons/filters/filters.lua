@@ -120,7 +120,6 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /filters help - Shows the addon help.
     if (#args == 2 and args[2]:any('help')) then
         print_help(false);
-        print(filters.current);
         return;
     end
 
