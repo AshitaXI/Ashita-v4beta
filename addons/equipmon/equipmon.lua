@@ -621,6 +621,11 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         return;
     end
 
+    -- Hide the equipmon object if Ashita is currently hiding font objects..
+    if (not AshitaCore:GetFontManager():GetVisible()) then
+        return;
+    end
+
     -- Prepare the opacity color..
     eqmon.settings.opacity[1] = math.clamp(eqmon.settings.opacity[1], 0.125, 1);
     local color = d3d.D3DCOLOR_ARGB(eqmon.settings.opacity[1] * 255, 255, 255, 255);
