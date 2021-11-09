@@ -124,7 +124,7 @@ ashita.events.register('command', 'command_cb', function (e)
 
     -- Handle: /repeater (command | cmd | set) <command> - Sets the command to repeat.
     if (#args >= 3 and args[2]:any('command', 'cmd', 'set')) then
-        repeater.cmd = args:concat(' ', 3);
+        repeater.cmd = e.command:sub(e.command:find(' ', e.command:find(' ') + 1) + 1);
 
         print(chat.header(addon.name):append(chat.message('Command set to: ')):append(chat.success(repeater.cmd)));
         return;
