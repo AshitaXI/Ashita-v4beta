@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.05;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.06;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1018,16 +1018,10 @@ interface IPlayer
     virtual uint16_t GetTitle(void) const                                  = 0;
     virtual uint16_t GetRank(void) const                                   = 0;
     virtual uint16_t GetRankPoints(void) const                             = 0;
+    virtual uint16_t GetHomepoint(void) const                              = 0;
     virtual uint8_t GetNation(void) const                                  = 0;
     virtual uint8_t GetResidence(void) const                               = 0;
     virtual uint16_t GetSuLevel(void) const                                = 0;
-    virtual uint16_t GetHomepoint(void) const                              = 0;
-    virtual Ashita::FFXI::combatskill_t GetCombatSkill(uint32_t sid) const = 0;
-    virtual Ashita::FFXI::craftskill_t GetCraftSkill(uint32_t sid) const   = 0;
-    virtual uint16_t GetAbilityRecast(uint32_t index) const                = 0;
-    virtual uint16_t GetAbilityRecastTimerId(uint32_t index) const         = 0;
-    virtual uint32_t GetMountRecast(void) const                            = 0;
-    virtual uint32_t GetMountRecastTimerId(void) const                     = 0;
     virtual uint8_t GetHighestItemLevel(void) const                        = 0;
     virtual uint8_t GetItemLevel(void) const                               = 0;
     virtual uint8_t GetMainHandItemLevel(void) const                       = 0;
@@ -1036,6 +1030,18 @@ interface IPlayer
     virtual uint16_t GetUnityPartialPersonalEvalutionPoints(void) const    = 0;
     virtual uint16_t GetUnityPersonalEvaluationPoints(void) const          = 0;
     virtual uint32_t GetUnityChatColorFlag(void) const                     = 0;
+    virtual uint8_t GetMasteryJob(void) const                              = 0;
+    virtual uint8_t GetMasteryJobLevel(void) const                         = 0;
+    virtual uint8_t GetMasteryFlags(void) const                            = 0;
+    virtual uint8_t GetMasteryUnknown0000(void) const                      = 0;
+    virtual uint32_t GetMasteryExp(void) const                             = 0;
+    virtual uint32_t GetMasteryExpNeeded(void) const                       = 0;
+    virtual Ashita::FFXI::combatskill_t GetCombatSkill(uint32_t sid) const = 0;
+    virtual Ashita::FFXI::craftskill_t GetCraftSkill(uint32_t sid) const   = 0;
+    virtual uint16_t GetAbilityRecast(uint32_t index) const                = 0;
+    virtual uint16_t GetAbilityRecastTimerId(uint32_t index) const         = 0;
+    virtual uint32_t GetMountRecast(void) const                            = 0;
+    virtual uint32_t GetMountRecastTimerId(void) const                     = 0;
     virtual uint8_t GetDataLoadedFlags(void) const                         = 0;
     virtual uint16_t GetLimitPoints(void) const                            = 0;
     virtual uint8_t GetMeritPoints(void) const                             = 0;

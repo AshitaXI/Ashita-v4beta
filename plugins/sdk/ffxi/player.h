@@ -201,15 +201,11 @@ namespace Ashita::FFXI
         uint16_t        Title;                                  // The players title id.
         uint16_t        Rank;                                   // The players rank number.
         uint16_t        RankPoints;                             // The players rank points. [Two values packed.]
+        uint16_t        Homepoint;                              // The players homepoint.
+        uint32_t        Unknown0000;                            // Unknown (Set from 0x61 packet. Offset: 0x4C)
         uint8_t         Nation;                                 // The players nation id.
         uint8_t         Residence;                              // The players residence id.
         uint16_t        SuLevel;                                // The players Superior Equipment level.
-        uint16_t        Homepoint;                              // The players homepoint.
-        combatskills_t  CombatSkills;                           // The players combat skills.
-        craftskills_t   CraftSkills;                            // The players crafting skills.
-        abilityrecast_t AbilityInfo[31];                        // The players ability recast information.
-        mountrecast_t   MountRecast;                            // The players mount recast information.
-        uint32_t        Unknown0000;                            // Unknown (Set from 0x61 packet. Offset: 0x4C)
         uint8_t         HighestItemLevel;                       // The players highest equipped item level.
         uint8_t         ItemLevel;                              // The players item level. (1 = 100, increases from there. -1 from what the value is in memory.)
         uint8_t         MainHandItemLevel;                      // The players main hand item level.
@@ -218,6 +214,16 @@ namespace Ashita::FFXI
         uint16_t        UnityPartialPersonalEvalutionPoints;    // The players partial unity personal evaluation points.
         uint16_t        UnityPersonalEvaluationPoints;          // The players personal unity evaluation points.
         uint32_t        UnityChatColorFlag;                     // Alters the color of the unity faction name when the chat bar is open for /unity chat.
+        uint8_t         MasteryJob;                             // The players set Mastery job id.
+        uint8_t         MasteryJobLevel;                        // The players current Mastery job level.
+        uint8_t         MasteryFlags;                           // Flags that control how the Mastery system works and displays information.
+        uint8_t         MasteryUnknown0000;                     // Unknown
+        uint32_t        MasteryExp;                             // The players current Mastery job experience points.
+        uint32_t        MasteryExpNeeded;                       // The players current Mastery job experience points needed to level. 
+        combatskills_t  CombatSkills;                           // The players combat skills.
+        craftskills_t   CraftSkills;                            // The players crafting skills.
+        abilityrecast_t AbilityInfo[31];                        // The players ability recast information.
+        mountrecast_t   MountRecast;                            // The players mount recast information.
         uint8_t         DataLoadedFlags;                        // Flags that control what player information has been populated. Controls text visiiblity in player menus, unity information, etc.
         uint8_t         Unknown0002;                            // Unknown [Padding?]
         uint16_t        LimitPoints;                            // The players current limit points.
@@ -232,23 +238,24 @@ namespace Ashita::FFXI
         int32_t         StatusTimers[32];                       // The players status timers.
         uint8_t         Unknown0005[32];                        // Unknown [Set from 0x63 packet, case 0x0A.]
         uint32_t        IsZoning;                               // Flag if the player is zoning and the client should send an 0x0C request.
-        uint32_t        Unknown0006;                            // Unknown [Client uses most of the following unknowns as a float, unsure what for.]
-        uint32_t        Unknown0007;                            // Unknown
-        uint32_t        Unknown0008;                            // Unknown
-        uint32_t        Unknown0009;                            // Unknown
-        uint32_t        Unknown0010;                            // Unknown
-        uint32_t        Unknown0011;                            // Unknown 
-        uint32_t        Unknown0012;                            // Unknown 
-        uint32_t        Unknown0013;                            // Unknown 
-        uint32_t        Unknown0014;                            // Unknown 
-        uint32_t        Unknown0015;                            // Unknown 
-        uint32_t        Unknown0016;                            // Unknown 
-        uint32_t        Unknown0017;                            // Unknown 
-        uint32_t        Unknown0018;                            // Unknown 
-        uint32_t        Unknown0019;                            // Unknown 
-        uint32_t        Unknown0020;                            // Unknown 
-        uint32_t        Unknown0021;                            // Unknown 
-        uint32_t        Unknown0022;                            // Unknown 
+        float           Unknown0006;                            // Unknown [Client uses these when the player entity status is 29 or 30.]
+        float           Unknown0007;                            //
+        float           Unknown0008;                            //
+        uint32_t        Unknown0009;                            // Unknown [Padding?]
+        float           Unknown0010;                            // Unknown [Client uses these when the player entity status is 29 or 30.]
+        float           Unknown0011;                            // 
+        float           Unknown0012;                            // 
+        uint32_t        Unknown0013;                            // Unknown [Padding?]
+        float           Unknown0014;                            // Unknown [Client uses these when the player entity status is 26 or 27.]
+        float           Unknown0015;                            // 
+        float           Unknown0016;                            // 
+        uint32_t        Unknown0017;                            // Unknown [Padding?]
+        float           Unknown0018;                            // Unknown [Client uses these when the player entity status is 26 or 27.]
+        float           Unknown0019;                            // 
+        float           Unknown0020;                            // 
+        uint32_t        Unknown0021;                            // Unknown [Padding?]
+        uint32_t        Unknown0022;                            // Unknown [Set from 0x10E packet, casted to a double later in usages.]
+        uint32_t        Unknown0023;                            // Unknown
         int16_t         Buffs[32];                              // The players current status effect icon ids.
     };
 
