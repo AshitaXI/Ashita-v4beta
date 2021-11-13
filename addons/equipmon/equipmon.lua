@@ -124,7 +124,7 @@ local eqmon = T{
         T{ slot = 0x00, itemid = 0, texture = nil, x = 0,   y = 0, }, -- Main
         T{ slot = 0x01, itemid = 0, texture = nil, x = 32,  y = 0, }, -- Sub
         T{ slot = 0x02, itemid = 0, texture = nil, x = 64,  y = 0, }, -- Range
-        T{ slot = 0x03, itemid = 0, texture = nil, x = 96,  y = 0, ammo = 0, }, -- Ammo
+        T{ slot = 0x03, itemid = 0, texture = nil, x = 96,  y = 0, }, -- Ammo
         T{ slot = 0x04, itemid = 0, texture = nil, x = 0,   y = 32, }, -- Head
         T{ slot = 0x09, itemid = 0, texture = nil, x = 32,  y = 32, }, -- Neck
         T{ slot = 0x0B, itemid = 0, texture = nil, x = 64,  y = 32, }, -- Ear1
@@ -226,18 +226,10 @@ local function update_equipment_textures()
         if (id == nil) then
             v.itemid = 0;
             v.texture = nil;
-
-            if (v.slot == 3) then
-                v.ammo = nil;
-            end
         else
             if (v.texture == nil or v.itemid == 0 or v.itemid ~= id) then
                 v.itemid = id;
                 v.texture = load_item_texture(id);
-
-                if (v.slot == 3) then
-                    v.ammo = count;
-                end
             end
         end
     end);
@@ -657,13 +649,17 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         end
 
         -- Update and render the slots ammo count..
-        if (eqmon.settings.slots.show_ammo_count[1] and v.ammo ~= nil and v.ammo > 0) then
-            -- Align the text to the bottom right corner of the object..
-            eqmon.font.text = v.ammo:str();
-            local w, h = eqmon.font:get_text_size();
-            eqmon.font.position_x = eqmon.vec_position.x + (32 * eqmon.vec_scale.x) - w - 1;
-            eqmon.font.position_y = eqmon.vec_position.y + (32 * eqmon.vec_scale.y) - h + 2;
-            eqmon.font:render();
+        if (eqmon.settings.slots.show_ammo_count[1] and v.slot == 3) then
+            local id, cnt = get_equipped_item(3);
+            if (id ~= nil and cnt ~= nil) then
+                eqmon.font.text = cnt:str();
+
+                -- Align the text to the bottom right corner of the object..
+                local w, h = eqmon.font:get_text_size();
+                eqmon.font.position_x = eqmon.vec_position.x + (32 * eqmon.vec_scale.x) - w - 1;
+                eqmon.font.position_y = eqmon.vec_position.y + (32 * eqmon.vec_scale.y) - h + 2;
+                eqmon.font:render();
+            end
         end
     end);
     eqmon.sprite:End();
