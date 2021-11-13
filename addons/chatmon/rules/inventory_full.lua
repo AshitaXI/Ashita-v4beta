@@ -59,7 +59,8 @@ local function check_inventory_full()
         return;
     end
 
-    if (inv:GetContainerCount(0) < inv:GetContainerCountMax(0)) then
+    local cnt = inv:GetContainerCount(0);
+    if (cnt == 0 or cnt < inv:GetContainerCountMax(0)) then
         return;
     end
 

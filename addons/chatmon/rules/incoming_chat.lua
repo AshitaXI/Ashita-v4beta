@@ -88,7 +88,7 @@ local ruleset = T{
         [11]    = T{ name = 'yell',         timeout = 0, },
         [14]    = T{ name = 'linkshell1',   timeout = 0, },
         [214]   = T{ name = 'linkshell2',   timeout = 0, },
-        [121]   = T{ name = 'linkshell3',   timeout = 0, },
+        --[121]   = T{ name = 'linkshell3',   timeout = 0, },
         [13]    = T{ name = 'party',        timeout = 0, },
         [212]   = T{ name = 'unity',        timeout = 0, },
         [220]   = T{ name = 'assist_jp',    timeout = 0, },
