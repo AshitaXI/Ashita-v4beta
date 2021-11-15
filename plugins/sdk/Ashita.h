@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.06;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.07;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1065,8 +1065,10 @@ interface IPlayer
     virtual uint32_t GetPetTP(void) const       = 0;
 
     // Get Properties (Extra Info)
-    virtual uint8_t GetJobLevel(uint32_t jobid) const = 0;
-    virtual uint8_t GetLoginStatus(void) const        = 0;
+    virtual uint8_t GetJobLevel(uint32_t jobid) const       = 0;
+    virtual uint32_t GetJobMasterFlags(void) const          = 0;
+    virtual uint8_t GetJobMasterLevel(uint32_t jobid) const = 0;
+    virtual uint8_t GetLoginStatus(void) const              = 0;
 
     // Helper Functions
     virtual bool HasAbility(uint32_t id) const     = 0;
