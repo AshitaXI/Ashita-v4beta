@@ -46,7 +46,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             -- Obtain the player entity..
             local player = GetPlayerEntity();
             if (sender == player.TargetIndex and target == player.TargetIndex) then
-                local name = AshitaCore:GetResourceManager():GetString('spell_names', spellId);
+                local name = AshitaCore:GetResourceManager():GetString('spells.names', spellId);
                 if (name == nil) then
                     name = spellId;
                 end

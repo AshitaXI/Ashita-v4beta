@@ -283,7 +283,7 @@ function editor.render_tab_renames()
 
                     -- Handle item hover..
                     if (imgui.IsItemHovered()) then
-                        local zname = AshitaCore:GetResourceManager():GetString('zones', v);
+                        local zname = AshitaCore:GetResourceManager():GetString('zones.names', v);
                         imgui.SetTooltip(('Zone: %s'):fmt(zname or '(Unknown Zone)'));
                     end
 

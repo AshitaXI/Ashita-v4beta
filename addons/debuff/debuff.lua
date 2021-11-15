@@ -80,7 +80,7 @@ ashita.events.register('command', 'command_cb', function (e)
         local name = e.command:gsub('([/%w]+) ', '', 1):trim();
 
         for x = 0, 640 do
-            local n = AshitaCore:GetResourceManager():GetString('buffs', x);
+            local n = AshitaCore:GetResourceManager():GetString('buffs.names', x);
             if (n ~= nil and #n > 0) then
                 if (n:icmp(name)) then
                     id = x;

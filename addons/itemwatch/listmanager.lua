@@ -122,7 +122,7 @@ function listmanager.add_watched_keyitem(id)
         return false, 'Key item is already being watched.';
     end
 
-    local name = AshitaCore:GetResourceManager():GetString('keyitems', id);
+    local name = AshitaCore:GetResourceManager():GetString('keyitems.names', id);
     if (name == nil or name:len() < 2) then
         return false, 'Invalid key item id; key item not found.';
     end
@@ -189,7 +189,7 @@ function listmanager.find_keyitems(name)
     local items = T{ };
 
     for x = 0, 65535 do
-        local n = AshitaCore:GetResourceManager():GetString('keyitems', x);
+        local n = AshitaCore:GetResourceManager():GetString('keyitems.names', x);
         if (n ~= nil and n:len() > 1) then
             if (n:lower():contains(name)) then
                 items:append({ x, n });
