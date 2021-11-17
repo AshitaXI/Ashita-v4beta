@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.07;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.08;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1234,6 +1234,10 @@ interface IChatManager
 
     // Helpers
     virtual uint8_t IsInputOpen(void) const = 0;
+
+    // Properties
+    virtual bool GetSilentAliases(void) const  = 0;
+    virtual void SetSilentAliases(bool silent) = 0;
 };
 
 interface IConfigurationManager
