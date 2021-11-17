@@ -205,7 +205,7 @@ ID3DXFont = ffi.metatype('ID3DXFont', {
             local device        = nil;
 
             if (res == C.S_OK) then
-                device = ffi.new('IDirect3DDevice8*', device_ptr[0]);
+                device = ffi.cast('IDirect3DDevice8*', device_ptr[0]);
             end
 
             return res, device;
@@ -251,7 +251,7 @@ ID3DXSprite = ffi.metatype('ID3DXSprite', {
             local device        = nil;
 
             if (res == C.S_OK) then
-                device = ffi.new('IDirect3DDevice8*', device_ptr[0]);
+                device = ffi.cast('IDirect3DDevice8*', device_ptr[0]);
             end
 
             return res, device;

@@ -54,7 +54,7 @@ IUnknown = ffi.metatype('IUnknown', {
             local unk       = nil;
 
             if (res == C.S_OK) then
-                unk = ffi.new('IUnknown*', unk_ptr[0]);
+                unk = ffi.cast('IUnknown*', unk_ptr[0]);
             end
 
             return res, unk;

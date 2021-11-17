@@ -69,7 +69,7 @@ IDirect3DVolume8 = ffi.metatype('IDirect3DVolume8', {
             local device        = nil;
 
             if (res == C.S_OK) then
-                device = ffi.new('IDirect3DDevice8*', device_ptr[0]);
+                device = ffi.cast('IDirect3DDevice8*', device_ptr[0]);
             end
 
             return res, device;
@@ -101,7 +101,7 @@ IDirect3DVolume8 = ffi.metatype('IDirect3DVolume8', {
             local container     = nil;
 
             if (res == C.S_OK) then
-                container = ffi.new('void*', container_ptr[0]);
+                container = ffi.cast('void*', container_ptr[0]);
             end
 
             return res, container;

@@ -102,7 +102,7 @@ IDirect3DTexture8 = ffi.metatype('IDirect3DTexture8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;

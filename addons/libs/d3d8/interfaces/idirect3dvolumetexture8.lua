@@ -102,7 +102,7 @@ IDirect3DVolumeTexture8 = ffi.metatype('IDirect3DVolumeTexture8', {
             local volume        = nil;
 
             if (res == C.S_OK) then
-                volume = ffi.new('IDirect3DVolume8*', volume_ptr[0]);
+                volume = ffi.cast('IDirect3DVolume8*', volume_ptr[0]);
             end
 
             return res, volume;

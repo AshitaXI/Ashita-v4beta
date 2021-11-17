@@ -84,7 +84,7 @@ IDirect3DVertexBuffer8 = ffi.metatype('IDirect3DVertexBuffer8', {
             local data      = nil;
 
             if (res == C.S_OK) then
-                data = ffi.new('BYTE*', data_ptr[0]);
+                data = ffi.cast('BYTE*', data_ptr[0]);
             end
 
             return res, data;

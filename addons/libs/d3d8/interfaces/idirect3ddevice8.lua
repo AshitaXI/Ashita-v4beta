@@ -165,7 +165,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local d3d8      = nil;
 
             if (res == C.S_OK) then
-                d3d8 = ffi.new('IDirect3D8*', d3d8_ptr[0]);
+                d3d8 = ffi.cast('IDirect3D8*', d3d8_ptr[0]);
             end
 
             return res, d3d8;
@@ -203,7 +203,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local swap      = nil;
 
             if (res == C.S_OK) then
-                swap = ffi.new('IDirect3DSwapChain8*', swap_ptr[0]);
+                swap = ffi.cast('IDirect3DSwapChain8*', swap_ptr[0]);
             end
 
             return res, swap;
@@ -221,7 +221,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -247,7 +247,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local texture       = nil;
 
             if (res == C.S_OK) then
-                texture = ffi.new('IDirect3DTexture8*', texture_ptr[0]);
+                texture = ffi.cast('IDirect3DTexture8*', texture_ptr[0]);
             end
 
             return res, texture;
@@ -258,7 +258,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local texture       = nil;
 
             if (res == C.S_OK) then
-                texture = ffi.new('IDirect3DVolumeTexture8*', texture_ptr[0]);
+                texture = ffi.cast('IDirect3DVolumeTexture8*', texture_ptr[0]);
             end
 
             return res, texture;
@@ -269,7 +269,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local texture       = nil;
 
             if (res == C.S_OK) then
-                texture = ffi.new('IDirect3DCubeTexture8*', texture_ptr[0]);
+                texture = ffi.cast('IDirect3DCubeTexture8*', texture_ptr[0]);
             end
 
             return res, texture;
@@ -280,7 +280,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local buffer        = nil;
 
             if (res == C.S_OK) then
-                buffer = ffi.new('IDirect3DVertexBuffer8*', buffer_ptr[0]);
+                buffer = ffi.cast('IDirect3DVertexBuffer8*', buffer_ptr[0]);
             end
 
             return res, buffer;
@@ -291,7 +291,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local buffer        = nil;
 
             if (res == C.S_OK) then
-                buffer = ffi.new('IDirect3DIndexBuffer8*', buffer_ptr[0]);
+                buffer = ffi.cast('IDirect3DIndexBuffer8*', buffer_ptr[0]);
             end
 
             return res, buffer;
@@ -302,7 +302,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -313,7 +313,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -324,7 +324,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -347,7 +347,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -358,7 +358,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local surface       = nil;
 
             if (res == C.S_OK) then
-                surface = ffi.new('IDirect3DSurface8*', surface_ptr[0]);
+                surface = ffi.cast('IDirect3DSurface8*', surface_ptr[0]);
             end
 
             return res, surface;
@@ -477,7 +477,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local texture       = nil;
 
             if (res == C.S_OK) then
-                texture = ffi.new('IDirect3DBaseTexture8*', texture_ptr[0]);
+                texture = ffi.cast('IDirect3DBaseTexture8*', texture_ptr[0]);
             end
 
             return res, texture;
@@ -559,7 +559,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
         end,
         GetVertexShaderConstant = function (self, Register, ConstantCount)
             local data  = ffi.new('float[?]', ConstantCount * 4 * 4);
-            local res   =  self.lpVtbl.GetVertexShaderConstant(self, Register, data, ConstantCount);
+            local res   = self.lpVtbl.GetVertexShaderConstant(self, Register, data, ConstantCount);
 
             return res, res == C.S_OK and data or nil;
         end,
@@ -579,7 +579,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local buffer        = nil;
 
             if (res == C.S_OK) then
-                buffer = ffi.new('IDirect3DVertexBuffer8*', buffer_ptr[0]);
+                buffer = ffi.cast('IDirect3DVertexBuffer8*', buffer_ptr[0]);
             end
 
             return res, buffer, res == C.S_OK and stride[0] or nil;
@@ -594,7 +594,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             local buffer        = nil;
 
             if (res == C.S_OK) then
-                buffer = ffi.new('IDirect3DIndexBuffer8*', buffer_ptr[0]);
+                buffer = ffi.cast('IDirect3DIndexBuffer8*', buffer_ptr[0]);
             end
 
             return res, buffer, res == C.S_OK and index[0] or nil;
@@ -622,7 +622,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
         end,
         GetPixelShaderConstant = function (self, Register, ConstantCount)
             local data  = ffi.new('float[?]', ConstantCount * 4 * 4);
-            local res   =  self.lpVtbl.GetPixelShaderConstant(self, Register, data, ConstantCount);
+            local res   = self.lpVtbl.GetPixelShaderConstant(self, Register, data, ConstantCount);
 
             return res, res == C.S_OK and data or nil;
         end,

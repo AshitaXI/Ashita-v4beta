@@ -96,8 +96,6 @@ end
 * @return {string} The result name if known, UNKNOWN_ERROR otherwise.
 --]]
 local function get_error(hres)
-    local C = ffi.C;
-
     -- Win32 Error Codes
         if (hres == C.S_OK) then return "S_OK";
     elseif (hres == C.S_FALSE) then return "S_FALSE";

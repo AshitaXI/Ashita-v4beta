@@ -125,7 +125,7 @@ IDirect3D8 = ffi.metatype('IDirect3D8', {
             local device        = nil;
 
             if (res == C.S_OK) then
-                device = ffi.new('IDirect3DDevice8*', device_ptr[0]);
+                device = ffi.cast('IDirect3DDevice8*', device_ptr[0]);
             end
 
             return res, device;
