@@ -172,7 +172,7 @@ local function load_asset_texture(asset)
         return nil;
     end
 
-    return d3d.gc_safe_release(ffi.new('IDirect3DTexture8*', texture_ptr[0]));
+    return d3d.gc_safe_release(ffi.cast('IDirect3DTexture8*', texture_ptr[0]));
 end
 
 --[[
@@ -194,7 +194,7 @@ local function load_item_texture(itemid)
         return nil;
     end
 
-    return d3d.gc_safe_release(ffi.new('IDirect3DTexture8*', texture_ptr[0]));
+    return d3d.gc_safe_release(ffi.cast('IDirect3DTexture8*', texture_ptr[0]));
 end
 
 --[[
@@ -448,7 +448,7 @@ ashita.events.register('load', 'load_cb', function ()
     if (C.D3DXCreateSprite(d3d8dev, sprite_ptr) ~= C.S_OK) then
         error('failed to make sprite obj');
     end
-    eqmon.sprite = d3d.gc_safe_release(ffi.new('ID3DXSprite*', sprite_ptr[0]));
+    eqmon.sprite = d3d.gc_safe_release(ffi.cast('ID3DXSprite*', sprite_ptr[0]));
 
     -- Prepare the other main texture assets..
     eqmon.bg = load_asset_texture(eqmon.settings.slots.theme[1]);
