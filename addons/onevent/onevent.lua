@@ -150,7 +150,7 @@ local function cmd(e, args)
     -- Handle: /onevent deleteall
     -- Handle: /onevent delall
     if (#args >= 2 and args[2]:any('removeall', 'remall', 'deleteall', 'delall')) then
-        onevent.events = { };
+        onevent.events = T{ };
         print(chat.header(addon.name):append(chat.message(('Removed all registered triggers!'))));
         return;
     end
