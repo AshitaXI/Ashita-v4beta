@@ -101,6 +101,28 @@ local function format_timestamp(timer)
 end
 
 --[[
+* Returns the ability with the matching recast timer id, which the player has access to currently.
+*
+* @param {number} tid - The recast timer id of the ability to obtain.
+* @return {object|nil} The ability on success, nil otherwise.
+--]]
+local function getAbility(tid)
+    local resMgr = AshitaCore:GetResourceManager();
+    local player = AshitaCore:GetMemoryManager():GetPlayer();
+    for x = 0, 2400 do
+        if (player:HasAbility(x)) then
+            local ability = resMgr:GetAbilityById(x);
+            if (ability ~= nil) then
+                if (ability.RecastTimerId == tid) then
+                    return ability;
+                end
+            end
+        end
+    end
+    return nil;
+end
+
+--[[
 * event: load
 * desc : Event called when the addon is being loaded.
 --]]
@@ -147,7 +169,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         -- Ensure the ability is valid and has a current recast timer..
         if ((id ~= 0 or x == 0) and timer > 0) then
             -- Obtain the resource entry for the ability..
-            local ability = resMgr:GetAbilityByTimerId(id);
+            local ability = getAbility(id);
             local name = '(Unknown)';
 
             -- Determine the name to be displayed..
