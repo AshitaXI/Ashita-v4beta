@@ -237,6 +237,9 @@ namespace Ashita
             {
                 for (auto iter = offsets.begin(), iterend = offsets.end(); iter != iterend; iter++)
                 {
+                    if (address == 0)
+                        return defaultReturn;
+
                     if ((iter + 1) == iterend)
                         return std::is_pointer<T>::value ? (T)(address + *iter) : *(T*)(address + *iter);
                     else

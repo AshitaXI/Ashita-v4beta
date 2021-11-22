@@ -908,18 +908,45 @@ interface IInventory
     virtual uint32_t GetTreasurePoolStatus(void) const                              = 0;
     virtual uint32_t GetTreasurePoolItemCount(void) const                           = 0;
 
+    // Get Properties (Misc)
+    virtual uint32_t GetContainerUpdateCounter(void) const = 0;
+    virtual uint32_t GetDisplayItemSlot(void) const        = 0;
+    virtual uint32_t GetDisplayItemPointer(void) const     = 0;
+
     // Get Properties (Equipment)
     virtual Ashita::FFXI::equipmententry_t* GetEquippedItem(uint32_t index) const = 0;
 
+    // Get Properties (Check)
+    virtual Ashita::FFXI::itemcheck_t* GetCheckEquippedItem(uint32_t index) const = 0;
+    virtual uint32_t GetCheckTargetIndex(void) const                              = 0;
+    virtual uint32_t GetCheckServerId(void) const                                 = 0;
+    virtual uint32_t GetCheckFlags(void) const                                    = 0;
+    virtual uint8_t GetCheckMainJob(void) const                                   = 0;
+    virtual uint8_t GetCheckSubJob(void) const                                    = 0;
+    virtual uint8_t GetCheckMainJobLevel(void) const                              = 0;
+    virtual uint8_t GetCheckSubJobLevel(void) const                               = 0;
+    virtual uint8_t GetCheckMainJob2(void) const                                  = 0;
+    virtual uint8_t GetCheckMasteryLevel(void) const                              = 0;
+    virtual uint8_t GetCheckMasteryFlags(void) const                              = 0;
+    virtual uint8_t* GetCheckLinkshellName(void) const                            = 0;
+    virtual uint16_t GetCheckLinkshellColor(void) const                           = 0;
+    virtual uint8_t GetCheckLinkshellIconSetId(void) const                        = 0;
+    virtual uint8_t GetCheckLinkshellIconSetIndex(void) const                     = 0;
+
+    // Get Properties (Search Comment)
+    virtual const char* GetSearchComment(void) const = 0;
+
     // Get Properties (Crafting)
-    virtual uint32_t GetCraftStatus(void) const    = 0;
-    virtual uintptr_t GetCraftCallback(void) const = 0;
-    virtual uint32_t GetCraftTimestamp(void) const = 0;
+    virtual uint32_t GetCraftStatus(void) const            = 0;
+    virtual uintptr_t GetCraftCallback(void) const         = 0;
+    virtual uint32_t GetCraftTimestampAttempt(void) const  = 0;
+    virtual uint32_t GetCraftTimestampResponse(void) const = 0;
 
     // Set Properties (Crafting)
-    virtual void SetCraftStatus(uint32_t status) const       = 0;
-    virtual void SetCraftCallback(uintptr_t callback) const  = 0;
-    virtual void SetCraftTimestamp(uint32_t timestamp) const = 0;
+    virtual void SetCraftStatus(uint32_t status) const               = 0;
+    virtual void SetCraftCallback(uintptr_t callback) const          = 0;
+    virtual void SetCraftTimestampAttempt(uint32_t timestamp) const  = 0;
+    virtual void SetCraftTimestampResponse(uint32_t timestamp) const = 0;
 
     // Get Properties (Selected Item)
     virtual const char* GetSelectedItemName(void) const = 0;
@@ -1071,6 +1098,8 @@ interface IPlayer
     virtual uint8_t GetLoginStatus(void) const              = 0;
 
     // Helper Functions
+    virtual bool HasAbilityData(void) const        = 0;
+    virtual bool HasSpellData(void) const          = 0;
     virtual bool HasAbility(uint32_t id) const     = 0;
     virtual bool HasPetCommand(uint32_t id) const  = 0;
     virtual bool HasSpell(uint32_t id) const       = 0;
