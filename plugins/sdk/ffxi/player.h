@@ -235,7 +235,7 @@ namespace Ashita::FFXI
         jobpointsinfo_t JobPoints;                              // The players current job point information.
         uint8_t         HomepointMasks[64];                     // The players known homepoints. [Bitpacked masks.]
         int16_t         StatusIcons[32];                        // The players status icons used for status timers.
-        int32_t         StatusTimers[32];                       // The players status timers.
+        uint32_t        StatusTimers[32];                       // The players status timers.
         uint8_t         Unknown0005[32];                        // Unknown [Set from 0x63 packet, case 0x0A.]
         uint32_t        IsZoning;                               // Flag if the player is zoning and the client should send an 0x0C request.
         float           Unknown0006;                            // Unknown [Client uses these when the player entity status is 29 or 30.]
