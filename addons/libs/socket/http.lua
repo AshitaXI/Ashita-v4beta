@@ -33,17 +33,15 @@ local SCHEMES = {
         , create = function(t)
             return socket.tcp end }
     ,
---[[ Ashita: SSL disabled for now.
     https = {
         port = 443
         , create = function(t)
           local https = assert(
-            require("ssl.https"), 'LuaSocket: LuaSec not found')
+            require("socket.ssl.https"), 'LuaSocket: LuaSec not found')
           local tcp = assert(
             https.tcp, 'LuaSocket: Function tcp() not available from LuaSec')
           return tcp(t) end 
     }
---]]
 }
 
 -- default scheme and port for document retrieval
