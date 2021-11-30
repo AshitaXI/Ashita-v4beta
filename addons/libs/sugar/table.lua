@@ -25,14 +25,14 @@ local table_mt = { };
 * Returns true if all values in the table validate against the given function.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {boolean} True if all values validated, false otherwise.
 --]]
 table_mt.all = function (self, f)
     f = f or function (v) return v == true; end;
 
     for k, v in pairs(self) do
-        if (not f(v, k)) then
+        if (not f(v)) then
             return false;
         end
     end
@@ -44,14 +44,14 @@ end
 * Returns true if any value in the table validates against the given function.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {boolean} True if any value validated, false otherwise.
 --]]
 table_mt.any = function (self, f)
     f = f or function (v) return v == true; end;
 
     for k, v in pairs(self) do
-        if (f(v, k)) then
+        if (f(v)) then
             return true;
         end
     end
@@ -175,14 +175,14 @@ end
 * Returns the number of values that pass the given validation function.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {number} The count of values that validated.
 --]]
 table_mt.countf = function (self, f)
     local ret = 0;
 
     for k, v in pairs(self) do
-        if (f(v, k)) then
+        if (f(v)) then
             ret = ret + 1;
         end
     end
@@ -327,14 +327,14 @@ end
 * Returns a table containing the values from the parent table that passed the filtering function.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {table} The filtered table as a 'T' table.
 --]]
 table_mt.filter = function (self, f)
     local ret = { };
 
     for k, v in pairs(self) do
-        if (f(v, k)) then
+        if (f(v)) then
             ret[k] = v;
         end
     end
@@ -347,14 +347,14 @@ end
 * Keys of the returned table are numeric, as an array.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {table} The filtered table as a 'T' table.
 --]]
 table_mt.filteri = function (self, f)
     local ret = { };
 
     for k, v in pairs(self) do
-        if (f(v, k)) then
+        if (f(v)) then
             ret[#ret + 1] = v;
         end
     end
@@ -383,12 +383,12 @@ end
 * Returns the k, v pair of the first key, value pair within the table that passes the given function.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The validator function. [Function arguments are passed as: value, key]
+* @param {function} f - The validator function. [Function arguments are passed as: value]
 * @return {any,any} The k, v pair if found, nil, nil otherwise.
 --]]
 table_mt.find_if = function (self, f)
     for k, v in pairs(self) do
-        if (f(v, k)) then
+        if (f(v)) then
             return k, v;
         end
     end
@@ -482,7 +482,7 @@ table_mt.forieach = table_mt.ieach;
 * Returns the result of executing the given function against every element in the table. (The returned table is reindexed numerically, as an array.)
 *
 * @param {table} self - The parent table.
-* @param {function} f - The mapping function. [Function arguments are passed as: value, key]
+* @param {function} f - The mapping function. [Function arguments are passed as: value]
 * @return {table} The mapped table.
 --]]
 table_mt.imap = function (self, f)
@@ -491,7 +491,7 @@ table_mt.imap = function (self, f)
 
     for k, v in pairs(self) do
         n = n + 1;
-        ret[n] = f(v, k);
+        ret[n] = f(v);
     end
 
     return T(ret);
@@ -644,14 +644,14 @@ table_mt.size   = table_mt.length;
 * Returns the result of executing the given function against every element in the table. (The returned table retains the original tables keys.)
 *
 * @param {table} self - The parent table.
-* @param {function} f - The mapping function. [Function arguments are passed as: value, key]
+* @param {function} f - The mapping function. [Function arguments are passed as: value]
 * @return {table} The mapped table.
 --]]
 table_mt.map = function (self, f)
     local ret = { };
 
     for k, v in pairs(self) do
-        ret[k] = f(v, k);
+        ret[k] = f(v);
     end
 
     return T(ret);
@@ -661,7 +661,7 @@ end
 * Returns the result of executing the given function against every element in the table.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The mapping function. [Function arguments are passed as: value, key]
+* @param {function} f - The mapping function. [Function arguments are passed as: value]
 * @return {table} The mapped table.
 *
 * @note
@@ -671,7 +671,7 @@ table_mt.mapk = function (self, f)
     local ret = { };
 
     for k, v in pairs(self) do
-        ret[f(v, k)] = v;
+        ret[f(v)] = v;
     end
 
     return T(ret);
@@ -923,12 +923,12 @@ end
 * Returns the table after applying a function to all values in the table, updating them in-place.
 *
 * @param {table} self - The parent table.
-* @param {function} f - The transform function. [Function arguments are passed as: value, key]
+* @param {function} f - The transform function. [Function arguments are passed as: value]
 * @return {table} The sorted table of keys.
 --]]
 table_mt.transform = function (self, f)
     for k, v in pairs(self) do
-        self[k] = f(v, k);
+        self[k] = f(v);
     end
 
     return self;
