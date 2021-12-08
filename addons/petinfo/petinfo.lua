@@ -114,7 +114,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
 
     -- Obtain the player pet entity..
     local pet = GetEntity(player.PetTargetIndex);
-    if (pet == nil) then
+    if (pet == nil or pet.Name == nil) then
         petinfo.target = nil;
         return;
     end
