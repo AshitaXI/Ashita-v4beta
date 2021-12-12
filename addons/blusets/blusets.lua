@@ -141,7 +141,7 @@ ashita.events.register('command', 'command_cb', function (e)
         end
 
         -- Apply the spell list..
-        ashita.tasks.once(1, function (d, lst)
+        ashita.tasks.once(1, (function (d, lst)
             -- Reset the current spells first..
             blu.reset_all_spells();
             coroutine.sleep(d);
@@ -153,7 +153,7 @@ ashita.events.register('command', 'command_cb', function (e)
             end);
 
             print(chat.header(addon.name):append(chat.message('Finished setting blue magic spells set.')));
-        end, delay, spells);
+        end):bindn(delay, spells));
 
         print(chat.header(addon.name):append(chat.message('Setting blue magic from spell set; please wait..')));
         return;
