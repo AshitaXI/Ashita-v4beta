@@ -227,8 +227,11 @@ namespace Ashita::FFXI
         uint8_t         DataLoadedFlags;                        // Flags that control what player information has been populated. Controls text visiiblity in player menus, unity information, etc.
         uint8_t         Unknown0002;                            // Unknown [Padding?]
         uint16_t        LimitPoints;                            // The players current limit points.
-        uint8_t         MeritPoints;                            // The players current merit points.
-        uint8_t         LimitMode;                              // The players current limit mode. (Controls mode, text color, etc.)
+        uint16_t        MeritPoints: 7;                         // The players current merit points.
+        uint16_t        AssimilationPoints: 6;                  // The players assimilation points.
+        uint16_t        IsLimitBreaker: 1;                      // Flag if the player has unlocked earning merit points.
+        uint16_t        IsExperiencePointsLocked: 1;            // Flag if the player has max experience points. (Also set to 1 if limit mode is enabled.)
+        uint16_t        IsLimitModeEnabled: 1;                  // Flag if the player has limit mode enabled.
         uint8_t         MeritPointsMax;                         // The players max merits.
         uint8_t         Unknown0003[3];                         // Unknown [Set with MeritPointsMax, looks to be just junk.]
         uint16_t        Unknown0004;                            // Unknown (Set from 0x63 packet. Offset: 0x0C) [Never read, just set.]
