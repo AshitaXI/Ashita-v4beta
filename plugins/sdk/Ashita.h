@@ -1075,7 +1075,7 @@ interface IPlayer
     virtual uint8_t GetAssimilationPoints(void) const                      = 0;
     virtual bool GetIsLimitBreaker(void) const                             = 0;
     virtual bool GetIsExperiencePointsLocked(void) const                   = 0;
-    virtual bool GetIsLimitModeEanbled(void) const                         = 0;
+    virtual bool GetIsLimitModeEnabled(void) const                         = 0;
     virtual uint8_t GetMeritPointsMax(void) const                          = 0;
     virtual uint8_t* GetHomepointMasks(void) const                         = 0;
     virtual uint32_t GetIsZoning(void) const                               = 0;
