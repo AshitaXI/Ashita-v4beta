@@ -190,7 +190,7 @@ local function load_item_texture(itemid)
     if (item == nil) then return nil end;
 
     local texture_ptr = ffi.new('IDirect3DTexture8*[1]');
-    if (C.D3DXCreateTextureFromFileInMemoryEx(d3d8dev, item.Bitmap, item.ImageSize + 0x0E, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, C.D3DFMT_A8R8G8B8, C.D3DPOOL_MANAGED, C.D3DX_DEFAULT, C.D3DX_DEFAULT, 0xFF000000, nil, nil, texture_ptr) ~= C.S_OK) then
+    if (C.D3DXCreateTextureFromFileInMemoryEx(d3d8dev, item.Bitmap, item.ImageSize, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, C.D3DFMT_A8R8G8B8, C.D3DPOOL_MANAGED, C.D3DX_DEFAULT, C.D3DX_DEFAULT, 0xFF000000, nil, nil, texture_ptr) ~= C.S_OK) then
         return nil;
     end
 
