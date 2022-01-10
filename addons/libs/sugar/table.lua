@@ -135,7 +135,7 @@ table_mt.copy = function (self, deep)
 
     for k, v in pairs(self) do
         if (type(v) == 'table' and deep) then
-            v = table_mt.copy(v);
+            v = table_mt.copy(v, true);
         end
         ret[k] = v;
     end
