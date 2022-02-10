@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.09;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.10;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -737,7 +737,8 @@ interface IEntity
     virtual uint32_t GetRenderFlags5(uint32_t index) const                          = 0;
     virtual uint32_t GetRenderFlags6(uint32_t index) const                          = 0;
     virtual uint32_t GetRenderFlags7(uint32_t index) const                          = 0;
-    virtual uint16_t GetPopEffect(uint32_t index) const                             = 0;
+    virtual uint32_t GetRenderFlags8(uint32_t index) const                          = 0;
+    virtual uint8_t GetPopEffect(uint32_t index) const                              = 0;
     virtual uint16_t GetInteractionTargetIndex(uint32_t index) const                = 0;
     virtual uint16_t GetNpcSpeechFrame(uint32_t index) const                        = 0;
     virtual uint16_t GetCraftTimerUnknown(uint32_t index) const                     = 0;
@@ -837,7 +838,8 @@ interface IEntity
     virtual void SetRenderFlags5(uint32_t index, uint32_t flags) const                               = 0;
     virtual void SetRenderFlags6(uint32_t index, uint32_t flags) const                               = 0;
     virtual void SetRenderFlags7(uint32_t index, uint32_t flags) const                               = 0;
-    virtual void SetPopEffect(uint32_t index, uint16_t effect) const                                 = 0;
+    virtual void SetRenderFlags8(uint32_t index, uint32_t flags) const                               = 0;
+    virtual void SetPopEffect(uint32_t index, uint8_t effect) const                                  = 0;
     virtual void SetInteractionTargetIndex(uint32_t index, uint16_t targetIndex) const               = 0;
     virtual void SetNpcSpeechFrame(uint32_t index, uint16_t frame) const                             = 0;
     virtual void SetCraftTimerUnknown(uint32_t index, uint16_t timer) const                          = 0;

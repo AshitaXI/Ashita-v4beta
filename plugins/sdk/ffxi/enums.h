@@ -129,7 +129,11 @@ namespace Ashita::FFXI::Enums
         Wardrobe2,
         Wardrobe3,
         Wardrobe4,
-
+        Wardrobe5,
+        Wardrobe6,
+        Wardrobe7,
+        Wardrobe8,
+        Recycle,
         Max
     };
 
