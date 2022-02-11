@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.10;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.11;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -912,6 +912,7 @@ interface IInventory
 
     // Get Properties (Misc)
     virtual uint32_t GetContainerUpdateCounter(void) const = 0;
+    virtual uint32_t GetContainerUpdateFlags(void) const   = 0;
     virtual uint32_t GetDisplayItemSlot(void) const        = 0;
     virtual uint32_t GetDisplayItemPointer(void) const     = 0;
 
