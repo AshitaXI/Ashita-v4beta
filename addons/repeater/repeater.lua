@@ -111,6 +111,10 @@ ashita.events.register('command', 'command_cb', function (e)
         repeater.enabled = true;
 
         print(chat.header(addon.name):append(chat.message('Starting...')));
+            
+        -- Execute the set command first run..
+        AshitaCore:GetChatManager():QueueCommand(1, repeater.cmd);
+            
         return;
     end
 
