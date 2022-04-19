@@ -170,7 +170,7 @@ function listmanager.find_items(name)
     for x = 0, 65535 do
         local item = AshitaCore:GetResourceManager():GetItemById(x);
         if (item ~= nil and item.Name[1] ~= nil and item.Name[1]:len() > 1) then
-            if (item.Name[1]:lower():contains(name)) then
+            if (item.Name[1]:lower():contains(name:lower())) then
                 items:append({ x, item.Name[1] });
             end
         end
@@ -191,7 +191,7 @@ function listmanager.find_keyitems(name)
     for x = 0, 65535 do
         local n = AshitaCore:GetResourceManager():GetString('keyitems.names', x);
         if (n ~= nil and n:len() > 1) then
-            if (n:lower():contains(name)) then
+            if (n:lower():contains(name:lower())) then
                 items:append({ x, n });
             end
         end
