@@ -101,6 +101,27 @@ local function format_timestamp(timer)
 end
 
 --[[
+* Returns an abilities name as a fallback if the ability is not known to the player.
+*
+* @param {number} id - The recast timer id of the ability to obtain.
+* @return {object} The ability if found, nil otherwise.
+* @note
+*
+* This is not guaranteed to get the desired ability as the game shares recast timer ids based on the players
+* job combo. Because of this, another ability may be returned instead of what was expected if it was found first.
+--]]
+local function get_ability_fallback(id)
+    local resMgr = AshitaCore:GetResourceManager();
+    for x = 0, 2048 do
+        local ability = resMgr:GetAbilityById(x);
+        if (ability ~= nil and ability.RecastTimerId == id) then
+            return ability;
+        end
+    end
+    return nil;
+end
+
+--[[
 * event: load
 * desc : Event called when the addon is being loaded.
 --]]
@@ -148,7 +169,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         if ((id ~= 0 or x == 0) and timer > 0) then
             -- Obtain the resource entry for the ability..
             local ability = resMgr:GetAbilityByTimerId(id);
-            local name = '(Unknown)';
+            local name = ('(Unknown: %d)'):fmt(id);
 
             -- Determine the name to be displayed..
             if (x == 0) then
@@ -185,6 +206,11 @@ ashita.events.register('d3d_present', 'present_cb', function ()
                 timer = math.fmod(timer, val * 60);
             elseif (ability ~= nil) then
                 name = ability.Name[1];
+            elseif (ability == nil) then
+                ability = get_ability_fallback(id);
+                if (ability ~= nil) then
+                    name = ability.Name[1];
+                end
             end
 
             -- Append the timer to the table..
