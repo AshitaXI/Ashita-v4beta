@@ -221,9 +221,9 @@ ashita.events.register('command', 'command_cb', function (e)
 
         -- Write the new divisor..
         local divisor = args[2]:number_or(2);
-        ashita.memory.write_uint32(pointer + 0x30, divisor);
+        ashita.memory.write_uint32(pointer + 0x30, math.round(divisor));
 
-        print(chat.header(addon.name):append(chat.message('Set the FPS divisor to: ')):append(chat.success(divisor)));
+        print(chat.header(addon.name):append(chat.message('Set the FPS divisor to: ')):append(chat.success(math.round(divisor))));
         return;
     end
 
