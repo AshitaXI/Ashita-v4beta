@@ -496,7 +496,7 @@ function editor.render_watchlist_overlay()
         if (editor.lstMgr.watched_items_count() > 0) then
             editor.lstMgr.watched_items:each(function (v)
                 local total = 0;
-                for x = 0, 12 do
+                for x = 0, 16 do
                     for y = 0, 80 do
                         local item = inv:GetContainerItem(x, y);
                         if (item ~= nil and item.Id == v[1]) then
