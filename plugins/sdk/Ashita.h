@@ -1,5 +1,5 @@
 /**
- * Ashita SDK - Copyright (c) 2021 Ashita Development Team
+ * Ashita SDK - Copyright (c) 2022 Ashita Development Team
  * Contact: https://www.ashitaxi.com/
  * Contact: https://discord.gg/Ashita
  *
@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.11;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.14;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -586,6 +586,8 @@ struct IItem
     uint32_t UsableData0001; // The items usable data. (1) - (Used as animation ids for learnable items. Used as AoE range information for usable items.)
     uint32_t UsableData0002; // The items usable data. (2) - (Used as a flag to tell what UsableData0001 is. 0x00: Unused. 0x01: Animation Id. 0x02: AoE range information.)
 
+    uint32_t Article; // The items article type.
+
     const char* Name[3];            // The items name. (0 = Default, 1 = Japanese, 2 = English)
     const char* Description[3];     // The items description. (0 = Default, 1 = Japanese, 2 = English)
     const char* LogNameSingular[3]; // The items log name (singular). (0 = Default, 1 = Japanese, 2 = English)
@@ -618,7 +620,7 @@ struct IStatusIcon
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IAutoFollow
+struct IAutoFollow
 {
     /**
      * Warning!
@@ -654,7 +656,7 @@ interface IAutoFollow
     virtual void SetIsCameraLockedOn(uint8_t cameraLockedOn) const       = 0;
 };
 
-interface ICastBar
+struct ICastBar
 {
     /**
      * Warning!
@@ -676,7 +678,7 @@ interface ICastBar
     virtual void SetCastType(uint32_t type) const = 0;
 };
 
-interface IEntity
+struct IEntity
 {
     /**
      * Warning!
@@ -704,20 +706,31 @@ interface IEntity
     virtual float GetMoveX(uint32_t index) const                                    = 0;
     virtual float GetMoveZ(uint32_t index) const                                    = 0;
     virtual float GetMoveY(uint32_t index) const                                    = 0;
+    virtual float GetMoveDeltaX(uint32_t index) const                               = 0;
+    virtual float GetMoveDeltaZ(uint32_t index) const                               = 0;
+    virtual float GetMoveDeltaY(uint32_t index) const                               = 0;
+    virtual float GetMoveDeltaRoll(uint32_t index) const                            = 0;
+    virtual float GetMoveDeltaYaw(uint32_t index) const                             = 0;
+    virtual float GetMoveDeltaPitch(uint32_t index) const                           = 0;
     virtual uint32_t GetTargetIndex(uint32_t index) const                           = 0;
     virtual uint32_t GetServerId(uint32_t index) const                              = 0;
     virtual const char* GetName(uint32_t index) const                               = 0;
     virtual float GetMovementSpeed(uint32_t index) const                            = 0;
     virtual float GetAnimationSpeed(uint32_t index) const                           = 0;
-    virtual uintptr_t GetWarpPointer(uint32_t index) const                          = 0;
+    virtual uintptr_t GetActorPointer(uint32_t index) const                         = 0;
     virtual uintptr_t GetAttachment(uint32_t index, uint32_t attachmentIndex) const = 0;
     virtual uintptr_t GetEventPointer(uint32_t index) const                         = 0;
     virtual float GetDistance(uint32_t index) const                                 = 0;
+    virtual uint32_t GetTurnSpeed(uint32_t index) const                             = 0;
+    virtual uint32_t GetTurnSpeedHead(uint32_t index) const                         = 0;
     virtual float GetHeading(uint32_t index) const                                  = 0;
     virtual uint8_t GetHPPercent(uint32_t index) const                              = 0;
     virtual uint8_t GetType(uint32_t index) const                                   = 0;
     virtual uint8_t GetRace(uint32_t index) const                                   = 0;
+    virtual uint16_t GetLocalMoveCount(uint32_t index) const                        = 0;
+    virtual uint16_t GetActorLockFlag(uint32_t index) const                         = 0;
     virtual uint16_t GetModelUpdateFlags(uint32_t index) const                      = 0;
+    virtual uint32_t GetDoorId(uint32_t index) const                                = 0;
     virtual uint16_t GetLookHair(uint32_t index) const                              = 0;
     virtual uint16_t GetLookHead(uint32_t index) const                              = 0;
     virtual uint16_t GetLookBody(uint32_t index) const                              = 0;
@@ -739,8 +752,13 @@ interface IEntity
     virtual uint32_t GetRenderFlags7(uint32_t index) const                          = 0;
     virtual uint32_t GetRenderFlags8(uint32_t index) const                          = 0;
     virtual uint8_t GetPopEffect(uint32_t index) const                              = 0;
+    virtual uint8_t GetUpdateMask(uint32_t index) const                             = 0;
     virtual uint16_t GetInteractionTargetIndex(uint32_t index) const                = 0;
     virtual uint16_t GetNpcSpeechFrame(uint32_t index) const                        = 0;
+    virtual uint16_t GetLookAxisX(uint32_t index) const                             = 0;
+    virtual uint16_t GetLookAxisY(uint32_t index) const                             = 0;
+    virtual uint16_t GetMouthCounter(uint32_t index) const                          = 0;
+    virtual uint16_t GetMouthWaitCounter(uint32_t index) const                      = 0;
     virtual uint16_t GetCraftTimerUnknown(uint32_t index) const                     = 0;
     virtual uint32_t GetCraftServerId(uint32_t index) const                         = 0;
     virtual uint16_t GetCraftAnimationEffect(uint32_t index) const                  = 0;
@@ -755,6 +773,8 @@ interface IEntity
     virtual uint32_t GetStatusServer(uint32_t index) const                          = 0;
     virtual uint32_t GetStatus(uint32_t index) const                                = 0;
     virtual uint32_t GetStatusEvent(uint32_t index) const                           = 0;
+    virtual uint32_t GetModelTime(uint32_t index) const                             = 0;
+    virtual uint32_t GetModelStartTime(uint32_t index) const                        = 0;
     virtual uint32_t GetClaimStatus(uint32_t index) const                           = 0;
     virtual uint32_t GetZoneId(uint32_t index) const                                = 0;
     virtual uint32_t GetAnimation(uint32_t index, uint32_t animationIndex) const    = 0;
@@ -764,16 +784,19 @@ interface IEntity
     virtual uint16_t GetEmoteTargetIndex(uint32_t index) const                      = 0;
     virtual uint16_t GetEmoteId(uint32_t index) const                               = 0;
     virtual uint32_t GetEmoteIdString(uint32_t index) const                         = 0;
-    virtual uintptr_t GetEmoteTargetWarpPointer(uint32_t index) const               = 0;
+    virtual uintptr_t GetEmoteTargetActorPointer(uint32_t index) const              = 0;
     virtual uint32_t GetSpawnFlags(uint32_t index) const                            = 0;
     virtual uint32_t GetLinkshellColor(uint32_t index) const                        = 0;
     virtual uint16_t GetNameColor(uint32_t index) const                             = 0;
-    virtual uint16_t GetCampaignNameFlag(uint32_t index) const                      = 0;
+    virtual uint8_t GetCampaignNameFlag(uint32_t index) const                       = 0;
+    virtual uint8_t GetMountId(uint32_t index) const                                = 0;
     virtual int32_t GetFishingUnknown0000(uint32_t index) const                     = 0;
     virtual int32_t GetFishingUnknown0001(uint32_t index) const                     = 0;
     virtual int32_t GetFishingActionCountdown(uint32_t index) const                 = 0;
     virtual int16_t GetFishingRodCastTime(uint32_t index) const                     = 0;
     virtual int16_t GetFishingUnknown0002(uint32_t index) const                     = 0;
+    virtual uint32_t GetLastActionId(uint32_t index) const                          = 0;
+    virtual uintptr_t GetLastActionActorPointer(uint32_t index) const               = 0;
     virtual uint16_t GetTargetedIndex(uint32_t index) const                         = 0;
     virtual uint16_t GetPetTargetIndex(uint32_t index) const                        = 0;
     virtual uint16_t GetUpdateRequestDelay(uint32_t index) const                    = 0;
@@ -782,12 +805,20 @@ interface IEntity
     virtual uint8_t GetPankrationEnabled(uint32_t index) const                      = 0;
     virtual uint8_t GetPankrationFlagFlip(uint32_t index) const                     = 0;
     virtual float GetModelSize(uint32_t index) const                                = 0;
+    virtual float GetModelHitboxSize(uint32_t index) const                          = 0;
+    virtual uint32_t GetEnvironmentAreaId(uint32_t index) const                     = 0;
     virtual uint16_t GetMonstrosityFlag(uint32_t index) const                       = 0;
     virtual uint16_t GetMonstrosityNameId(uint32_t index) const                     = 0;
     virtual const char* GetMonstrosityName(uint32_t index) const                    = 0;
+    virtual uint8_t GetMonstrosityNameEnd(uint32_t index) const                     = 0;
     virtual const char* GetMonstrosityNameAbbr(uint32_t index) const                = 0;
+    virtual uint8_t GetMonstrosityNameAbbrEnd(uint32_t index) const                 = 0;
+    virtual uint8_t* GetCustomProperties(uint32_t index) const                      = 0;
+    virtual uint8_t* GetBallistaInfo(uint32_t index) const                          = 0;
     virtual uint16_t GetFellowTargetIndex(uint32_t index) const                     = 0;
     virtual uint16_t GetWarpTargetIndex(uint32_t index) const                       = 0;
+    virtual uint16_t GetTrustOwnerTargetIndex(uint32_t index) const                 = 0;
+    virtual uint16_t GetAreaDisplayTargetIndex(uint32_t index) const                = 0;
 
     // Set Properties
     virtual void SetLocalPositionX(uint32_t index, float x) const                                    = 0;
@@ -805,20 +836,31 @@ interface IEntity
     virtual void SetMoveX(uint32_t index, float x) const                                             = 0;
     virtual void SetMoveZ(uint32_t index, float z) const                                             = 0;
     virtual void SetMoveY(uint32_t index, float y) const                                             = 0;
+    virtual void SetMoveDeltaX(uint32_t index, float x) const                                        = 0;
+    virtual void SetMoveDeltaZ(uint32_t index, float z) const                                        = 0;
+    virtual void SetMoveDeltaY(uint32_t index, float y) const                                        = 0;
+    virtual void SetMoveDeltaRoll(uint32_t index, float roll) const                                  = 0;
+    virtual void SetMoveDeltaYaw(uint32_t index, float yaw) const                                    = 0;
+    virtual void SetMoveDeltaPitch(uint32_t index, float pitch) const                                = 0;
     virtual void SetTargetIndex(uint32_t index, uint32_t targetIndex) const                          = 0;
     virtual void SetServerId(uint32_t index, uint32_t serverId) const                                = 0;
     virtual void SetName(uint32_t index, const char* name) const                                     = 0;
     virtual void SetMovementSpeed(uint32_t index, float speed) const                                 = 0;
     virtual void SetAnimationSpeed(uint32_t index, float speed) const                                = 0;
-    virtual void SetWarpPointer(uint32_t index, uintptr_t pointer) const                             = 0;
+    virtual void SetActorPointer(uint32_t index, uintptr_t pointer) const                            = 0;
     virtual void SetAttachment(uint32_t index, uint32_t attachmentIndex, uintptr_t attachment) const = 0;
     virtual void SetEventPointer(uint32_t index, uintptr_t pointer) const                            = 0;
     virtual void SetDistance(uint32_t index, float distance) const                                   = 0;
+    virtual void SetTurnSpeed(uint32_t index, uint32_t speed) const                                  = 0;
+    virtual void SetTurnSpeedHead(uint32_t index, uint32_t speed) const                              = 0;
     virtual void SetHeading(uint32_t index, float heading) const                                     = 0;
     virtual void SetHPPercent(uint32_t index, uint8_t hpp) const                                     = 0;
     virtual void SetType(uint32_t index, uint8_t type) const                                         = 0;
     virtual void SetRace(uint32_t index, uint8_t race) const                                         = 0;
+    virtual void SetLocalMoveCount(uint32_t index, uint16_t moveCount) const                         = 0;
+    virtual void SetActorLockFlag(uint32_t index, uint16_t flag) const                               = 0;
     virtual void SetModelUpdateFlags(uint32_t index, uint16_t flags) const                           = 0;
+    virtual void SetDoorId(uint32_t index, uint32_t doorId) const                                    = 0;
     virtual void SetLookHair(uint32_t index, uint16_t hair) const                                    = 0;
     virtual void SetLookHead(uint32_t index, uint16_t head) const                                    = 0;
     virtual void SetLookBody(uint32_t index, uint16_t body) const                                    = 0;
@@ -840,8 +882,13 @@ interface IEntity
     virtual void SetRenderFlags7(uint32_t index, uint32_t flags) const                               = 0;
     virtual void SetRenderFlags8(uint32_t index, uint32_t flags) const                               = 0;
     virtual void SetPopEffect(uint32_t index, uint8_t effect) const                                  = 0;
+    virtual void SetUpdateMask(uint32_t index, uint8_t mask) const                                   = 0;
     virtual void SetInteractionTargetIndex(uint32_t index, uint16_t targetIndex) const               = 0;
     virtual void SetNpcSpeechFrame(uint32_t index, uint16_t frame) const                             = 0;
+    virtual void SetLookAxisX(uint32_t index, uint16_t x) const                                      = 0;
+    virtual void SetLookAxisY(uint32_t index, uint16_t y) const                                      = 0;
+    virtual void SetMouthCounter(uint32_t index, uint16_t counter) const                             = 0;
+    virtual void SetMouthWaitCounter(uint32_t index, uint16_t counter) const                         = 0;
     virtual void SetCraftTimerUnknown(uint32_t index, uint16_t timer) const                          = 0;
     virtual void SetCraftServerId(uint32_t index, uint32_t serverId) const                           = 0;
     virtual void SetCraftAnimationEffect(uint32_t index, uint16_t animationEffect) const             = 0;
@@ -856,6 +903,8 @@ interface IEntity
     virtual void SetStatusServer(uint32_t index, uint32_t status) const                              = 0;
     virtual void SetStatus(uint32_t index, uint32_t status) const                                    = 0;
     virtual void SetStatusEvent(uint32_t index, uint32_t status) const                               = 0;
+    virtual void SetModelTime(uint32_t index, uint32_t time) const                                   = 0;
+    virtual void SetModelStartTime(uint32_t index, uint32_t time) const                              = 0;
     virtual void SetClaimStatus(uint32_t index, uint32_t status) const                               = 0;
     virtual void SetZoneId(uint32_t index, uint32_t zoneId) const                                    = 0;
     virtual void SetAnimation(uint32_t index, uint32_t animationIndex, uint32_t animation) const     = 0;
@@ -865,16 +914,19 @@ interface IEntity
     virtual void SetEmoteTargetIndex(uint32_t index, uint16_t targetIndex) const                     = 0;
     virtual void SetEmoteId(uint32_t index, uint16_t id) const                                       = 0;
     virtual void SetEmoteIdString(uint32_t index, uint32_t emoteString) const                        = 0;
-    virtual void SetEmoteTargetWarpPointer(uint32_t index, uintptr_t pointer) const                  = 0;
+    virtual void SetEmoteTargetActorPointer(uint32_t index, uintptr_t pointer) const                 = 0;
     virtual void SetSpawnFlags(uint32_t index, uint32_t flags) const                                 = 0;
     virtual void SetLinkshellColor(uint32_t index, uint32_t color) const                             = 0;
     virtual void SetNameColor(uint32_t index, uint16_t color) const                                  = 0;
-    virtual void SetCampaignNameFlag(uint32_t index, uint16_t flag) const                            = 0;
+    virtual void SetCampaignNameFlag(uint32_t index, uint8_t flag) const                             = 0;
+    virtual void SetMountId(uint32_t index, uint8_t mount) const                                     = 0;
     virtual void SetFishingUnknown0000(uint32_t index, int32_t unknown) const                        = 0;
     virtual void SetFishingUnknown0001(uint32_t index, int32_t unknown) const                        = 0;
     virtual void SetFishingActionCountdown(uint32_t index, int16_t time) const                       = 0;
     virtual void SetFishingRodCastTime(uint32_t index, int16_t time) const                           = 0;
     virtual void SetFishingUnknown0002(uint32_t index, int16_t unknown) const                        = 0;
+    virtual void SetLastActionId(uint32_t index, uint32_t action) const                              = 0;
+    virtual void SetLastActionActorPointer(uint32_t index, uintptr_t pointer) const                  = 0;
     virtual void SetTargetedIndex(uint32_t index, uint16_t targetIndex) const                        = 0;
     virtual void SetPetTargetIndex(uint32_t index, uint16_t targetIndex) const                       = 0;
     virtual void SetUpdateRequestDelay(uint32_t index, uint16_t delay) const                         = 0;
@@ -883,15 +935,23 @@ interface IEntity
     virtual void SetPankrationEnabled(uint32_t index, uint8_t enabled) const                         = 0;
     virtual void SetPankrationFlagFlip(uint32_t index, uint8_t flagflip) const                       = 0;
     virtual void SetModelSize(uint32_t index, float size) const                                      = 0;
+    virtual void SetModelHitboxSize(uint32_t index, float size) const                                = 0;
+    virtual void SetEnvironmentAreaId(uint32_t index, uint32_t id) const                             = 0;
     virtual void SetMonstrosityFlag(uint32_t index, uint16_t flag) const                             = 0;
     virtual void SetMonstrosityNameId(uint32_t index, uint16_t id) const                             = 0;
     virtual void SetMonstrosityName(uint32_t index, const char* name) const                          = 0;
+    virtual void SetMonstrosityNameEnd(uint32_t index, uint8_t end) const                            = 0;
     virtual void SetMonstrosityNameAbbr(uint32_t index, const char* name) const                      = 0;
+    virtual void SetMonstrosityNameAbbrEnd(uint32_t index, uint8_t end) const                        = 0;
+    virtual void SetCustomProperties(uint32_t index, uint8_t* props) const                           = 0;
+    virtual void SetBallistaInfo(uint32_t index, uint8_t* info) const                                = 0;
     virtual void SetFellowTargetIndex(uint32_t index, uint16_t targetIndex) const                    = 0;
     virtual void SetWarpTargetIndex(uint32_t index, uint16_t targetIndex) const                      = 0;
+    virtual void SetTrustOwnerTargetIndex(uint32_t index, uint16_t targetIndex) const                = 0;
+    virtual void SetAreaDisplayTargetIndex(uint32_t index, uint16_t targetIndex) const               = 0;
 };
 
-interface IInventory
+struct IInventory
 {
     /**
      * Warning!
@@ -957,7 +1017,7 @@ interface IInventory
     virtual uint8_t GetSelectedItemIndex(void) const    = 0;
 };
 
-interface IParty
+struct IParty
 {
     /**
      * Warning!
@@ -1022,7 +1082,7 @@ interface IParty
     virtual uint8_t* GetStatusIcons(uint32_t index) const            = 0;
 };
 
-interface IPlayer
+struct IPlayer
 {
     /**
      * Warning!
@@ -1114,7 +1174,7 @@ interface IPlayer
     virtual bool HasKeyItem(uint32_t id) const     = 0;
 };
 
-interface IRecast
+struct IRecast
 {
     // Get Properties
     virtual uint32_t GetAbilityTimerId(uint32_t index) const = 0;
@@ -1122,7 +1182,7 @@ interface IRecast
     virtual uint32_t GetSpellTimer(uint32_t index) const     = 0;
 };
 
-interface ITarget
+struct ITarget
 {
     /**
      * Warning!
@@ -1136,7 +1196,7 @@ interface ITarget
     virtual uint32_t GetTargetIndex(uint32_t index) const    = 0;
     virtual uint32_t GetServerId(uint32_t index) const       = 0;
     virtual uintptr_t GetEntityPointer(uint32_t index) const = 0;
-    virtual uintptr_t GetWarpPointer(uint32_t index) const   = 0;
+    virtual uintptr_t GetActorPointer(uint32_t index) const  = 0;
     virtual float GetArrowPositionX(uint32_t index) const    = 0;
     virtual float GetArrowPositionZ(uint32_t index) const    = 0;
     virtual float GetArrowPositionY(uint32_t index) const    = 0;
@@ -1179,7 +1239,7 @@ interface ITarget
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IKeyboard
+struct IKeyboard
 {
     // Methods (Keybinds)
     virtual void Bind(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win, const char* command) = 0;
@@ -1211,7 +1271,7 @@ interface IKeyboard
     virtual void SetSilentBinds(bool silent) = 0;
 };
 
-interface IMouse
+struct IMouse
 {
     // Methods (Callbacks)
     virtual void AddCallback(const char* alias, mousecallback_f callback) = 0;
@@ -1222,7 +1282,7 @@ interface IMouse
     virtual void SetBlockInput(bool blocked) = 0;
 };
 
-interface IInputManager
+struct IInputManager
 {
     // Methods (Input Objects)
     virtual IKeyboard* GetKeyboard(void) const = 0;
@@ -1242,7 +1302,7 @@ interface IInputManager
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IChatManager
+struct IChatManager
 {
     // Methods
     virtual void ParseCommand(int32_t mode, const char* command)                                                      = 0;
@@ -1275,7 +1335,7 @@ interface IChatManager
     virtual void SetSilentAliases(bool silent) = 0;
 };
 
-interface IConfigurationManager
+struct IConfigurationManager
 {
     // Methods (Files)
     virtual bool Load(const char* alias, const char* file) = 0;
@@ -1304,7 +1364,7 @@ interface IConfigurationManager
     virtual double GetDouble(const char* alias, const char* section, const char* key, double defaultValue)     = 0;
 };
 
-interface IMemoryManager
+struct IMemoryManager
 {
     // Methods (Memory Objects)
     virtual IAutoFollow* GetAutoFollow(void) const = 0;
@@ -1317,7 +1377,7 @@ interface IMemoryManager
     virtual ITarget* GetTarget(void) const         = 0;
 };
 
-interface IOffsetManager
+struct IOffsetManager
 {
     // Methods
     virtual void Add(const char* section, const char* key, int32_t offset) = 0;
@@ -1326,17 +1386,17 @@ interface IOffsetManager
     virtual void Delete(const char* section, const char* key)              = 0;
 };
 
-interface IPacketManager
+struct IPacketManager
 {
     // Methods (Custom Packet Injection)
-    virtual void AddIncomingPacket(uint16_t id, uint32_t len, uint8_t * data) = 0;
-    virtual void AddOutgoingPacket(uint16_t id, uint32_t len, uint8_t * data) = 0;
+    virtual void AddIncomingPacket(uint16_t id, uint32_t len, uint8_t* data) = 0;
+    virtual void AddOutgoingPacket(uint16_t id, uint32_t len, uint8_t* data) = 0;
 
     // Methods (Game Packet Queueing)
     virtual bool QueueOutgoingPacket(uint16_t id, uint16_t len, uint16_t align, uint32_t pparam1, uint32_t pparam2, std::function<void(uint8_t*)> callback) const = 0;
 };
 
-interface IPluginManager
+struct IPluginManager
 {
     // Methods
     virtual bool Load(const char* name, const char* args) = 0;
@@ -1356,7 +1416,7 @@ interface IPluginManager
     virtual void SetSilentPlugins(bool silent) = 0;
 };
 
-interface IPolPluginManager
+struct IPolPluginManager
 {
     // Methods
     virtual bool Load(const char* name, const char* args) = 0;
@@ -1372,7 +1432,7 @@ interface IPolPluginManager
     virtual void RaiseEvent(const char* eventName, const void* eventData, uint32_t eventSize) = 0;
 };
 
-interface IPointerManager
+struct IPointerManager
 {
     // Methods
     virtual void Add(const char* name, uintptr_t pointer)                                                                = 0;
@@ -1381,7 +1441,7 @@ interface IPointerManager
     virtual void Delete(const char* name)                                                                                = 0;
 };
 
-interface IResourceManager
+struct IResourceManager
 {
     // Methods (Abilities)
     virtual IAbility* GetAbilityById(uint32_t id) const                         = 0;
@@ -1401,10 +1461,12 @@ interface IResourceManager
     virtual IStatusIcon* GetStatusIconById(uint16_t id) const       = 0;
 
     // Methods (Strings)
-    virtual const char* GetString(const char* table, uint32_t index) const                  = 0;
-    virtual const char* GetString(const char* table, uint32_t index, uint32_t langId) const = 0;
-    virtual int32_t GetString(const char* table, const char* str) const                     = 0;
-    virtual int32_t GetString(const char* table, const char* str, uint32_t langId) const    = 0;
+    virtual const char* GetString(const char* table, uint32_t index) const                    = 0;
+    virtual const char* GetString(const char* table, uint32_t index, uint32_t langId) const   = 0;
+    virtual int32_t GetString(const char* table, const char* str) const                       = 0;
+    virtual int32_t GetString(const char* table, const char* str, uint32_t langId) const      = 0;
+    virtual int32_t GetStringLength(const char* table, uint32_t index) const                  = 0;
+    virtual int32_t GetStringLength(const char* table, uint32_t index, uint32_t langId) const = 0;
 
     // Methods (Textures)
     virtual IDirect3DTexture8* GetTexture(const char* name) const = 0;
@@ -1423,16 +1485,16 @@ interface IResourceManager
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IPrimitiveObject
+struct IPrimitiveObject
 {
     // Methods
-    virtual void Render(void) const                                                                  = 0;
-    virtual bool SetTextureFromFile(const char* path)                                                = 0;
-    virtual bool SetTextureFromMemory(const void* data, uint32_t size, D3DCOLOR colorKey)            = 0;
-    virtual bool SetTextureFromResource(const char* moduleName, const char* resName)                 = 0;
-    virtual bool SetTextureFromResourceCache(const char* name)                                       = 0;
-    virtual bool SetTextureFromTexture(IDirect3DTexture8 * texture, uint32_t width, uint32_t height) = 0;
-    virtual bool HitTest(int32_t x, int32_t y) const                                                 = 0;
+    virtual void Render(void) const                                                                 = 0;
+    virtual bool SetTextureFromFile(const char* path)                                               = 0;
+    virtual bool SetTextureFromMemory(const void* data, uint32_t size, D3DCOLOR colorKey)           = 0;
+    virtual bool SetTextureFromResource(const char* moduleName, const char* resName)                = 0;
+    virtual bool SetTextureFromResourceCache(const char* name)                                      = 0;
+    virtual bool SetTextureFromTexture(IDirect3DTexture8* texture, uint32_t width, uint32_t height) = 0;
+    virtual bool HitTest(int32_t x, int32_t y) const                                                = 0;
 
     // Properties
     virtual const char* GetAlias(void) const                    = 0;
@@ -1482,7 +1544,7 @@ interface IPrimitiveObject
     virtual void SetMouseCallback(fontmouseevent_f cb)          = 0;
 };
 
-interface IPrimitiveManager
+struct IPrimitiveManager
 {
     // Methods
     virtual IPrimitiveObject* Create(const char* alias) = 0;
@@ -1497,11 +1559,11 @@ interface IPrimitiveManager
     virtual void SetVisible(bool visible) = 0;
 };
 
-interface IFontObject
+struct IFontObject
 {
     // Methods
     virtual void Render(void)                        = 0;
-    virtual void GetTextSize(SIZE * size) const      = 0;
+    virtual void GetTextSize(SIZE* size) const       = 0;
     virtual bool HitTest(int32_t x, int32_t y) const = 0;
 
     // Properties (Parent & Background Objects)
@@ -1568,7 +1630,7 @@ interface IFontObject
     virtual void SetAnchor(Ashita::FrameAnchor anchor)         = 0;
     virtual void SetAnchorParent(Ashita::FrameAnchor anchor)   = 0;
     virtual void SetText(const char* text)                     = 0;
-    virtual void SetParent(IFontObject * parent)               = 0;
+    virtual void SetParent(IFontObject* parent)                = 0;
 
     // Properties (Callbacks)
     virtual fontkeyboardevent_f GetKeyboardCallback(void) const = 0;
@@ -1577,7 +1639,7 @@ interface IFontObject
     virtual void SetMouseCallback(fontmouseevent_f cb)          = 0;
 };
 
-interface IFontManager
+struct IFontManager
 {
     // Methods
     virtual IFontObject* Create(const char* alias) = 0;
@@ -1598,7 +1660,7 @@ interface IFontManager
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface ILogManager
+struct ILogManager
 {
     // Methods
     virtual bool Log(uint32_t level, const char* source, const char* message)      = 0;
@@ -1615,7 +1677,7 @@ interface ILogManager
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IProperties
+struct IProperties
 {
     // PlayOnline Window Properties
     virtual HWND GetPlayOnlineHwnd(void) const        = 0;
@@ -1656,7 +1718,7 @@ interface IProperties
     virtual void SetD3DFillMode(uint32_t fillmode)  = 0;
 };
 
-interface IAshitaCore
+struct IAshitaCore
 {
     // Properties
     virtual HMODULE GetHandle(void) const                   = 0;
@@ -1682,8 +1744,8 @@ interface IAshitaCore
     virtual IResourceManager* GetResourceManager(void) const           = 0;
 
     // Methods (API Hook Forwards - DirectX)
-    virtual IDirect3D8* Direct3DCreate8(UINT SDKVersion)                                                                       = 0;
-    virtual HRESULT DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID * ppvOut, LPUNKNOWN punkOuter) = 0;
+    virtual IDirect3D8* Direct3DCreate8(UINT SDKVersion)                                                                      = 0;
+    virtual HRESULT DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID* ppvOut, LPUNKNOWN punkOuter) = 0;
 
     // Methods (API Hook Forwards - Mutex)
     virtual HANDLE CreateMutexA(LPSECURITY_ATTRIBUTES lpMutexAttributes, BOOL bInitialOwner, LPCSTR lpName)  = 0;
@@ -1704,10 +1766,10 @@ interface IAshitaCore
     virtual int GetWindowTextA(HWND hWnd, LPSTR lpString, int nMaxCount)                                                                                                                                              = 0;
     virtual int GetWindowTextW(HWND hWnd, LPWSTR lpString, int nMaxCount)                                                                                                                                             = 0;
     virtual HBITMAP LoadBitmapW(HINSTANCE hInstance, LPCWSTR lpBitmapName)                                                                                                                                            = 0;
-    virtual ATOM RegisterClassA(CONST WNDCLASSA * lpWndClass)                                                                                                                                                         = 0;
-    virtual ATOM RegisterClassW(CONST WNDCLASSW * lpWndClass)                                                                                                                                                         = 0;
-    virtual ATOM RegisterClassExA(CONST WNDCLASSEXA * lpWndClass)                                                                                                                                                     = 0;
-    virtual ATOM RegisterClassExW(CONST WNDCLASSEXW * lpWndClass)                                                                                                                                                     = 0;
+    virtual ATOM RegisterClassA(CONST WNDCLASSA* lpWndClass)                                                                                                                                                          = 0;
+    virtual ATOM RegisterClassW(CONST WNDCLASSW* lpWndClass)                                                                                                                                                          = 0;
+    virtual ATOM RegisterClassExA(CONST WNDCLASSEXA* lpWndClass)                                                                                                                                                      = 0;
+    virtual ATOM RegisterClassExW(CONST WNDCLASSEXW* lpWndClass)                                                                                                                                                      = 0;
     virtual BOOL RemoveMenu(HMENU hMenu, UINT uPosition, UINT uFlags)                                                                                                                                                 = 0;
     virtual LRESULT SendMessageA(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)                                                                                                                                  = 0;
     virtual BOOL SetCursorPos(int X, int Y)                                                                                                                                                                           = 0;
@@ -1728,7 +1790,7 @@ interface IAshitaCore
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IPluginBase
+struct IPluginBase
 {
     // Properties (Plugin Information)
     virtual const char* GetName(void) const        = 0;
@@ -2411,7 +2473,7 @@ typedef double /**/ (__stdcall* export_GetInterfaceVersion_f)(void);
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-interface IPolPluginBase
+struct IPolPluginBase
 {
     // Properties (POL Plugin Information)
     virtual const char* GetName(void) const        = 0;

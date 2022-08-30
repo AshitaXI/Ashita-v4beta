@@ -1,5 +1,5 @@
 /**
- * Ashita SDK - Copyright (c) 2021 Ashita Development Team
+ * Ashita SDK - Copyright (c) 2022 Ashita Development Team
  * Contact: https://www.ashitaxi.com/
  * Contact: https://discord.gg/Ashita
  *
@@ -46,7 +46,7 @@ namespace Ashita::FFXI
         uint32_t        Index;                  // The target index.
         uint32_t        ServerId;               // The target server id.
         uintptr_t       EntityPointer;          // The target entity pointer.
-        uintptr_t       WarpPointer;            // The target warp pointer.
+        uintptr_t       ActorPointer;           // The target actor pointer.
         arrowposition_t ArrowPosition;          // The target arrow position. [IsArrowActive must be 1 to use this.]
         uint8_t         IsActive;               // Flag if the target is active.
         uint8_t         Unknown0000;            // Unknown [Unknown boolean.]
