@@ -596,8 +596,9 @@ function_mt.neq = function_mt.notequals;
 * @param {number} delay - The delay, in seconds, to wait between each call to the function.
 * @param {function|number} cond - If function, a function that returns true or false to continue looping. If number, the number of times to loop the function.
 * @param {function} cb - Callback function to invoke when the loop has finished.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.loop = function (self, delay, cond, cb)
+function_mt.loop = function (self, delay, cond, cb, ...)
     -- Ensure the delay is not going to kill the cpu..
     if (delay <= 0) then
         error('Invalid delay given. Must be greater than 0.');
@@ -611,15 +612,15 @@ function_mt.loop = function (self, delay, cond, cb)
     end
 
     -- Create the coroutine based task..
-    ashita.tasks.once(0, function ()
+    ashita.tasks.once(0, function (...)
         while (cond()) do
-            self();
+            self(...);
             coroutine.sleep(delay);
         end
         if (cb) then
             cb();
         end
-    end);
+    end, ...);
 end
 
 --[[
@@ -629,8 +630,9 @@ end
 * @param {number} delay - The delay, in frames, to wait between each call to the function.
 * @param {function|number} cond - If function, a function that returns true or false to continue looping. If number, the number of times to loop the function.
 * @param {function} cb - Callback function to invoke when the loop has finished.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.loopf = function (self, delay, cond, cb)
+function_mt.loopf = function (self, delay, cond, cb, ...)
     -- Ensure the delay is not going to kill the cpu..
     if (delay <= 0) then
         error('Invalid delay given. Must be greater than 0.');
@@ -644,15 +646,15 @@ function_mt.loopf = function (self, delay, cond, cb)
     end
 
     -- Create the coroutine based task..
-    ashita.tasks.oncef(0.0, function ()
+    ashita.tasks.oncef(0.0, function (...)
         while (cond()) do
-            self();
+            self(...);
             coroutine.sleepf(delay);
         end
         if (cb) then
             cb();
         end
-    end);
+    end, ...);
 end
 
 --[[
@@ -660,9 +662,10 @@ end
 *
 * @param {function} self - The parent function.
 * @param {number} delay - The delay, in seconds, to wait before invoking the function.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.once = function (self, delay)
-    ashita.tasks.once(delay, self);
+function_mt.once = function (self, delay, ...)
+    ashita.tasks.once(delay, self, ...);
 end
 
 --[[
@@ -670,9 +673,10 @@ end
 *
 * @param {function} self - The parent function.
 * @param {number} delay - The delay, in frames, to wait before invoking the function.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.oncef = function (self, delay)
-    ashita.tasks.oncef(delay, self);
+function_mt.oncef = function (self, delay, ...)
+    ashita.tasks.oncef(delay, self, ...);
 end
 
 --[[
@@ -682,9 +686,10 @@ end
 * @param {number} delay - The delay, in seconds, to wait before invoking the function.
 * @param {number} repeats - The number of times to invoke the function.
 * @param {number} repeat_delay - The delay, in seconds, to wait between invoking the function.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.repeating = function (self, delay, repeats, repeat_delay)
-    ashita.tasks.repeating(delay, repeats, repeat_delay, self);
+function_mt.repeating = function (self, delay, repeats, repeat_delay, ...)
+    ashita.tasks.repeating(delay, repeats, repeat_delay, self, ...);
 end
 
 --[[
@@ -694,9 +699,10 @@ end
 * @param {number} delay - The delay, in frames, to wait before invoking the function.
 * @param {number} repeats - The number of times to invoke the function.
 * @param {number} repeat_delay - The delay, in frames, to wait between invoking the function.
+* @param {...} ... - Any arguments to pass to the function.
 --]]
-function_mt.repeatingf = function (self, delay, repeats, repeat_delay)
-    ashita.tasks.repeatingf(delay, repeats, repeat_delay, self);
+function_mt.repeatingf = function (self, delay, repeats, repeat_delay, ...)
+    ashita.tasks.repeatingf(delay, repeats, repeat_delay, self, ...);
 end
 
 --[[
