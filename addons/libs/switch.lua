@@ -31,6 +31,16 @@ switch_lib.default_case = { };
 local function switch(value, cases)
     local def = cases[switch_lib.default_case] or function () end;
 
+    -- Merge table based keys..
+    local ucases = cases;
+    for k, v in pairs(ucases) do
+        if (type(k) == 'table') then
+            for _, vv in pairs(k) do
+                cases[vv] = v;
+            end
+        end
+    end
+
     return setmetatable(cases, {
         __index = function ()
             return def;
