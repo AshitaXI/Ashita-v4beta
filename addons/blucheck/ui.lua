@@ -76,11 +76,7 @@ end
 * @return {table} The table of data on success, empty table otherwise.
 --]]
 function ui.get_spell_data(id)
-    local _, v = ui.data:find_if(function (v, k)
-        if (k == tostring(id)) then
-            return v;
-        end
-    end);
+    local _, v = ui.data:findkey(tostring(id));
     return v or T{};
 end
 
