@@ -21,7 +21,7 @@
 
 addon.name      = 'petinfo';
 addon.author    = 'atom0s & Tornac';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Displays information about the players pet.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -157,8 +157,13 @@ ashita.events.register('d3d_present', 'present_cb', function ()
                 dist = ('%.1f'):fmt(math.sqrt(target.Distance));
                 x, _ = imgui.CalcTextSize(dist);
 
+                local tname = target.Name;
+                if (tname == nil) then
+                    tname = '';
+                end
+
                 imgui.Separator();
-                imgui.Text(target.Name);
+                imgui.Text(tname);
                 imgui.SameLine();
                 imgui.SetCursorPosX(imgui.GetCursorPosX() + imgui.GetColumnWidth() - x - imgui.GetStyle().FramePadding.x);
                 imgui.Text(dist);
