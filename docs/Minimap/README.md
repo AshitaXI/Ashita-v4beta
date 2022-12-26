@@ -26,6 +26,7 @@ Minimap offers the following in-game commands:
  - `/minimap zoomstep <amount>` - _Sets the Minimap zoom step amount._
  - `/minimap rotatemap [0 | 1]` - _Sets, or toggles, the Minimap map rotation._
  - `/minimap rotateframe [0 | 1]` - _Sets, or toggles, the Minimap frame rotation._
+ - `/minimap hideunknown [0 | 1]` - _Sets, or toggles, the Minimap hide unknown maps feature._
  - `/minimap drawmonsters [0 | 1]` - _Sets, or toggles, if monsters will be drawn on the Minimap._
  - `/minimap drawnpcs [0 | 1]` - _Sets, or toggles, if npcs will be drawn on the Minimap._
  - `/minimap drawplayers [0 | 1]` - _Sets, or toggles, if players will be drawn on the Minimap._
