@@ -40,18 +40,18 @@
 /bind ^v /paste
 /bind F11 /ambient
 /bind F12 /fps
-/bind ^F1 /input /ta <a10>
-/bind ^F2 /input /ta <a11>
-/bind ^F3 /input /ta <a12>
-/bind ^F4 /input /ta <a13>
-/bind ^F5 /input /ta <a14>
-/bind ^F6 /input /ta <a15>
-/bind !F1 /input /ta <a20>
-/bind !F2 /input /ta <a21>
-/bind !F3 /input /ta <a22>
-/bind !F4 /input /ta <a23>
-/bind !F5 /input /ta <a24>
-/bind !F6 /input /ta <a25>
+/bind ^F1 /ta <a10>
+/bind ^F2 /ta <a11>
+/bind ^F3 /ta <a12>
+/bind ^F4 /ta <a13>
+/bind ^F5 /ta <a14>
+/bind ^F6 /ta <a15>
+/bind !F1 /ta <a20>
+/bind !F2 /ta <a21>
+/bind !F3 /ta <a22>
+/bind !F4 /ta <a23>
+/bind !F5 /ta <a24>
+/bind !F6 /ta <a25>
 
 ##########################################################################
 #
@@ -66,4 +66,4 @@
 /wait 3
 ##########################################################################
 
-/ambient 255 255 255 255
+/ambient 255 255 255
