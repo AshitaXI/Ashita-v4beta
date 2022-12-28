@@ -116,7 +116,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
         msg:append(chat.headerp('Lv. ' .. chat.color1(82, p1 > 0 and tostring(p1) or '???')));
 
         if (m == 0xF9) then
-            msg:append(chat.color1(5, 'Impossible to guage!'));
+            msg:append(chat.color1(5, 'Impossible to gauge!'));
         else
             msg:append(t);
             msg:append(#c > 0 and c:enclose('\30\81(', '\30\81)\30\01') or c);
