@@ -84,6 +84,8 @@ end
 * Updates the list of Blue Mage spell information.
 --]]
 function ui.get_spells()
+    ui.spells = T{};
+
     -- Build the list of BLU spells..
     for x = 0, 2048 do
         local spell = AshitaCore:GetResourceManager():GetSpellById(x);
@@ -252,6 +254,17 @@ function ui.packet_in(e)
             end
         end
 
+        return;
+    end
+
+    -- Packet: Spells Information
+    if (e.id == 0x00AA) then
+        ashita.tasks.oncef(1, function ()
+            -- Reload the spell information..
+            ui.get_spells();
+            ui.get_spell_counts();
+            ui.get_zone_spells(AshitaCore:GetMemoryManager():GetParty():GetMemberZone(0));
+        end);
         return;
     end
 end
@@ -448,7 +461,7 @@ function ui.render()
         return;
     end
 
-    -- Render the ItemWatch editor..
+    -- Render the editor..
     imgui.SetNextWindowSize({ 600, 400, });
     imgui.SetNextWindowSizeConstraints({ 600, 400, }, { FLT_MAX, FLT_MAX, });
     if (imgui.Begin('BluCheck', ui.is_open, ImGuiWindowFlags_NoResize)) then
