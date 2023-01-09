@@ -1,5 +1,5 @@
 /**
- * Ashita - Copyright (c) 2022 Ashita Development Team
+ * Ashita - Copyright (c) 2023 Ashita Development Team
  * Contact: https://www.ashitaxi.com/
  * Contact: https://discord.gg/Ashita
  *
