@@ -65,7 +65,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.14;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.15;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -84,6 +84,7 @@ constexpr auto ASHITA_INTERFACE_VERSION = 4.14;
 #include "d3d8/includes/d3d8.h"
 #include "d3d8/includes/d3dx8.h"
 #include "d3d8/includes/dinput.h"
+#include <Xinput.h>
 
 // Ashita SDK Includes
 #include "BinaryData.h"
@@ -408,6 +409,12 @@ namespace Ashita
 //      method. Passes the device state to the callback to be handled before being sent to the
 //      game. (Uses standard IDirectInputDevice8::GetDeviceState setup and params.)
 //
+// controllercallback_f
+//
+//      Function prototype used for registered callbacks to the hooked directinput controller
+//      interface. Passes the parameters from a rgdod entry to be handled before being used
+//      to update controller state and sent to the game.
+//
 // keyboardcallback_f
 //
 //      https://msdn.microsoft.com/en-us/library/windows/desktop/ms644984(v=vs.85).aspx
@@ -421,13 +428,28 @@ namespace Ashita
 //      Function prototype used for registered callbacks to the hooked mouse window message
 //      events. Passes the mouse message to the callback to be handled before being sent to
 //      the game.
+// 
+// xinputgetstatecallback_f
+// 
+//      https://learn.microsoft.com/en-us/windows/win32/api/xinput/nf-xinput-xinputgetstate
+//      Function prototype used for registered callbacks to the hooked XInputGetState function.
+//      Passes the device state to the callback to be handled before being sent to the game.
+//
+// xinputcallback_f
+//
+//      Function prototype used for registered callbacks to the XInput interface. Passes
+//      single button events to be handled before being used to update controller state and
+//      sent to the game.
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef HRESULT(__stdcall* getdevicedatacallback_f)(DWORD, LPDIDEVICEOBJECTDATA, DWORD, LPDWORD, DWORD);
 typedef HRESULT(__stdcall* getdevicestatecallback_f)(DWORD, LPVOID);
+typedef BOOL(__stdcall* controllercallback_f)(uint32_t*, int32_t*, bool, bool);
 typedef BOOL(__stdcall* keyboardcallback_f)(WPARAM, LPARAM, bool);
 typedef BOOL(__stdcall* mousecallback_f)(uint32_t, WPARAM, LPARAM, bool);
+typedef DWORD(__stdcall* xinputgetstatecallback_f)(DWORD, XINPUT_STATE*);
+typedef BOOL(__stdcall* xinputcallback_f)(uint8_t*, int16_t*, bool, bool);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1239,6 +1261,20 @@ struct ITarget
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+struct IController
+{
+    // Methods (Callbacks)
+    virtual void AddCallback(const char* alias, const getdevicedatacallback_f& datacb, const getdevicestatecallback_f& statecb, const controllercallback_f& controllercb) = 0;
+    virtual void RemoveCallback(const char* alias)                                                                                                                        = 0;
+
+    // Methods (Input Injection)
+    virtual void QueueButtonData(DWORD dwOfs, DWORD dwData) = 0;
+
+    // Properties
+    virtual bool GetTrackDeadZone(void) const = 0;
+    virtual void SetTrackDeadZone(bool track) = 0;
+};
+
 struct IKeyboard
 {
     // Methods (Keybinds)
@@ -1282,11 +1318,27 @@ struct IMouse
     virtual void SetBlockInput(bool blocked) = 0;
 };
 
+struct IXInput
+{
+    // Methods (Callbacks)
+    virtual void AddCallback(const char* alias, const xinputgetstatecallback_f& statecb, const xinputcallback_f& controllercb) = 0;
+    virtual void RemoveCallback(const char* alias)                                                                             = 0;
+
+    // Methods (Input Injection)
+    virtual void QueueButtonData(uint8_t button, int16_t state) = 0;
+
+    // Properties
+    virtual bool GetTrackDeadZone(void) const = 0;
+    virtual void SetTrackDeadZone(bool track) = 0;
+};
+
 struct IInputManager
 {
     // Methods (Input Objects)
-    virtual IKeyboard* GetKeyboard(void) const = 0;
-    virtual IMouse* GetMouse(void) const       = 0;
+    virtual IController* GetController(void) const = 0;
+    virtual IKeyboard* GetKeyboard(void) const     = 0;
+    virtual IMouse* GetMouse(void) const           = 0;
+    virtual IXInput* GetXInput(void) const         = 0;
 
     // Properties
     virtual bool GetAllowGamepadInBackground(void) const = 0;
