@@ -21,7 +21,7 @@
 
 addon.name      = 'fps';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Displays and manipulates the games framerate handling.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -103,6 +103,7 @@ local function print_help(isError)
         { '/fps (position | pos) <x> <y>', 'Sets the fps font position.' },
         { '/fps (color | col) <a> <r> <g> <b>', 'Sets the fps font color.' },
         { '/fps <divisor>', 'Sets the fps divisor. (1 = 60fps, 2 = 30fps, etc.)' },
+        { '/fps sample <time>', 'Samples the games current frame rate for the given number of seconds to get an estimate of performance.' },
     };
 
     -- Print the command list..
@@ -227,6 +228,17 @@ ashita.events.register('command', 'command_cb', function (e)
         return;
     end
 
+    -- Handle: /fps sample <time> - Samples the current frame rate.
+    if (#args >= 3 and args[2]:any('sample')) then
+        local len = args[3]:number_or(60);
+        fps.sample  = T{
+            cnt     = 0,
+            len     = len,
+            fin     = os.clock() + len,
+        };
+        return;
+    end
+
     -- Unhandled: Print help information..
     print_help(true);
 end);
@@ -236,6 +248,23 @@ end);
 * desc : Event called when the Direct3D device is presenting a scene.
 --]]
 ashita.events.register('d3d_present', 'present_cb', function ()
+    -- Handle sampling if enabled..
+    if (fps.sample ~= nil) then
+        if (os.clock() > fps.sample.fin) then
+            print(chat.header(addon.name)
+                :append(chat.message('Sample results: '))
+                :append(chat.success(tostring(fps.sample.len)))
+                :append(chat.message(' second(s) yielded '))
+                :append(chat.success(tostring(fps.sample.cnt)))
+                :append(chat.message(' frames. (Avg. '))
+                :append(chat.success(tostring(fps.sample.cnt / fps.sample.len)))
+                :append(chat.message(' frames per second.)')));
+            fps.sample = nil;
+        else
+            fps.sample.cnt = fps.sample.cnt + 1;
+        end
+    end
+
     if (not fps.show) then
         return;
     end
