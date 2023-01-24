@@ -47,11 +47,25 @@ local scaling = {
 };
 
 do
-    -- Store the users configuration information for calculations..
-    scaling.window.w    = AshitaCore:GetConfigurationManager():GetFloat('boot', 'ffxi.registry', '0001', 1024);
-    scaling.window.h    = AshitaCore:GetConfigurationManager():GetFloat('boot', 'ffxi.registry', '0002', 768);
-    scaling.menu.w      = AshitaCore:GetConfigurationManager():GetFloat('boot', 'ffxi.registry', '0037', 1024);
-    scaling.menu.h      = AshitaCore:GetConfigurationManager():GetFloat('boot', 'ffxi.registry', '0038', 768);
+    -- Find the CYmdb object which holds the current scaling information..
+    local ptr = ashita.memory.find('FFXiMain.dll', 0, 'A1????????85C05E74????80', 0x01, 0x00);
+    if (ptr == 0) then
+        error('[libs::scaling] Failed to find required CYmdb manager object! (1)');
+    end
+    ptr = ashita.memory.read_uint32(ptr);
+    if (ptr == 0) then
+        error('[libs::scaling] Failed to find required CYmdb manager object! (2)');
+    end
+    ptr = ashita.memory.read_uint32(ptr);
+    if (ptr == 0) then
+        error('[libs::scaling] Failed to find required CYmdb manager object! (3)');
+    end
+
+    -- Store the window and menu resolutions..
+    scaling.window.w    = ashita.memory.read_uint16(ptr + 0x10);
+    scaling.window.h    = ashita.memory.read_uint16(ptr + 0x12);
+    scaling.menu.w      = ashita.memory.read_uint16(ptr + 0x14);
+    scaling.menu.h      = ashita.memory.read_uint16(ptr + 0x16);
 
     -- Store the pre-calculated scaled values..
     scaling.scaled.w = scaling.window.w / scaling.menu.w;
