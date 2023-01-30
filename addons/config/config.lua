@@ -21,7 +21,7 @@
 
 addon.name      = 'config';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables slash commands to force-set game settings directly.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -31,32 +31,31 @@ local ffi = require('ffi');
 
 -- FFI Prototypes
 ffi.cdef[[
-    typedef int (__cdecl* get_config_value_t)(int);
-    typedef int (__cdecl* set_config_value_t)(int, int);
-    typedef int (__fastcall* get_config_entry_t)(int, int, int);
+    typedef int32_t (__cdecl* get_config_value_t)(int32_t);
+    typedef int32_t (__cdecl* set_config_value_t)(int32_t, int32_t);
+    typedef int32_t (__fastcall* get_config_entry_t)(int32_t, int32_t, int32_t);
 
     // Configuration Value Entry Definition
-    typedef struct configentry_t {
-        uint32_t VTable;        /* The configuration entry VTable pointer. */
-        uint32_t Id;            /* The configuration entry id. */
-        int32_t Value;          /* The configuration entry value. */
-        uint32_t Type;          /* The configuration entry type. */
-        char Unknown0000[8];    /* Unknown (String based flag used for specific configurations like POL related things.) */
-        int32_t MinValue;       /* The configuration entry minimum value.  */
-        int32_t MaxValue;       /* The configuration entry maximum value. (-1 if not used.) */
-        int32_t DefaultValue;   /* The configuration entry default value. (Used when not able to clamp a value within min/max.) */
-        uint32_t VTableCaller;  /* The configuration entry callback helper VTable pointer. Holds a callback pointer and parameter (if one is set). */
-        uint8_t Flags;          /* The configuration entry flags. (0x01 means the value will force-update even if the value already matches.) */
-        uint8_t Unknown0001[3]; /* Padding. (For alignment.) */
-    } configentry_t;
+    typedef struct FsConfigSubject {
+        uintptr_t   VTable;         /* The configuration entry VTable pointer. */
+        uint32_t    m_configKey;    /* The configuration entry key. */
+        int32_t     m_configValue;  /* The configuration entry value. */
+        uint32_t    m_configType;   /* The configuration entry type. */
+        char        m_polName[8];   /* The configuration entry PlayOnline name. */
+        int32_t     m_minVal;       /* The configuration entry minimum value.  */
+        int32_t     m_maxVal;       /* The configuration entry maximum value. (-1 if not used.) */
+        int32_t     m_defVal;       /* The configuration entry default value. (Used when not able to clamp a value within min/max.) */
+        uintptr_t   m_callbackList; /* The configuration entry callback linked list object. */
+        int32_t     m_configProc;   /* The configuration entry flags. (0x01 means the value will force-update even if the value already matches.) */
+    } FsConfigSubject;
 ]];
 
 -- Config Variables
 local config = T{
-    get = nil,
-    set = nil,
-    this = nil,
-    info = nil,
+    get     = nil,
+    set     = nil,
+    this    = nil,
+    info    = nil,
 };
 
 --[[
@@ -90,18 +89,20 @@ end
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function ()
-    -- Find the function to get configuration values..
+    -- Obtain the needed function pointers..
     local ptr = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B44240450E8????????C383C8FFC3', 0, 0);
     config.get = ffi.cast('get_config_value_t', ptr);
-
-    -- Find the function to set configuration values..
-    config.set = ffi.cast('set_config_value_t', ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B4424088B5424045052E8????????C383C8FFC3', 0, 0));
-
-    -- Find the function to get configuration value entries..
+    config.set = ffi.cast('set_config_value_t', ashita.memory.find('FFXiMain.dll', 0, '85C974??8B4424088B5424045052E8????????C383C8FFC3', -6, 0));
     config.info = ffi.cast('get_config_entry_t', ashita.memory.find('FFXiMain.dll', 0, '8B490485C974108B4424048D14808D04508D0481C2040033C0C20400', 0, 0));
 
     -- Obtain the 'this' pointer for the configuration data..
     config.this = ffi.cast('uint32_t**', ptr + 2)[0][0];
+
+    -- Ensure all pointers are valid..
+    assert(config.get ~= nil, chat.header('config'):append(chat.error('Error: Failed to locate required \'get\' function pointer.')));
+    assert(config.set ~= nil, chat.header('config'):append(chat.error('Error: Failed to locate required \'set\' function pointer.')));
+    assert(config.info ~= nil, chat.header('config'):append(chat.error('Error: Failed to locate required \'info\' function pointer.')));
+    assert(config.this ~= 0, chat.header('config'):append(chat.error('Error: Failed to locate required \'this\' object pointer.')));
 end);
 
 --[[
@@ -128,15 +129,18 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args >= 3 and args[2]:any('get')) then
         local id = args[3]:num_or(0);
         if (id == 0 or id > 207) then
-            print(chat.header('config'):append(chat.error('Error: Invalid configuration id.')));
+            print(chat.header('config')
+                :append(chat.critical('Error! '))
+                :append(chat.error('Invalid configuration id: '))
+                :append(chat.success(id)));
+
             return;
         end
 
-        local val = config.get(id);
         print(chat.header('config'):append(chat.message('Value for configuration id \''))
                                    :append(chat.success(id))
                                    :append(chat.message('\' is: '))
-                                   :append(chat.success(tostring(val))));
+                                   :append(chat.success(tostring(config.get(id)))));
         return;
     end
 
@@ -144,37 +148,32 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args >= 4 and args[2]:any('set')) then
         local id = args[3]:num_or(0);
         if (id == 0 or id > 207) then
-            print(chat.header('config'):append(chat.error('Error: Invalid configuration id.')));
+            print(chat.header('config')
+                :append(chat.critical('Error! '))
+                :append(chat.error('Invalid configuration id: '))
+                :append(chat.success(id)));
             return;
         end
 
         local val = args[4]:num_or(nil);
         if (val == nil) then
-            print(chat.header('config'):append(chat.error('Error: Invalid configuration value.')));
+            print(chat.header('config')
+                :append(chat.critical('Error! '))
+                :append(chat.error('Invalid configuration value.')));
             return;
         end
 
-        --[[
-        The client silently fails attempting to set a configuration value if the value matches what is being set.
-        Because of this, we will self-test this case and ignore trying to set the value if it already matches.
-        --]]
-        if (config.get(id) == val) then
-            return;
-        end
-
-        -- Set the configuration value..
+        local cur = config.get(id);
         local ret = config.set(id, val);
-        if (ret == -1) then
-            print(chat.header('config'):append(chat.error('Error: Failed to set configuration value.')));
+        if (ret == -1 and (cur ~= val)) then
+            print(chat.header('config')
+                :append(chat.error('Error: Failed to set configuration value.')));
         end
 
-        --[[
-        Because of how the configuration setter works; we are not going to print a success message as the configuration
-        value table holds a min/max/default value range. If a user passes an invalid value, the game will adjust it as needed
-        such as clamping between the min/max or just using the default. Rather than tell the user their input was successful when
-        it may not have been, we will just not print anything.
-        --]]
-
+        print(chat.header('config'):append(chat.message('Set configuration id \''))
+                                   :append(chat.success(id))
+                                   :append(chat.message('\' to: '))
+                                   :append(chat.success(tostring(val))));
         return;
     end
 
@@ -182,31 +181,37 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args >= 3 and args[2]:any('info')) then
         local id = args[3]:num_or(0);
         if (id == 0 or id > 207) then
-            print(chat.header('config'):append(chat.error('Error: Invalid configuration id.')));
+            print(chat.header('config')
+                :append(chat.critical('Error! '))
+                :append(chat.error('Invalid configuration id: '))
+                :append(chat.success(id)));
             return;
         end
 
-        local cfg = ffi.cast('configentry_t*', config.info(config.this, 0, id));
+        local cfg = ffi.cast('FsConfigSubject*', config.info(config.this, 0, id));
         if (cfg == nil) then
-            print(chat.header('config'):append(chat.error('Error: Failed to find configuration entry for the given id.')));
+            print(chat.header('config')
+                :append(chat.critical('Error! '))
+                :append(chat.error('Failed to find configuration entry for configuration id: '))
+                :append(chat.success(id)));
+            return;
         end
 
-        print(chat.header('config'):append(chat.message('Configuration information for configuration id: ')):append(chat.success(id)));
         print(chat.header('config')
-            :append(chat.message('Value: '))
-            :append(chat.success(cfg.Value))
-            :append(chat.message(' [Type: '))
-            :append(chat.success(cfg.Type))
+            :append(chat.message('Configuration Info: '))
+            :append(chat.success(cfg.m_configKey))
+            :append(chat.message(' -- Value: '))
+            :append(chat.success(cfg.m_configValue))
+            :append(chat.message(' -- Type: '))
+            :append(chat.success(cfg.m_configType))
             :append(chat.message(', Min: '))
-            :append(chat.success(cfg.MinValue))
+            :append(chat.success(cfg.m_minVal))
             :append(chat.message(', Max: '))
-            :append(chat.success(cfg.MaxValue))
+            :append(chat.success(cfg.m_maxVal))
             :append(chat.message(', Default: '))
-            :append(chat.success(cfg.DefaultValue))
+            :append(chat.success(cfg.m_defVal))
             :append(chat.message(', Flags: '))
-            :append(chat.success(cfg.Flags))
-            :append(chat.message(']')));
-
+            :append(chat.success(cfg.m_configProc)));
         return;
     end
 
