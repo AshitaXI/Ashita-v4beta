@@ -21,7 +21,7 @@
 
 addon.name      = 'instantchat';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes the delay from adding messages to the chat windows.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -48,7 +48,7 @@ ashita.events.register('load', 'load_cb', function ()
     end
 
     -- Patch the function..
-    ashita.memory.write_uint8(instantchat.ptr + 0x02, 0xEB);
+    ashita.memory.write_array(instantchat.ptr + 0x1F, { 0x90, 0x90, 0x90 });
     print(chat.header(addon.name):append(chat.message('Function patched; new messages logged to chat should be instant.')));
 end);
 
@@ -56,7 +56,7 @@ end);
 instantchat.gc = ffi.new('uint8_t*');
 ffi.gc(instantchat.gc, function ()
     if (instantchat.ptr ~= 0) then
-        ashita.memory.write_uint8(instantchat.ptr + 0x02, 0x74);
+        ashita.memory.write_array(instantchat.ptr + 0x1F, { 0x83, 0xC0, 0x14 });
     end
     instantchat.ptr = 0;
 end);
