@@ -601,7 +601,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
         end,
         CreatePixelShader = function (self, pFunction)
             local handle    = ffi.new('DWORD[1]');
-            local res       = self.lpVtbl.CreatePixelShader(self, pFunction);
+            local res       = self.lpVtbl.CreatePixelShader(self, pFunction, handle);
 
             return res, res == C.S_OK and handle[0] or nil;
         end,
