@@ -21,7 +21,7 @@
 
 addon.name      = 'chamcham';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables coloring models based on their entity type.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -61,7 +61,7 @@ local function apply_cham(e)
         c = chamcham.color_mob;
     end
 
-    ashita.memory.write_uint32(e.WarpPointer + chamcham.offset, d3d8.D3DCOLOR_COLORVALUE(c[3], c[2], c[1], c[4]));
+    ashita.memory.write_uint32(e.ActorPointer + chamcham.offset, d3d8.D3DCOLOR_COLORVALUE(c[3], c[2], c[1], c[4]));
 end
 
 --[[
@@ -101,7 +101,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
     -- Apply the cham colors..
     for x = 0, 2303 do
         local e = GetEntity(x);
-        if (e ~= nil and e.WarpPointer ~= 0) then
+        if (e ~= nil and e.ActorPointer ~= 0) then
             apply_cham(e);
         end
     end
