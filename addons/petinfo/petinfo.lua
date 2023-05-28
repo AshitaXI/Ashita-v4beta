@@ -21,7 +21,7 @@
 
 addon.name      = 'petinfo';
 addon.author    = 'atom0s & Tornac';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Displays information about the players pet.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -151,7 +151,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         -- Display the pets target information..
         if (petinfo.target ~= nil) then
             local target = GetEntityByServerId(petinfo.target);
-            if (target == nil or target.WarpPointer == 0 or target.HPPercent == 0) then
+            if (target == nil or target.ActorPointer == 0 or target.HPPercent == 0) then
                 petinfo.target = nil;
             else
                 dist = ('%.1f'):fmt(math.sqrt(target.Distance));
