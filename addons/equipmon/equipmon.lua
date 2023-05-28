@@ -21,7 +21,7 @@
 
 addon.name      = 'equipmon';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Displays the players equipment onscreen at all times.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -215,6 +215,20 @@ local function get_equipped_item(slot)
     if(iitem == nil or T{ nil, 0, -1, 65535 }:hasval(iitem.Id)) then return nil; end
 
     return iitem.Id, iitem.Count;
+end
+
+--[[
+* Returns the items max stack count.
+*
+* @param {number} itemid - The item id to obtain the max stack size of.
+* @return {number} The items max stack count.
+--]]
+local function get_item_max_stack_size(itemid)
+    local item = AshitaCore:GetResourceManager():GetItemById(itemid);
+    if (item == nil) then
+        return 1;
+    end
+    return item.StackSize;
 end
 
 --[[
@@ -651,7 +665,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         -- Update and render the slots ammo count..
         if (eqmon.settings.slots.show_ammo_count[1] and v.slot == 3) then
             local id, cnt = get_equipped_item(3);
-            if (id ~= nil and cnt ~= nil) then
+            if (id ~= nil and cnt ~= nil and get_item_max_stack_size(id) > 1) then
                 eqmon.font.text = cnt:str();
 
                 -- Align the text to the bottom right corner of the object..
