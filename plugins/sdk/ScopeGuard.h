@@ -26,9 +26,6 @@
 #pragma once
 #endif
 
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <Windows.h>
 #include <functional>
 #include <deque>
@@ -52,9 +49,9 @@ namespace Ashita
         template<typename Func>
         explicit ScopeGuard(Func&& f);
 
-        ScopeGuard(const ScopeGuard&) = delete;
+        ScopeGuard(const ScopeGuard&)            = delete;
         ScopeGuard& operator=(const ScopeGuard&) = delete;
-        ScopeGuard& operator=(ScopeGuard&&) = delete;
+        ScopeGuard& operator=(ScopeGuard&&)      = delete;
 
         template<typename Func>
         ScopeGuard& operator+=(Func&& f);

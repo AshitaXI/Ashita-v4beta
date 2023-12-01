@@ -47,13 +47,6 @@
 // https://github.com/ocornut/imgui/commit/6487860aae967f8e36996a658db54363ae6cd347
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppParameterMayBeConst
-// ReSharper disable CppPolymorphicClassWithNonVirtualPublicDestructor
-// ReSharper disable CppUnusedIncludeDirective
-//
-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Windows.h> // General Windows
 #include <float.h>   // FLT_MAX
@@ -283,7 +276,7 @@ interface IGuiManager
     virtual IMGUI_API ImGuiContext* CreateContext(ImFontAtlas* shared_font_atlas = nullptr) = 0;
     virtual IMGUI_API void DestroyContext(ImGuiContext* ctx = nullptr)                      = 0;
     virtual IMGUI_API ImGuiContext* GetCurrentContext(void)                                 = 0;
-    virtual IMGUI_API void SetCurrentContext(ImGuiContext * ctx)                            = 0;
+    virtual IMGUI_API void SetCurrentContext(ImGuiContext* ctx)                             = 0;
 
     // Main
     virtual IMGUI_API ImGuiIO& GetIO(void)          = 0;
@@ -365,7 +358,7 @@ interface IGuiManager
     virtual IMGUI_API void SetScrollFromPosY(float local_y, float center_y_ratio = 0.5f) = 0;
 
     // Parameters Stacks (Shared)
-    virtual IMGUI_API void PushFont(ImFont * font)                            = 0;
+    virtual IMGUI_API void PushFont(ImFont* font)                             = 0;
     virtual IMGUI_API void PopFont(void)                                      = 0;
     virtual IMGUI_API void PushStyleColor(ImGuiCol idx, ImU32 col)            = 0;
     virtual IMGUI_API void PushStyleColor(ImGuiCol idx, const ImVec4& col)    = 0;
@@ -680,7 +673,7 @@ interface IGuiManager
     virtual IMGUI_API ImDrawList* GetForegroundDrawList(void)                                                                              = 0;
     virtual IMGUI_API ImDrawListSharedData* GetDrawListSharedData(void)                                                                    = 0;
     virtual IMGUI_API const char* GetStyleColorName(ImGuiCol idx)                                                                          = 0;
-    virtual IMGUI_API void SetStateStorage(ImGuiStorage * storage)                                                                         = 0;
+    virtual IMGUI_API void SetStateStorage(ImGuiStorage* storage)                                                                          = 0;
     virtual IMGUI_API ImGuiStorage* GetStateStorage(void)                                                                                  = 0;
     virtual IMGUI_API void CalcListClipping(int items_count, float items_height, int* out_items_display_start, int* out_items_display_end) = 0;
     virtual IMGUI_API bool BeginChildFrame(ImGuiID id, const ImVec2& size, ImGuiWindowFlags flags = 0)                                     = 0;
@@ -1402,7 +1395,7 @@ struct ImVector
     {
         Size = Capacity = 0;
         Data            = NULL;
-        operator        =(src);
+        operator=(src);
     }
     inline ImVector<T>& operator=(const ImVector<T>& src)
     {

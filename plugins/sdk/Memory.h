@@ -35,8 +35,6 @@
 #pragma comment(lib, "Psapi.lib")
 #include <Psapi.h>
 
-// ReSharper disable CppTooWideScopeInitStatement
-
 namespace Ashita
 {
     template<typename T>

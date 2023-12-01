@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 

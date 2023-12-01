@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -60,6 +59,7 @@ namespace Ashita::FFXI::Configurations
      * Module: FFXiMain.dll
      *
      * Chat language filter configuration settings. (Id: 24)
+     * PS2: FsVulgar
      */
     struct chatlanguagefilter_t
     {

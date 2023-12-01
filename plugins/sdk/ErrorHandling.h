@@ -26,9 +26,6 @@
 #pragma once
 #endif
 
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <Windows.h>
 #include <eh.h>
 #include <string>

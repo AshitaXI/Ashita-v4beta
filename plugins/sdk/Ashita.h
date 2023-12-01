@@ -39,21 +39,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// ReSharper Configurations
-//
-// ReSharper parser configurations. (Please do not edit these!)
-//
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-// ReSharper disable CppClassCanBeFinal
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppPolymorphicClassWithNonVirtualPublicDestructor
-// ReSharper disable CppUnusedIncludeDirective
-//
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-//
 // Ashita Plugin Interface Version
 //
 // Defines the current version of the Ashita plugin interface. Ashita uses this value to determine
@@ -65,7 +50,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-constexpr auto ASHITA_INTERFACE_VERSION = 4.15;
+constexpr auto ASHITA_INTERFACE_VERSION = 4.16;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -428,9 +413,9 @@ namespace Ashita
 //      Function prototype used for registered callbacks to the hooked mouse window message
 //      events. Passes the mouse message to the callback to be handled before being sent to
 //      the game.
-// 
+//
 // xinputgetstatecallback_f
-// 
+//
 //      https://learn.microsoft.com/en-us/windows/win32/api/xinput/nf-xinput-xinputgetstate
 //      Function prototype used for registered callbacks to the hooked XInputGetState function.
 //      Passes the device state to the callback to be handled before being sent to the game.
@@ -443,8 +428,8 @@ namespace Ashita
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef HRESULT(__stdcall* getdevicedatacallback_f)(DWORD, LPDIDEVICEOBJECTDATA, DWORD, LPDWORD, DWORD);
-typedef HRESULT(__stdcall* getdevicestatecallback_f)(DWORD, LPVOID);
+typedef HRESULT(__stdcall* getdevicedatacallback_f)(LPDIRECTINPUTDEVICE8A, DWORD, LPDIDEVICEOBJECTDATA, LPDWORD, DWORD, DWORD);
+typedef HRESULT(__stdcall* getdevicestatecallback_f)(LPDIRECTINPUTDEVICE8A, DWORD, LPVOID);
 typedef BOOL(__stdcall* controllercallback_f)(uint32_t*, int32_t*, bool, bool);
 typedef BOOL(__stdcall* keyboardcallback_f)(WPARAM, LPARAM, bool);
 typedef BOOL(__stdcall* mousecallback_f)(uint32_t, WPARAM, LPARAM, bool);
@@ -657,6 +642,7 @@ struct IAutoFollow
     virtual float GetFollowDeltaX(void) const            = 0;
     virtual float GetFollowDeltaZ(void) const            = 0;
     virtual float GetFollowDeltaY(void) const            = 0;
+    virtual float GetFollowDeltaW(void) const            = 0;
     virtual uint32_t GetFollowTargetIndex(void) const    = 0;
     virtual uint32_t GetFollowTargetServerId(void) const = 0;
     virtual uint8_t GetIsFirstPersonCamera(void) const   = 0;
@@ -670,6 +656,7 @@ struct IAutoFollow
     virtual void SetFollowDeltaX(float x) const                          = 0;
     virtual void SetFollowDeltaZ(float z) const                          = 0;
     virtual void SetFollowDeltaY(float y) const                          = 0;
+    virtual void SetFollowDeltaW(float w) const                          = 0;
     virtual void SetFollowTargetIndex(uint32_t index) const              = 0;
     virtual void SetFollowTargetServerId(uint32_t id) const              = 0;
     virtual void SetIsFirstPersonCamera(uint8_t firstPersonCamera) const = 0;
@@ -716,21 +703,25 @@ struct IEntity
     virtual float GetLocalPositionX(uint32_t index) const                           = 0;
     virtual float GetLocalPositionZ(uint32_t index) const                           = 0;
     virtual float GetLocalPositionY(uint32_t index) const                           = 0;
+    virtual float GetLocalPositionW(uint32_t index) const                           = 0;
     virtual float GetLocalPositionRoll(uint32_t index) const                        = 0;
     virtual float GetLocalPositionYaw(uint32_t index) const                         = 0;
     virtual float GetLocalPositionPitch(uint32_t index) const                       = 0;
     virtual float GetLastPositionX(uint32_t index) const                            = 0;
     virtual float GetLastPositionZ(uint32_t index) const                            = 0;
     virtual float GetLastPositionY(uint32_t index) const                            = 0;
+    virtual float GetLastPositionW(uint32_t index) const                            = 0;
     virtual float GetLastPositionRoll(uint32_t index) const                         = 0;
     virtual float GetLastPositionYaw(uint32_t index) const                          = 0;
     virtual float GetLastPositionPitch(uint32_t index) const                        = 0;
     virtual float GetMoveX(uint32_t index) const                                    = 0;
     virtual float GetMoveZ(uint32_t index) const                                    = 0;
     virtual float GetMoveY(uint32_t index) const                                    = 0;
+    virtual float GetMoveW(uint32_t index) const                                    = 0;
     virtual float GetMoveDeltaX(uint32_t index) const                               = 0;
     virtual float GetMoveDeltaZ(uint32_t index) const                               = 0;
     virtual float GetMoveDeltaY(uint32_t index) const                               = 0;
+    virtual float GetMoveDeltaW(uint32_t index) const                               = 0;
     virtual float GetMoveDeltaRoll(uint32_t index) const                            = 0;
     virtual float GetMoveDeltaYaw(uint32_t index) const                             = 0;
     virtual float GetMoveDeltaPitch(uint32_t index) const                           = 0;
@@ -746,6 +737,7 @@ struct IEntity
     virtual uint32_t GetTurnSpeed(uint32_t index) const                             = 0;
     virtual uint32_t GetTurnSpeedHead(uint32_t index) const                         = 0;
     virtual float GetHeading(uint32_t index) const                                  = 0;
+    virtual uintptr_t GetNext(uint32_t index) const                                 = 0;
     virtual uint8_t GetHPPercent(uint32_t index) const                              = 0;
     virtual uint8_t GetType(uint32_t index) const                                   = 0;
     virtual uint8_t GetRace(uint32_t index) const                                   = 0;
@@ -846,21 +838,25 @@ struct IEntity
     virtual void SetLocalPositionX(uint32_t index, float x) const                                    = 0;
     virtual void SetLocalPositionZ(uint32_t index, float z) const                                    = 0;
     virtual void SetLocalPositionY(uint32_t index, float y) const                                    = 0;
+    virtual void SetLocalPositionW(uint32_t index, float w) const                                    = 0;
     virtual void SetLocalPositionRoll(uint32_t index, float roll) const                              = 0;
     virtual void SetLocalPositionYaw(uint32_t index, float yaw) const                                = 0;
     virtual void SetLocalPositionPitch(uint32_t index, float pitch) const                            = 0;
     virtual void SetLastPositionX(uint32_t index, float x) const                                     = 0;
     virtual void SetLastPositionZ(uint32_t index, float z) const                                     = 0;
     virtual void SetLastPositionY(uint32_t index, float y) const                                     = 0;
+    virtual void SetLastPositionW(uint32_t index, float w) const                                     = 0;
     virtual void SetLastPositionRoll(uint32_t index, float roll) const                               = 0;
     virtual void SetLastPositionYaw(uint32_t index, float yaw) const                                 = 0;
     virtual void SetLastPositionPitch(uint32_t index, float pitch) const                             = 0;
     virtual void SetMoveX(uint32_t index, float x) const                                             = 0;
     virtual void SetMoveZ(uint32_t index, float z) const                                             = 0;
     virtual void SetMoveY(uint32_t index, float y) const                                             = 0;
+    virtual void SetMoveW(uint32_t index, float w) const                                             = 0;
     virtual void SetMoveDeltaX(uint32_t index, float x) const                                        = 0;
     virtual void SetMoveDeltaZ(uint32_t index, float z) const                                        = 0;
     virtual void SetMoveDeltaY(uint32_t index, float y) const                                        = 0;
+    virtual void SetMoveDeltaW(uint32_t index, float w) const                                        = 0;
     virtual void SetMoveDeltaRoll(uint32_t index, float roll) const                                  = 0;
     virtual void SetMoveDeltaYaw(uint32_t index, float yaw) const                                    = 0;
     virtual void SetMoveDeltaPitch(uint32_t index, float pitch) const                                = 0;
@@ -876,6 +872,7 @@ struct IEntity
     virtual void SetTurnSpeed(uint32_t index, uint32_t speed) const                                  = 0;
     virtual void SetTurnSpeedHead(uint32_t index, uint32_t speed) const                              = 0;
     virtual void SetHeading(uint32_t index, float heading) const                                     = 0;
+    virtual void SetNext(uint32_t index, uintptr_t next) const                                       = 0;
     virtual void SetHPPercent(uint32_t index, uint8_t hpp) const                                     = 0;
     virtual void SetType(uint32_t index, uint8_t type) const                                         = 0;
     virtual void SetRace(uint32_t index, uint8_t race) const                                         = 0;
@@ -1017,6 +1014,9 @@ struct IInventory
     virtual uint16_t GetCheckLinkshellColor(void) const                           = 0;
     virtual uint8_t GetCheckLinkshellIconSetId(void) const                        = 0;
     virtual uint8_t GetCheckLinkshellIconSetIndex(void) const                     = 0;
+    virtual uint32_t GetCheckBallistaChevronCount(void) const                     = 0;
+    virtual uint16_t GetCheckBallistaChevronFlags(void) const                     = 0;
+    virtual uint16_t GetCheckBallistaFlags(void) const                            = 0;
 
     // Get Properties (Search Comment)
     virtual const char* GetSearchComment(void) const = 0;
@@ -1137,6 +1137,7 @@ struct IPlayer
     virtual uint8_t GetHighestItemLevel(void) const                        = 0;
     virtual uint8_t GetItemLevel(void) const                               = 0;
     virtual uint8_t GetMainHandItemLevel(void) const                       = 0;
+    virtual uint8_t GetRangedItemLevel(void) const                         = 0;
     virtual uint32_t GetUnityFaction(void) const                           = 0;
     virtual uint32_t GetUnityPoints(void) const                            = 0;
     virtual uint16_t GetUnityPartialPersonalEvalutionPoints(void) const    = 0;
@@ -1151,7 +1152,9 @@ struct IPlayer
     virtual Ashita::FFXI::combatskill_t GetCombatSkill(uint32_t sid) const = 0;
     virtual Ashita::FFXI::craftskill_t GetCraftSkill(uint32_t sid) const   = 0;
     virtual uint16_t GetAbilityRecast(uint32_t index) const                = 0;
+    virtual uint8_t GetAbilityRecastCalc1(uint32_t index) const            = 0;
     virtual uint16_t GetAbilityRecastTimerId(uint32_t index) const         = 0;
+    virtual int16_t GetAbilityRecastCalc2(uint32_t index) const            = 0;
     virtual uint32_t GetMountRecast(void) const                            = 0;
     virtual uint32_t GetMountRecastTimerId(void) const                     = 0;
     virtual uint8_t GetDataLoadedFlags(void) const                         = 0;
@@ -1164,6 +1167,22 @@ struct IPlayer
     virtual uint8_t GetMeritPointsMax(void) const                          = 0;
     virtual uint8_t* GetHomepointMasks(void) const                         = 0;
     virtual uint32_t GetIsZoning(void) const                               = 0;
+    virtual float GetStatusOffset1X(void) const                            = 0;
+    virtual float GetStatusOffset1Z(void) const                            = 0;
+    virtual float GetStatusOffset1Y(void) const                            = 0;
+    virtual float GetStatusOffset1W(void) const                            = 0;
+    virtual float GetStatusOffset2X(void) const                            = 0;
+    virtual float GetStatusOffset2Z(void) const                            = 0;
+    virtual float GetStatusOffset2Y(void) const                            = 0;
+    virtual float GetStatusOffset2W(void) const                            = 0;
+    virtual float GetStatusOffset3X(void) const                            = 0;
+    virtual float GetStatusOffset3Z(void) const                            = 0;
+    virtual float GetStatusOffset3Y(void) const                            = 0;
+    virtual float GetStatusOffset3W(void) const                            = 0;
+    virtual float GetStatusOffset4X(void) const                            = 0;
+    virtual float GetStatusOffset4Z(void) const                            = 0;
+    virtual float GetStatusOffset4Y(void) const                            = 0;
+    virtual float GetStatusOffset4W(void) const                            = 0;
 
     // Get Properties (Job Points)
     virtual uint16_t GetCapacityPoints(uint32_t jobid) const = 0;
@@ -1199,7 +1218,10 @@ struct IPlayer
 struct IRecast
 {
     // Get Properties
+    virtual uint32_t GetAbilityRecast(uint32_t index) const  = 0;
+    virtual uint8_t GetAbilityCalc1(uint32_t index) const    = 0;
     virtual uint32_t GetAbilityTimerId(uint32_t index) const = 0;
+    virtual int16_t GetAbilityCalc2(uint32_t index) const    = 0;
     virtual uint32_t GetAbilityTimer(uint32_t index) const   = 0;
     virtual uint32_t GetSpellTimer(uint32_t index) const     = 0;
 };
@@ -1222,15 +1244,25 @@ struct ITarget
     virtual float GetArrowPositionX(uint32_t index) const    = 0;
     virtual float GetArrowPositionZ(uint32_t index) const    = 0;
     virtual float GetArrowPositionY(uint32_t index) const    = 0;
-    virtual uint8_t GetActive(uint32_t index) const          = 0;
-    virtual uint8_t GetArrowActive(uint32_t index) const     = 0;
+    virtual float GetArrowPositionW(uint32_t index) const    = 0;
+    virtual uint8_t GetIsActive(uint32_t index) const        = 0;
+    virtual uint8_t GetIsModelActor(uint32_t index) const    = 0;
+    virtual uint8_t GetIsArrowActive(uint32_t index) const   = 0;
     virtual uint16_t GetChecksum(uint32_t index) const       = 0;
 
     // Get Properties (Target Misc)
+    virtual uint8_t GetIsWalk(void) const                = 0;
+    virtual uint8_t GetIsAutoNotice(void) const          = 0;
     virtual uint8_t GetIsSubTargetActive(void) const     = 0;
+    virtual uint8_t GetDeactivateTarget(void) const      = 0;
+    virtual uint8_t GetModeChangeLock(void) const        = 0;
+    virtual uint8_t GetIsMouseRequestStack(void) const   = 0;
+    virtual uint8_t GetIsMouseRequestCancel(void) const  = 0;
     virtual uint8_t GetIsPlayerMoving(void) const        = 0;
     virtual uint32_t GetLockedOnFlags(void) const        = 0;
     virtual uint32_t GetSubTargetFlags(void) const       = 0;
+    virtual uint16_t GetDefaultMode(void) const          = 0;
+    virtual uint16_t GetMenuTargetLock(void) const       = 0;
     virtual uint8_t GetActionTargetActive(void) const    = 0;
     virtual uint8_t GetActionTargetMaxYalms(void) const  = 0;
     virtual uint8_t GetIsMenuOpen(void) const            = 0;
@@ -1239,17 +1271,43 @@ struct ITarget
     virtual uint8_t GetActionAoeRange(void) const        = 0;
     virtual uint32_t GetActionId(void) const             = 0;
     virtual uint32_t GetActionTargetServerId(void) const = 0;
-    virtual float GetMouseDistanceX(void) const          = 0;
-    virtual float GetMouseDistanceY(void) const          = 0;
+    virtual uint32_t GetFocusTargetIndex(void) const     = 0;
+    virtual uint32_t GetFocusTargetServerId(void) const  = 0;
+    virtual float GetTargetPosF(uint32_t index) const    = 0;
+    virtual const char* GetLastTargetName(void) const    = 0;
+    virtual uint32_t GetLastTargetIndex(void)            = 0;
+    virtual uint32_t GetLastTargetServerId(void)         = 0;
+    virtual uint32_t GetLastTargetChecksum(void)         = 0;
+    virtual uintptr_t GetActionCallback(void) const      = 0;
+    virtual uintptr_t GetCancelCallback(void) const      = 0;
+    virtual uintptr_t GetMyroomCallback(void) const      = 0;
+    virtual uintptr_t GetActionAoeCallback(void) const   = 0;
 
     // Get Properties (Target Window)
-    virtual const char* GetWindowName(void) const        = 0;
-    virtual uintptr_t GetWindowEntityPointer(void) const = 0;
-    virtual uint32_t GetWindowServerId(void) const       = 0;
-    virtual uint8_t GetWindowHPPercent(void) const       = 0;
-    virtual uint8_t GetWindowDeathFlag(void) const       = 0;
-    virtual uint8_t GetWindowReraiseFlag(void) const     = 0;
-    virtual uint8_t GetWindowIsLoaded(void) const        = 0;
+    virtual const char* GetWindowName(void) const              = 0;
+    virtual uintptr_t GetWindowEntityPointer(void) const       = 0;
+    virtual uint16_t GetWindowFrameChildrenOffsetX(void) const = 0;
+    virtual uint16_t GetWindowFrameChildrenOffsetY(void) const = 0;
+    virtual uint16_t GetWindowIconPositionX(void) const        = 0;
+    virtual uint16_t GetWindowIconPositionY(void) const        = 0;
+    virtual uint16_t GetWindowFrameOffsetX(void) const         = 0;
+    virtual uint16_t GetWindowFrameOffsetY(void) const         = 0;
+    virtual uint32_t GetWindowLockShape(void) const            = 0;
+    virtual uint32_t GetWindowServerId(void) const             = 0;
+    virtual uint8_t GetWindowHPPercent(void) const             = 0;
+    virtual uint8_t GetWindowDeathFlag(void) const             = 0;
+    virtual uint8_t GetWindowReraiseFlag(void) const           = 0;
+    virtual uint32_t GetWindowDeathNameColor(void) const       = 0;
+    virtual uint8_t GetWindowIsWindowLoaded(void) const        = 0;
+    virtual uint32_t GetWindowHelpString(void) const           = 0;
+    virtual uint32_t GetWindowHelpTitle(void) const            = 0;
+    virtual uint32_t GetWindowAnkShape(uint32_t index) const   = 0;
+    virtual uint8_t GetWindowSub(void) const                   = 0;
+    virtual uint8_t GetWindowAnkNum(void) const                = 0;
+    virtual int16_t GetWindowAnkX(void) const                  = 0;
+    virtual int16_t GetWindowAnkY(void) const                  = 0;
+    virtual int16_t GetWindowSubAnkX(void) const               = 0;
+    virtual int16_t GetWindowSubAnkY(void) const               = 0;
 
     // Helper Functions
     virtual void SetTarget(uint32_t index, bool force) const = 0;
@@ -1507,6 +1565,13 @@ struct IResourceManager
     // Methods (Items)
     virtual IItem* GetItemById(uint32_t id) const                         = 0;
     virtual IItem* GetItemByName(const char* name, uint32_t langId) const = 0;
+
+    // Methods (Entities)
+    virtual uint32_t GetEntityCount(void) const                    = 0;
+    virtual uint32_t GetEntityIndexById(uint32_t id) const         = 0;
+    virtual uint32_t GetEntityIdByIndex(uint32_t index) const      = 0;
+    virtual const char* GetEntityNameByIndex(uint32_t index) const = 0;
+    virtual const char* GetEntityNameById(uint32_t id) const       = 0;
 
     // Methods (Status Icons)
     virtual IStatusIcon* GetStatusIconByIndex(uint16_t index) const = 0;
@@ -1812,8 +1877,6 @@ struct IAshitaCore
     virtual HWND CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)   = 0;
     virtual HWND CreateWindowExW(DWORD dwExStyle, LPCWSTR lpClassName, LPCWSTR lpWindowName, DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam) = 0;
     virtual void ExitProcess(UINT uExitCode)                                                                                                                                                                          = 0;
-    virtual HWND GetForegroundWindow(void)                                                                                                                                                                            = 0;
-    virtual HWND GetFocus(void)                                                                                                                                                                                       = 0;
     virtual int GetSystemMetrics(int nIndex)                                                                                                                                                                          = 0;
     virtual int GetWindowTextA(HWND hWnd, LPSTR lpString, int nMaxCount)                                                                                                                                              = 0;
     virtual int GetWindowTextW(HWND hWnd, LPWSTR lpString, int nMaxCount)                                                                                                                                             = 0;

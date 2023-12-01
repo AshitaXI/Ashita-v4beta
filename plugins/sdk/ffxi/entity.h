@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -38,11 +37,11 @@ namespace Ashita::FFXI
         float           X;
         float           Z;
         float           Y;
-        float           Unknown0000;
+        float           W;
         float           Roll;
         float           Yaw;
         float           Pitch;
-        float           Unknown0001;
+        float           Unknown0000;
     };
 
     struct move_t
@@ -50,15 +49,15 @@ namespace Ashita::FFXI
         float           X;
         float           Z;
         float           Y;
-        float           Unknown0000;
+        float           W;
         float           DeltaX;         // (LastPosition.X - LocalPosition.X) / LocalMoveCount
         float           DeltaZ;         // (LastPosition.Z - LocalPosition.Z) / LocalMoveCount
         float           DeltaY;         // (LastPosition.Y - LocalPosition.Y) / LocalMoveCount
-        float           Unknown0001;
+        float           DeltaW;
         float           DeltaRoll;      // (LastPosition.Roll - LocalPosition.Roll) * 0.0625
         float           DeltaYaw;       // (LastPosition.Yaw - LocalPosition.Yaw) * 0.0625
         float           DeltaPitch;     // (LastPosition.Pitch - LocalPosition.Pitch) * 0.0625
-        float           Unknown0002;
+        float           Unknown0000;
     };
 
     struct movement_t
@@ -111,15 +110,15 @@ namespace Ashita::FFXI
         uint32_t        TurnSpeed;              // The entities speed in which they will turn to talk to/interact with something. [Default: 0x64, Set in event VM opcode: 0x0059]
         uint32_t        TurnSpeedHead;          // The entities speed in which they will turn their head and look at something. [Default: 0x64, Set in event VM opcode: 0x0059]
         float           Heading;                // The entities heading direction. (Yaw)
-        uintptr_t       Unknown0000;            // Unknown [Set to the entity pointer you are closest to within 1.2 yalms. Used as a linked list if you are close to multiple entities.]
+        uintptr_t       Next;                   // Set to the entity pointer you are closest to within 1.2 yalms. Used as a linked list if you are close to multiple entities.
         uint8_t         HPPercent;              // The entities health percent.
-        uint8_t         Unknown0001;            // Unknown [Used to be pet mp percent, not used anymore.]
+        uint8_t         Unknown0000;            // Unknown [Used to be pet mp percent, not used anymore.]
         uint8_t         Type;                   // The entities object type. [0 = PC, 1 = NPC, 2 = NPC (Fixed Models), 3 = Doors etc.]
         uint8_t         Race;                   // The entities race id.
         uint16_t        LocalMoveCount;         // The entities local movement counter used to handle delta movement calculations.
         uint16_t        ActorLockFlag;          // The entities lock flag. If set, the entity will ignore model updates from gear changes.
         uint16_t        ModelUpdateFlags;       // The entities update flags when the model is being refreshed. (ie. Gear swaps.)
-        uint16_t        Unknown0002;            // Unknown [Some parts seem used, unsure what for. Trusts generally have the second byte as 255.]
+        uint16_t        Unknown0001;            // Unknown [Some parts seem used, unsure what for. Trusts generally have the second byte as 255.]
         uint32_t        DoorId;                 // The entities door id, if entity is a door. (ie. _6er)
         look_t          Look;                   // The entities model appearance information.
         uint16_t        ActionTimer1;           // The entities action timer. [The action lock count.]
@@ -147,8 +146,8 @@ namespace Ashita::FFXI
         uint32_t        StatusServer;           // The entities status. (Updated from character update packet. Incoming 0x0037)
         uint32_t        Status;                 // The entities status. (Synced from StatusServer, main status value used in the client for most validations.)
         uint32_t        StatusEvent;            // The entities status. (Used while talking to an npc / in an event.)
-        uint32_t        Unknown0003;            // Unknown [PS2: Potentially ActorStatus]
-        uint32_t        Unknown0004;            // Unknown [PS2: Potentially CliStatus]
+        uint32_t        Unknown0002;            // Unknown [PS2: Potentially ActorStatus]
+        uint32_t        Unknown0003;            // Unknown [PS2: Potentially CliStatus]
         uint32_t        ModelTime;              // The entities model time. [ie. Used with elevators for their lift animations.]
         uint32_t        ModelStartTime;         // The entities model start time. [ie. Used with elevators for their lift animations.]
         uint32_t        ClaimStatus;            // The entities current claim information / last claimed info for dead entities. [Low-word holds the claimer server id. High-word is a 0/1 flag.]
@@ -157,13 +156,13 @@ namespace Ashita::FFXI
         uint16_t        AnimationTime;          // The current time/duration of the animation. (ie. Counts up while walking.)
         uint16_t        AnimationStep;          // The current step of the animation. [Set via: rand() % 600 + 600]
         uint8_t         AnimationPlay;          // Flag used to cause the entities set animation to play. [6 = Sit/Stand, 12 = Play Emote, 21 = Sit, etc.]
-        uint8_t         Unknown0005;            // Unknown [Unlocks the players model from their mount, allowing them to move freely with the mount remaining where it was when this flag was enabled.]
+        uint8_t         Unknown0004;            // Unknown [Unlocks the players model from their mount, allowing them to move freely with the mount remaining where it was when this flag was enabled.]
         uint16_t        EmoteTargetIndex;       // The target index of the entity that is the target of the emote.
         uint16_t        EmoteId;                // The emote id of the emote the entity is performing.
-        uint16_t        Unknown0006;            // Unknown [Potentially padding now for alignment. Does not appear to be used/referenced.]
+        uint16_t        Unknown0005;            // Unknown [Potentially padding now for alignment. Does not appear to be used/referenced.]
         uint32_t        EmoteIdString;          // The string id of the emote.
         uintptr_t       EmoteTargetActorPointer;// The target actor pointer of the entity that is the target of the emote.
-        uint32_t        Unknown0007;            // Unknown [Emote related, set and read when an emote is used. Incremented or set to 0. Can be set to 150 or 151 directly as well.]
+        uint32_t        Unknown0006;            // Unknown [Emote related, set and read when an emote is used. Incremented or set to 0. Can be set to 150 or 151 directly as well.]
         uint32_t        SpawnFlags;             // The entities spawn flags. [0x01 = PC, 0x02 = NPC, 0x10 = Mob, 0x0D = Local Player]
         uint32_t        LinkshellColor;         // The entities linkshell color. [BGR format, alpha is ignored.]
         uint16_t        NameColor;              // The entities name color. [Predefined numerical codes are used.]
@@ -175,7 +174,7 @@ namespace Ashita::FFXI
         int16_t         FishingRodCastTime;     // The countdown until the rod cast animation finishes and the client tells the server you are fishing. [Sends 0x110 packet if <= 0.]
         int16_t         FishingUnknown0002;     // Unknown [Set to 1800 when FishingActionCountdown is <= 0. Sends 0x110 packet to finish fishing if <= 0 with stamina set to 201.]
         uint32_t        LastActionId;           // The entities last action id. [For example, talking to some NPCs will set this to tlk0. Set within the event VM opcode handlers.]
-        uint32_t        Unknown0008;            // Unknown [Has one usage but seems unused otherwise, usage is not referenced either.]
+        uint32_t        Unknown0007;            // Unknown [Has one usage but seems unused otherwise, usage is not referenced either.]
         uintptr_t       LastActionActorPointer; // The actor pointer used with LastActionId.
         uint16_t        TargetedIndex;          // The target index of the entities target. [Not always populated. Not populated for local player.]
         uint16_t        PetTargetIndex;         // The entities pet target index.
@@ -184,7 +183,7 @@ namespace Ashita::FFXI
         uint8_t         BallistaFlags;          // The entities Ballista flags. [Handles setting the players name icon, name color, and displaying the game score.]
         uint8_t         PankrationEnabled;      // Flag used with Pankration.
         uint8_t         PankrationFlagFlip;     // Flag used with Pankration.
-        uint16_t        Unknown0009;            // Unknown [Used with Attachments[1] as a timer when the entity uses an Indi spell.]
+        uint16_t        Unknown0008;            // Unknown [Used with Attachments[1] as a timer when the entity uses an Indi spell.]
         float           ModelSize;              // The entities model size. [Generally -1 as default.]
         float           ModelHitboxSize;        // The entities model hitbox size. [Sent in packets: 0x0D, 0x0E, 0x37. Calculated as: (uint8_t)data * 0.10]
         uint32_t        EnvironmentAreaId;      // The entities environment area id. Used to override how the entity should be colored and how light affects the model. [Set in event VM opcode: 0x00AE]
@@ -194,14 +193,14 @@ namespace Ashita::FFXI
         uint8_t         MonstrosityNameEnd;     // The entities monstrosity name end. [Used as a null terminator in the event a name gets too long and overflows the buffer.]
         uint8_t         MonstrosityNameAbbr[24];// The entities monstrosity name abbreviation.
         uint8_t         MonstrosityNameAbbrEnd; // The entities monstrosity name abbreviation end. [Used as a null terminator in the event a name gets too long and overflows the buffer.]
-        uint16_t        Unknown0010;            // Unknown [Potentially padding now for alignment.]
+        uint16_t        Unknown0009;            // Unknown [Potentially padding now for alignment.]
         uint8_t         CustomProperties[44];   // The entities custom properties. [This can be used for various things such as chocobo look customizations. (color, feather changes, etc.)]
         uint8_t         BallistaInfo[36];       // Ballista information that the entity has been sent.
         uint16_t        FellowTargetIndex;      // The target index of the entities adventuring fellow.
         uint16_t        WarpTargetIndex;        // The target index to follow or warp to. (If used on local player you will warp instantly to the target index. Use with caution!)
         uint16_t        TrustOwnerTargetIndex;  // The owner target index. [Trusts have this set to their owners target index.]
         uint16_t        AreaDisplayTargetIndex; // The entities area display target index. [This is only set for the local player; used as the 'Area Display' target index to center the displayed circle around.]
-        uint32_t        Unknown0011;            // Unknown [Appears to be unused now. Set to 0 when an entity is created, then no other uses found.]
+        uint32_t        Unknown0010;            // Unknown [Appears to be unused now. Set to 0 when an entity is created, then no other uses found.]
     };
 
 } // namespace Ashita::FFXI

@@ -28,9 +28,6 @@
 
 #pragma warning(disable : 4505) // unreferenced local function has been removed
 
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <Windows.h>
 #include <string>
 #include <vector>

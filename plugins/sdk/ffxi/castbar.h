@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -35,13 +34,16 @@ namespace Ashita::FFXI
 {
     struct castbar_t
     {
-        uintptr_t   VTablePointer;  // The base VTable pointer.
-        uint32_t    Unknown0000;    // Unknown [Set to 0 when the object is first created, never touched afterward.]
-        uintptr_t   Unknown0001;    // Unknown [Pointer to an object holding information about the menu that opened the cast bar.]
-        uint8_t     Unknown0002;    // Unknown [Set to 1 when the object is first created.]
-        uint8_t     Unknown0003[3]; // Unknown [Padding?]
-        uint8_t     Unknown0004;    // Unknown [Flag set to 1 when starting a cast / item use.]
-        uint8_t     Unknown0005[3]; // Unknown [Padding?]
+        // CTkMenuPrimitive
+        uintptr_t   VTablePointer;
+        uintptr_t   m_BaseObj;
+        uintptr_t   m_pParentMCD;
+        uint8_t     m_InputEnable;
+        uint8_t     Unknown0000;
+        uint16_t    m_SaveCursol;
+        uint8_t     m_Reposition;
+        uint8_t     Unknown0001[3];
+
         float       Max;            // The maximum value of the bar to count down from.
         float       Count;          // The current value of the bar, starting from CastBarMax and counting down to 0.
         float       Percent;        // The current cast value of the bar ranging from 0.0 to 1.0 as a float.

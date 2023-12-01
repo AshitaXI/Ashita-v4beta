@@ -26,10 +26,6 @@
 #pragma once
 #endif
 
-// ReSharper disable CppExpressionWithoutSideEffects
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <Windows.h>
 #include <eh.h>
 #include <string>
@@ -120,10 +116,10 @@ namespace Ashita::Threading
         CRITICAL_SECTION m_CriticalSection;
 
         // Delete Copy and Assignment Operators
-        LockableObject(LockableObject const&) = delete;            // Delete Copy Constructor
-        LockableObject(LockableObject&&)      = delete;            // Delete Move Constructor
+        LockableObject(LockableObject const&)            = delete; // Delete Copy Constructor
+        LockableObject(LockableObject&&)                 = delete; // Delete Move Constructor
         LockableObject& operator=(LockableObject const&) = delete; // Delete Copy Assignment Constructor
-        LockableObject& operator=(LockableObject&&) = delete;      // Delete Move Assignment Constructor
+        LockableObject& operator=(LockableObject&&)      = delete; // Delete Move Assignment Constructor
 
     public:
         LockableObject(void)

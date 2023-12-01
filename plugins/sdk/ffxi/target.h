@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -38,9 +37,10 @@ namespace Ashita::FFXI
         float           X;
         float           Z;
         float           Y;
-        uint32_t        Unknown;                // Doesn't seem to be used.
+        float           W;
     };
 
+    // CKaTarget
     struct targetentry_t
     {
         uint32_t        Index;                  // The target index.
@@ -49,50 +49,63 @@ namespace Ashita::FFXI
         uintptr_t       ActorPointer;           // The target actor pointer.
         arrowposition_t ArrowPosition;          // The target arrow position. [IsArrowActive must be 1 to use this.]
         uint8_t         IsActive;               // Flag if the target is active.
-        uint8_t         Unknown0000;            // Unknown [Unknown boolean.]
+        uint8_t         IsModelActor;           // Flag if the target entity is a model actor.
         uint8_t         IsArrowActive;          // Flag if the target free-floating arrow is active.
-        uint8_t         Unknown0001;            // Unknown [Always 0x7F]
+        uint8_t         Unknown0000;            // Unknown [Always 0x7F]
         uint16_t        Checksum;               // The target checksum.
-        uint16_t        Unknown0002;            // Unknown [This used to be a mask of some sort.]
+        uint16_t        Unknown0001;            // Unknown [This used to be a mask of some sort.]
     };
 
+    // CTkInputCtrl
     struct target_t
     {
-        targetentry_t   Targets[2];
-        uint8_t         Unknown0000;            // Unknown [Flag read once every ~30 seconds to test for 1.]
-        uint8_t         Unknown0001;            // Unknown [Padding? Never used.]
+        targetentry_t   Targets[2];             // m_MainTarget, m_OldTarget
+        uint8_t         IsWalk;                 // Flag if the character is walking instead of running.
+        uint8_t         IsAutoNotice;           // Flag if the game will automatically lock onto targets when engaging them. [The game refers to 'Locked On' as 'Notice'.]
         uint8_t         IsSubTargetActive;      // Flag if the sub target is active.
         uint8_t         DeactivateTarget;       // Flag if 1 will undo one step of the targeting windows.
-        uint8_t         Unknown0002;            // Unknown [Flag tested for 0 for unknown purpose.]
-        uint8_t         Unknown0003;            // Unknown [Flag constantly written to flipping between 0 and 1. Used when opening/closing the menus with the mouse.]
-        uint8_t         Unknown0004;            // Unknown [Flag constantly written to with 0.]
+        uint8_t         ModeChangeLock;         // Flag used when changing the menu locks while targeting.
+        uint8_t         IsMouseRequestStack;    // Flag used in relation to the mouse.
+        uint8_t         IsMouseRequestCancel;   // Flag used in relation to the mouse.
         uint8_t         IsPlayerMoving;         // Flag that is set whenever the character is moving (or trying to move).
-        uint8_t         Unknown0005;            // Unknown [Flag set when targeting / untargeting.]
-        uint8_t         Unknown0006;            // Unknown [Flag is constantly read.]
-        uint8_t         Unknown0007;            // Unknown
-        uint8_t         Unknown0008;            // Unknown
-        uint32_t        LockedOnFlags;          // Flags involved with being locked onto a target. [0x01 = locked on, 0x04 = locked on with sub-target.]
-        uint32_t        SubTargetFlags;         // Flags involving the sub-targets validity for an action or spell. (See notes below.)
-        uint32_t        Unknown0009;            // Unknown [Used when subtarget is active.]
-        uint16_t        Unknown0010;            // Unknown [Related to the menu system.]
-        uint16_t        Unknown0011;            // Unknown [Related to the menu system.]
+        uint8_t         Unknown0000;            // Unknown [Flag set when targeting / untargeting.]
+        uint8_t         Unknown0001;            // Unknown [Flag that changes the area display circle to show on the player instead of target.]
+        uint8_t         Unknown0002;            // Unknown
+        uint8_t         Unknown0003;            // Unknown
+        uint32_t        LockedOnFlags;          // (IsNotice) Flags involved with being locked onto a target. [0x01 = locked on, 0x04 = locked on with sub-target.]
+        uint32_t        SubTargetFlags;         // (targetType) Flags involving the sub-targets validity for an action or spell. (See notes below.)
+        uint32_t        Unknown0004;            // Unknown [Used when subtarget is active.]
+        uint16_t        DefaultMode;            // Unknown [Related to the menu system.]
+        uint16_t        MenuTargetLock;         // Unknown [Related to the menu system.]
         uint8_t         ActionTargetActive;     // Flag if the target selection for an action is active.
         uint8_t         ActionTargetMaxYalms;   // The maximum distance of the current target selection in yalms for the given action. (FF means self-targeting only actions.)
-        uint8_t         Unknown0012;            // Unknown [Related to action target.]
-        uint8_t         Unknown0013;            // Unknown [Similar to ActionTargetActive, set to 1 when selecting a target.]
-        uint8_t         Unknown0014;            // Unknown [Related to action target.]
-        uint8_t         Unknown0015;            // Unknown [Related to action target.]
-        uint8_t         Unknown0016;            // Unknown [Related to action target.]
-        uint8_t         Unknown0017;            // Unknown [Related to action target.]
-        uint8_t         IsMenuOpen;             // Flag if any game menu is currently open.
+        uint8_t         Unknown0005;            // Unknown [Related to action target.]
+        uint8_t         Unknown0006;            // Unknown [Similar to ActionTargetActive, set to 1 when selecting a target.]
+        uint8_t         Unknown0007;            // Unknown [Related to action target.]
+        uint8_t         Unknown0008;            // Unknown [Related to action target.]
+        uint8_t         Unknown0009;            // Unknown [Related to action target.]
+        uint8_t         Unknown0010;            // Unknown [Related to action target.]
+        uint8_t         IsMenuOpen;             // (TargetLock) Flag if any game menu is currently open.
         uint8_t         IsActionAoe;            // Flag if the select target action is aoe or not.
         uint8_t         ActionType;             // The select target action type. (ie. 42 = curing spells.)
         uint8_t         ActionAoeRange;         // The aoe range, in yalms, of the select target action.
         uint32_t        ActionId;               // The select target action id. (ie. 1 = Cure, 2 = Cure 2, etc.)
         uint32_t        ActionTargetServerId;   // The select target server id.
-        uint8_t         Unknown0018[12];        // Unknown [Target related.]
-        float           MouseDistanceX;         // The distance the mouse is from the middle to the edge of the screen on the x axis.
-        float           MouseDistanceY;         // The distance the mouse is from the middle to the edge of the screen on the y axis.
+        uint16_t        Unknown0011;            // Unknown [Action related.]
+        uint8_t         Unknown0012;            // Unknown [Action related.]
+        uint8_t         Unknown0013;            // Unknown [Action related.]
+        uint32_t        FocusTargetIndex;       // The current focus target index.
+        uint32_t        FocusTargetServerId;    // The current focus target server id.
+        float           TargetPosF[4];          // The mouse cursor position relative to the screen center. [Values are -1.0 to 1.0]
+        int8_t          LastTargetName[25];     // The name of the entity last taken action on.
+        uint8_t         Padding0000[3];         // Padding.
+        uint32_t        LastTargetIndex;        // The last target index.       [Last target the player took action on.]
+        uint32_t        LastTargetServerId;     // The last target server id.   [Last target the player took action on.]
+        uint32_t        LastTargetChecksum;     // The last target checksum.    [Last target the player took action on.]
+        uintptr_t       ActionCallback;         // Callback function. [Callback invoked when a given action is selected.]
+        uintptr_t       CancelCallback;         // Callback function. [Callback invoked when cancelling an action selection.]
+        uintptr_t       MyroomCallback;         // Callback function. [Callback invoked when selecting an exit door within a mog house.]
+        uintptr_t       ActionAoeCallback;      // Callback function. [Callback invoked to display the area display for certain AoE actions.]
     };
 
     /*
@@ -101,40 +114,55 @@ namespace Ashita::FFXI
         SubTargetFlags - This byte flag holds the valid target types that an action or spell can be used to target something with.
                          The bytes set depend on how an action is used. Either via the menu, typed or used with a <st> style token.
 
-        MouseDistanceX
-        MouseDistanceY - These are used to determine the distance of mouse from the center of the screen outward. The center of the
-                         screen is considered 0, 0. The range is from -1 to 1 on both axis.
+        TargetPosF     - This array holds the current mouse deltas from the center of the screen. The center of the screen is treated
+                         as coord (0, 0) with each axis ranging from -1.0 to 1.0.
     */
 
+    // CTkTarget
     struct targetwindow_t
     {
-        uintptr_t   VTablePointer;              // The target window class VTable pointer.
-        uint32_t    Unknown0000;                // Unknown
-        uintptr_t   WindowPointer;              // Pointer to the target window object.
-        uint32_t    Unknown0001;                // Unknown
-        uint8_t     Unknown0002;                // Unknown [Set to 1 each time you initially target something.]
-        uint8_t     Unknown0003[3];             // Unknown
-        int8_t      Name[48];                   // The targets name. [Client nulls 48 bytes for this when the target object is creataed.]
-        uint32_t    Unknown0004;                // Unknown
-        uintptr_t   EntityPointer;              // The targets entity pointer.
-        uint16_t    FrameChildrenOffsetX;       // The target window frame children objects x offset.
-        uint16_t    FrameChildrenOffsetY;       // The target window frame children objects y offset.
-        uint32_t    IconPosition;               // The target window frame icon position. [Only the x axis is editable live.]
-        uint16_t    FrameOffsetX;               // The target window frame x offset. [Not editable live. Another address resets this value.]
-        uint16_t    FrameOffsetY;               // The target window frame y offset. [Not editable live. Another address resets this value.]
-        uint32_t    Unknown0005;                // Unknown [Position related.]
-        uint32_t    Unknown0006;                // Unknown [Force reset to its value if 0'd upon targeting.]
-        uint32_t    ServerId;                   // The targets server id.                   
-        uint8_t     HPPercent;                  // The targets health percent.
-        uint8_t     DeathFlag;                  // Flag that states the target is dead. Dims the health bar and sets it to 0 fill.
-        uint8_t     ReraiseFlag;                // Dims the health bar when target is reraising. (Death flag must be set to 1.)
-        uint8_t     Unknown0007;                // Unknown [Alignment?]
-        uint32_t    DeathNameColor;             // The target name color used when the target is dead.
-        uint8_t     IsWindowLoaded;             // Flag that states if the target window is loaded and finished animating.
-        uint8_t     Unknown0008[3];             // Unknown
-        uint32_t    Unknown0009;                // Unknown [Time related to the window opening. Seems to be a tm struct ptr.]
-    };
+        // CTkMenuPrimitive
+        uintptr_t       VTablePointer;
+        uintptr_t       m_BaseObj;
+        uintptr_t       m_pParentMCD;
+        uint8_t         m_InputEnable;
+        uint8_t         Unknown0000;
+        uint16_t        m_SaveCursol;
+        uint8_t         m_Reposition;
+        uint8_t         Unknown0001[3];
 
+        int8_t          Name[49];               // The targets name. [Window allows for longer than standard name length.]
+        uint8_t         Padding0000[3];         // Padding.
+        uintptr_t       EntityPointer;          // The targets entity pointer.
+        uint16_t        FrameChildrenOffsetX;   // The target window frame children objects x offset.
+        uint16_t        FrameChildrenOffsetY;   // The target window frame children objects y offset.
+        uint16_t        IconPositionX;          // The target window frame icon position. [Only the x axis is editable live.]
+        uint16_t        IconPositionY;          // The target window frame icon position. [Only the x axis is editable live.]
+        uint16_t        FrameOffsetX;           // The target window frame x offset. [Not editable live. Another address resets this value.]
+        uint16_t        FrameOffsetY;           // The target window frame y offset. [Not editable live. Another address resets this value.]
+        uint32_t        Unknown0002;            // Unknown [Position related.]
+        uint32_t        LockShape;              // The locked-on CShape object pointer.
+        uint32_t        ServerId;               // The targets server id.
+        uint8_t         HPPercent;              // The targets health percent.
+        uint8_t         DeathFlag;              // Flag that states the target is dead. Dims the health bar and sets it to 0 fill.
+        uint8_t         ReraiseFlag;            // Dims the health bar when target is reraising. (Death flag must be set to 1.)
+        uint8_t         Padding0001;            // Padding.
+        uint32_t        DeathNameColor;         // The target name color used when the target is dead.
+        uint8_t         IsWindowLoaded;         // (m_helped) Flag that states if the target window is loaded and finished animating.
+        uint8_t         Padding0002[3];         // Padding.
+        uint32_t        HelpString;             // The help string to display, if set, when opening the target window.
+        uint32_t        HelpTitle;              // The help title to display, if set, when opening the target window. 
+        uint32_t        m_pAnkShape[16];        // The target arrow and sub-target arrow Cshape object parts.
+        uint8_t         m_Sub;                  // Flag if a sub-target is being selected; causes the sub-target name to show larger.
+        uint8_t         Unknown0003;            // Unknown.
+        uint8_t         m_AnkNum;               // The shape index to use from m_pAnkShape.
+        uint8_t         Unknown0004;            // Unknown.
+        int16_t         m_AnkX;                 // The main target arrow X position.
+        int16_t         m_AnkY;                 // The main target arrow Y position.
+        int16_t         m_SubAnkX;              // The sub target arrow X position.
+        int16_t         m_SubAnkY;              // The sub target arrow Y position.
+    };
+    
 } // namespace Ashita::FFXI
 
 #endif // ASHITA_SDK_FFXI_TARGET_H_INCLUDED

@@ -26,8 +26,6 @@
 #pragma once
 #endif
 
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <cinttypes>
 
 namespace Ashita::FFXI::Enums
@@ -194,6 +192,11 @@ namespace Ashita::FFXI::Enums
         Club        = 11,
         Staff       = 12,
 
+        // Automaton Skills
+        AutomatonMelee  = 22,
+        AutomatonRanged = 23,
+        AutomatonMagic  = 24,
+
         // Combat Skills
         Archery      = 25,
         Marksmanship = 26,
@@ -214,6 +217,8 @@ namespace Ashita::FFXI::Enums
         String       = 41,
         Wind         = 42,
         BlueMagic    = 43,
+        Geomancy     = 44,
+        Handbell     = 45,
 
         // Crafting Skills
         Fishing        = 48,
@@ -266,7 +271,8 @@ namespace Ashita::FFXI::Enums
         Dancer       = 19,
         Scholar      = 20,
         Geomancer    = 21,
-        RuneFencer   = 22
+        RuneFencer   = 22,
+        Monstrosity  = 23, // Used during Monstrosity.
     };
 
     enum class LoginStatus : uint32_t

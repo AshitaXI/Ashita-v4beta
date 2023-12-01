@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 #include "enums.h"
@@ -51,10 +50,12 @@ namespace Ashita::FFXI
 
     struct treasureitem_t
     {
-        uint32_t            Flags;                      // The treasure item flags.
+        uint32_t            Use;                        // The treasure item use flags.
         uint32_t            ItemId;                     // The treasure item id.
         uint32_t            Count;                      // The treasure item count.
-        uint8_t             Unknown0000[36];            // Unknown
+        uint32_t            Flags;                      // The treasure item flags.
+        uint32_t            Price;                      // The treasure item price.
+        uint8_t             Extra[28];                  // The treasure item extra data.
         uint32_t            Status;                     // The treasure item status.
         uint16_t            Lot;                        // The local players lot on the treasure item.
         uint16_t            WinningLot;                 // The treasure item current winning lot.
@@ -82,7 +83,9 @@ namespace Ashita::FFXI
     struct inventory_t
     {
         items_t             Containers[(uint32_t)Enums::Container::Max];                // Containers holding the players various items.
-        uint8_t             Unknown0000[0x021C];                                        // Unknown [Potential future expansion space.]
+        uint32_t            iLookItem;                                                  //
+        uintptr_t           pItem;                                                      //
+        uint8_t             Unknown0000[0x0214];                                        // Unknown [GC_ITEM_TRADE structure.]
         treasureitem_t      TreasurePool[0x000A];                                       // The treasure pool container items.
         uint32_t            TreasurePoolStatus;                                         // Flag that is set stating the status of the treasure pool. (0 = Loading, 1 = Loaded, 2 = Emptied)
         uint8_t             TreasurePoolItemCount;                                      // The number of items currently in the treasure pool.
@@ -111,10 +114,10 @@ namespace Ashita::FFXI
         uint16_t            CheckLinkshellColor;                                        // The linkshell color of the entity being checked.. (Raw bitpacked color.)
         uint8_t             CheckLinkshellIconSetId;                                    // The linkshell icon set id of the entity being checked.
         uint8_t             CheckLinkshellIconSetIndex;                                 // The linkshell icon set index of the entity being checked.
-        uint32_t            Unknown0002;                                                // Unknown - Updated from incoming 0xC9 packet. (/check)
-        uint16_t            Unknown0003;                                                // Unknown - Updated from incoming 0xC9 packet. (/check)
-        uint16_t            Unknown0004;                                                // Unknown - Updated from incoming 0xC9 packet. (/check)
-        uint32_t            Unknown0005;                                                // Unknown - Incremented when zoning and reconstructing memory.
+        uint32_t            CheckBallistaChevronCount;                                  // The current chevron count of the entity being checked. (Only visible if in Ballista.)
+        uint16_t            CheckBallistaChevronFlags;                                  // The current chevron flags of the entity being checked. [0x01 shows star next to Chevron count.] (Only visible if in Ballista.)
+        uint16_t            CheckBallistaFlags;                                         // The ballista flags of the entity being checked.
+        uint32_t            UserMessageCount;                                           // The incremented value returned from gcMainGetActivityCount.
         char                SearchComment[0x0084];                                      // Loaded from ffxiusr.msg or updated when setting your search comment.
         uint32_t            CraftStatus;                                                // The players crafting status. (Handles if the player is attempting to craft and when they are able to craft again.)
         uintptr_t           CraftCallback;                                              // Function set when attempting to craft that is invoked for the result.

@@ -26,10 +26,6 @@
 #pragma once
 #endif
 
-// ReSharper disable CppInconsistentNaming
-// ReSharper disable CppRedundantControlFlowJump
-// ReSharper disable CppUnusedIncludeDirective
-
 #include <algorithm>
 #include <string>
 #include <vector>

@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -97,9 +96,9 @@ namespace Ashita::FFXI
         combatskill_t Unused0006;
         combatskill_t Unused0007;
         combatskill_t Unused0008;
-        combatskill_t Unused0009;
-        combatskill_t Unused0010;
-        combatskill_t Unused0011;
+        combatskill_t AutomatonMelee;
+        combatskill_t AutomatonRanged;
+        combatskill_t AutomatonMagic;
         combatskill_t Archery;
         combatskill_t Marksmanship;
         combatskill_t Throwing;
@@ -119,10 +118,10 @@ namespace Ashita::FFXI
         combatskill_t String;
         combatskill_t Wind;
         combatskill_t BlueMagic;
-        combatskill_t Unused0012;
-        combatskill_t Unused0013;
-        combatskill_t Unused0014;
-        combatskill_t Unused0015;
+        combatskill_t Geomancy;
+        combatskill_t Handbell;
+        combatskill_t Unused0009;
+        combatskill_t Unused0010;
     };
 
     struct craftskills_t
@@ -138,19 +137,20 @@ namespace Ashita::FFXI
         craftskill_t Cooking;
         craftskill_t Synergy;
         craftskill_t Riding;
+        craftskill_t Digging;
         craftskill_t Unused0000;
         craftskill_t Unused0001;
         craftskill_t Unused0002;
         craftskill_t Unused0003;
-        craftskill_t Unused0004;
     };
 
     struct abilityrecast_t
     {
         uint16_t    Recast;         // The ability recast timer at the time of use.
-        uint8_t     Unknown0000;    // Unknown
+        uint8_t     RecastCalc1;    // Calculation related value when determining an abilities current charges and recast timer.
         uint8_t     TimerId;        // The ability recast timer id.
-        uint32_t    Unknown0001;    // Unknown
+        int16_t     RecastCalc2;    // Calculation related value when determining an abilities current charges and recast timer.
+        int16_t     Unknown0000;    // Unknown
     };
 
     struct mountrecast_t
@@ -183,6 +183,14 @@ namespace Ashita::FFXI
         jobpointentry_t Jobs[24];
     };
 
+    struct statusoffset_t
+    {
+        float X;
+        float Z;
+        float Y;
+        float W;
+    };
+
     struct player_t
     {
         uint32_t        HPMax;                                  // The players max health.
@@ -202,14 +210,14 @@ namespace Ashita::FFXI
         uint16_t        Rank;                                   // The players rank number.
         uint16_t        RankPoints;                             // The players rank points. [Two values packed.]
         uint16_t        Homepoint;                              // The players homepoint.
-        uint32_t        Unknown0000;                            // Unknown (Set from 0x61 packet. Offset: 0x4C)
+        uint32_t        Unknown0000;                            // Unknown (Set from 0x61 packet. Offset: 0x4C) [Potentially BindZoneNo.]
         uint8_t         Nation;                                 // The players nation id.
         uint8_t         Residence;                              // The players residence id.
         uint16_t        SuLevel;                                // The players Superior Equipment level.
         uint8_t         HighestItemLevel;                       // The players highest equipped item level.
         uint8_t         ItemLevel;                              // The players item level. (1 = 100, increases from there. -1 from what the value is in memory.)
         uint8_t         MainHandItemLevel;                      // The players main hand item level.
-        uint8_t         Unknown0001;                            // Unknown (Set from 0x61 packet. Offset: 0x57) [Never read, just set.]
+        uint8_t         RangedItemLevel;                        // The players ranged weapon item level.
         unityinfo_t     UnityInfo;                              // The players unity faction and points.
         uint16_t        UnityPartialPersonalEvalutionPoints;    // The players partial unity personal evaluation points.
         uint16_t        UnityPersonalEvaluationPoints;          // The players personal unity evaluation points.
@@ -217,7 +225,7 @@ namespace Ashita::FFXI
         uint8_t         MasteryJob;                             // The players set Mastery job id.
         uint8_t         MasteryJobLevel;                        // The players current Mastery job level.
         uint8_t         MasteryFlags;                           // Flags that control how the Mastery system works and displays information.
-        uint8_t         MasteryUnknown0000;                     // Unknown
+        uint8_t         MasteryUnknown0000;                     // Unknown [Potentially padding.]
         uint32_t        MasteryExp;                             // The players current Mastery job experience points.
         uint32_t        MasteryExpNeeded;                       // The players current Mastery job experience points needed to level. 
         combatskills_t  CombatSkills;                           // The players combat skills.
@@ -225,7 +233,7 @@ namespace Ashita::FFXI
         abilityrecast_t AbilityInfo[31];                        // The players ability recast information.
         mountrecast_t   MountRecast;                            // The players mount recast information.
         uint8_t         DataLoadedFlags;                        // Flags that control what player information has been populated. Controls text visiiblity in player menus, unity information, etc.
-        uint8_t         Unknown0002;                            // Unknown [Padding?]
+        uint8_t         Unknown0001;                            // Unknown [Potentially padding.]
         uint16_t        LimitPoints;                            // The players current limit points.
         uint16_t        MeritPoints: 7;                         // The players current merit points.
         uint16_t        AssimilationPoints: 6;                  // The players assimilation points.
@@ -233,34 +241,24 @@ namespace Ashita::FFXI
         uint16_t        IsExperiencePointsLocked: 1;            // Flag if the player has max experience points. (Also set to 1 if limit mode is enabled.)
         uint16_t        IsLimitModeEnabled: 1;                  // Flag if the player has limit mode enabled.
         uint8_t         MeritPointsMax;                         // The players max merits.
-        uint8_t         Unknown0003[3];                         // Unknown [Set with MeritPointsMax, looks to be just junk.]
-        uint16_t        Unknown0004;                            // Unknown (Set from 0x63 packet. Offset: 0x0C) [Never read, just set.]
+        uint8_t         Unknown0002[3];                         // Unknown [Set with MeritPointsMax, looks to be just junk.]
+        uint16_t        Unknown0003;                            // Unknown
         jobpointsinfo_t JobPoints;                              // The players current job point information.
         uint8_t         HomepointMasks[64];                     // The players known homepoints. [Bitpacked masks.]
         int16_t         StatusIcons[32];                        // The players status icons used for status timers.
         uint32_t        StatusTimers[32];                       // The players status timers.
-        uint8_t         Unknown0005[32];                        // Unknown [Set from 0x63 packet, case 0x0A.]
+        uint8_t         Unknown0004[32];                        // Unknown [Set from 0x63 packet, case 0x0A.]
         uint32_t        IsZoning;                               // Flag if the player is zoning and the client should send an 0x0C request.
-        float           Unknown0006;                            // Unknown [Client uses these when the player entity status is 29 or 30.]
-        float           Unknown0007;                            //
-        float           Unknown0008;                            //
-        uint32_t        Unknown0009;                            // Unknown [Padding?]
-        float           Unknown0010;                            // Unknown [Client uses these when the player entity status is 29 or 30.]
-        float           Unknown0011;                            // 
-        float           Unknown0012;                            // 
-        uint32_t        Unknown0013;                            // Unknown [Padding?]
-        float           Unknown0014;                            // Unknown [Client uses these when the player entity status is 26 or 27.]
-        float           Unknown0015;                            // 
-        float           Unknown0016;                            // 
-        uint32_t        Unknown0017;                            // Unknown [Padding?]
-        float           Unknown0018;                            // Unknown [Client uses these when the player entity status is 26 or 27.]
-        float           Unknown0019;                            // 
-        float           Unknown0020;                            // 
-        uint32_t        Unknown0021;                            // Unknown [Padding?]
-        uint32_t        Unknown0022;                            // Unknown [Set from 0x10E packet, casted to a double later in usages.]
-        uint32_t        Unknown0023;                            // Unknown
+        statusoffset_t  StatusOffset1;                          // Status based movement offsets.
+        statusoffset_t  StatusOffset2;                          // Status based movement offsets.
+        statusoffset_t  StatusOffset3;                          // Status based movement offsets.
+        statusoffset_t  StatusOffset4;                          // Status based movement offsets.
+        uint32_t        Unknown0005;                            // Unknown [Set from 0x10E packet, casted to a double later in usages.]
+        uint32_t        Unknown0006;                            // Unknown
         int16_t         Buffs[32];                              // The players current status effect icon ids.
     };
+
+    constexpr auto pos_ = offsetof(player_t, Buffs);
 
 } // namespace Ashita::FFXI
 

@@ -27,7 +27,6 @@
 #endif
 
 // clang-format off
-// ReSharper disable CppUnusedIncludeDirective
 
 #include <cinttypes>
 
@@ -35,30 +34,26 @@ namespace Ashita::FFXI
 {
     struct autofollow_t
     {
+        // CXiAttachment: XiControlActor::user_control_target
         uintptr_t       VTablePointer;          // The base VTable pointer.
         uint32_t        TargetIndex;            // The last targeted entities target index.
         uint32_t        TargetServerId;         // The last targeted entities server id.
         float           FollowDeltaX;           // The auto-run/auto-follow X delta.
         float           FollowDeltaZ;           // The auto-run/auto-follow Z delta.
         float           FollowDeltaY;           // The auto-run/auto-follow Y delta.
-        float           Unknown0000;            // Unknown [Set to 1 when you stop auto-following.]
+        float           FollowDeltaW;           // The auto-run/auto-follow W delta. [Generally set to 1.]
+
+        // CXiAttachment: XiControlActor::follow_actor
         uintptr_t       VTablePointer2;         // The base VTable pointer.
         uint32_t        FollowTargetIndex;      // The auto-follow follow target index.
         uint32_t        FollowTargetServerId;   // The auto-follow follow target server id.
         uint8_t         IsFirstPersonCamera;    // Flag if the camrea is in first person mode or node.
         uint8_t         IsAutoRunning;          // Flag if the player is auto-running / auto-following. (Or auto-running in a direction.)
-        uint16_t        Unknown0001;            // Padding
-        uint32_t        Unknown0002;            // Unknown [Set to 0 when messing with auto-follow.]
+        uint16_t        Padding0000;            // Padding
+        uint32_t        Unknown0000;            // Unknown [Set to 0 when auto-following and the delta x and z becomes 0.]
         uint8_t         IsCameraLocked;         // Set to 1 when the camera is locked forward. (When holding shift.)
         uint8_t         IsCameraLockedOn;       // Set to 1 when the camera is locked on to a target and is in third-person mode.
-        uint16_t        Unknown0003;            // Padding
-
-        /**
-         * Following the last unknown, there are three sets of coords stored. (XZY?)
-         * These do not appear to be used consistently enough to determine their purpose.
-         *
-         * Rest of the structure does not seem to contain any useful information.
-         */
+        uint16_t        Padding0001;            // Padding
     };
 
 } // namespace Ashita::FFXI
