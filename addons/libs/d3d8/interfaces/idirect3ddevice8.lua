@@ -558,7 +558,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             return self.lpVtbl.SetVertexShaderConstant(self, Register, pConstantData, ConstantCount);
         end,
         GetVertexShaderConstant = function (self, Register, ConstantCount)
-            local data  = ffi.new('float[?]', ConstantCount * 4 * 4);
+            local data  = ffi.new('float[?]', ConstantCount * 4);
             local res   = self.lpVtbl.GetVertexShaderConstant(self, Register, data, ConstantCount);
 
             return res, res == C.S_OK and data or nil;
@@ -621,7 +621,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
             return self.lpVtbl.SetPixelShaderConstant(self, Register, pConstantData, ConstantCount);
         end,
         GetPixelShaderConstant = function (self, Register, ConstantCount)
-            local data  = ffi.new('float[?]', ConstantCount * 4 * 4);
+            local data  = ffi.new('float[?]', ConstantCount * 4);
             local res   = self.lpVtbl.GetPixelShaderConstant(self, Register, data, ConstantCount);
 
             return res, res == C.S_OK and data or nil;
