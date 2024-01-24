@@ -21,7 +21,7 @@
 
 addon.name      = 'move';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Window helper to adjust position, size, border, etc.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -39,6 +39,7 @@ ffi.cdef[[
     BOOL AttachThreadInput(DWORD idAttach, DWORD idAttachTo, BOOL fAttach);
     BOOL GetClientRect(HWND hWnd, LPRECT lpRect);
     DWORD GetCurrentThreadId();
+    HWND GetForegroundWindow();
     BOOL GetWindowRect(HWND hWnd, LPRECT lpRect);
     LONG_PTR GetWindowLongA(HWND hWnd, int nIndex);
     DWORD GetWindowThreadProcessId(HWND hWnd, LPDWORD lpdwProcessId);
@@ -126,7 +127,7 @@ ashita.events.register('command', 'command_cb', function (e)
 
         ashita.tasks.oncef(1, function ()
             -- Get the current thread with input on the system..
-            local hWndCurr = ffi.cast('HWND', AshitaCore:GetForegroundWindow());
+            local hWndCurr = ffi.cast('HWND', C.GetForegroundWindow());
             local tThis = C.GetCurrentThreadId();
             local tCurr = C.GetWindowThreadProcessId(hWndCurr, nil);
 
