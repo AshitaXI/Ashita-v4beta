@@ -30,7 +30,13 @@ local chat = require('chat');
 
 -- Addon Variables
 local hideparty = {
-    show = 1,
+	show = 1,
+    elements = {
+		target = false,
+		party0 = false,
+		party1 = false,
+		party2 = false
+	},
     ptrs = {
       target = 0,
       party0 = 0,
@@ -56,7 +62,9 @@ local function print_help(isError)
         { '/hideparty', 'Toggles the party frames visibility.' },
         { '/hideparty help', 'Displays the addons help information.' },
         { '/hideparty (hide | h)', 'Sets the party frames to be hidden.' },
+		{ '/hideparty (hide | h) (target | party0 | party1 | party2)', 'Sets the chosen element to be hidden'},
         { '/hideparty (show | s)', 'Sets the party frames to be visible.' },
+		{ '/hideparty (show | s) (target | party0 | party1 | party2)', 'Sets the chosen element to be visible'}
     };
 
     -- Print the command list..
@@ -139,6 +147,10 @@ ashita.events.register('command', 'command_cb', function (e)
         hideparty.show = false;
         return;
     end
+	if (#args == 3 and args[2]:any('hide', 'h') and args[3]:any('target', 'party0', 'party1', 'party2')) then 
+		hideparty.elements[args[3]] = false
+		return
+	end
 
     -- Handle: /hideparty show - Shows the party frames.
     if (#args == 2 and args[2]:any('show', 's')) then
@@ -146,6 +158,10 @@ ashita.events.register('command', 'command_cb', function (e)
         return;
     end
 
+	if (#args == 3 and args[2]:any('show', 's') and args[3]:any('target', 'party0', 'party1', 'party2')) then 
+		hideparty.elements[args[3]] = true
+		return
+	end
     -- Unhandled: Print help information..
     print_help(true);
 end);
@@ -155,8 +171,8 @@ end);
 * desc : Event called when the Direct3D device is presenting a scene.
 --]]
 ashita.events.register('d3d_present', 'present_cb', function ()
-    set_primitive_visibility(hideparty.ptrs.party0, hideparty.show and 1 or 0);
-    set_primitive_visibility(hideparty.ptrs.party1, hideparty.show and 1 or 0);
-    set_primitive_visibility(hideparty.ptrs.party2, hideparty.show and 1 or 0);
-    set_primitive_visibility(hideparty.ptrs.target, hideparty.show and 1 or 0);
+    set_primitive_visibility(hideparty.ptrs.party0, (hideparty.show and hideparty.elements.party0) and 1 or 0);
+    set_primitive_visibility(hideparty.ptrs.party1, (hideparty.show and hideparty.elements.party1) and 1 or 0);
+    set_primitive_visibility(hideparty.ptrs.party2, (hideparty.show and hideparty.elements.party2) and 1 or 0);
+    set_primitive_visibility(hideparty.ptrs.target, (hideparty.show and hideparty.elements.target) and 1 or 0);
 end);
