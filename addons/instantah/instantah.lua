@@ -53,8 +53,7 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-instantah.gc = ffi.new('uint8_t*');
-ffi.gc(instantah.gc, function ()
+instantah.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (instantah.ptr ~= 0) then
         ashita.memory.write_uint8(instantah.ptr + 0x27, 0x74);
     end

@@ -65,8 +65,7 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-macrofix.gc = ffi.new('uint8_t*');
-ffi.gc(macrofix.gc, function ()
+macrofix.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     -- Restore patches to the found addresses..
     macrofix.ptrs:ieach(function (v)
         if (v.ptr ~= 0 and v.backup ~= nil and #v.backup > 0) then

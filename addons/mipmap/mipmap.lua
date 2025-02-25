@@ -63,8 +63,7 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-mipmap.gc = ffi.new('uint8_t*');
-ffi.gc(mipmap.gc, function ()
+mipmap.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (mipmap.ptr ~= 0 and mipmap.backup ~= nil) then
         ashita.memory.write_array(mipmap.ptr, mipmap.backup);
     end

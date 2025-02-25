@@ -53,8 +53,7 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-instantchat.gc = ffi.new('uint8_t*');
-ffi.gc(instantchat.gc, function ()
+instantchat.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (instantchat.ptr ~= 0) then
         ashita.memory.write_array(instantchat.ptr + 0x1F, { 0x83, 0xC0, 0x14 });
     end

@@ -96,8 +96,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-mapdot.gc = ffi.new('uint8_t*');
-ffi.gc(mapdot.gc, function ()
+mapdot.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (mapdot.ptr ~= 0 and #mapdot.backup > 0) then
         ashita.memory.write_array(mapdot.ptr + 0x34, mapdot.backup);
     end

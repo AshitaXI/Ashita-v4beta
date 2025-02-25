@@ -50,11 +50,9 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Garbage Collection Cleanup
-fastswap.gc = ffi.new('uint8_t*');
-ffi.gc(fastswap.gc, function ()
+fastswap.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (fastswap.ptr ~= 0) then
         ashita.memory.write_uint8(fastswap.ptr + 0x03, 0x00);
     end
     fastswap.ptr = 0;
 end);
-

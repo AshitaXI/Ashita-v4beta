@@ -125,8 +125,7 @@ ashita.events.register('command', 'command_cb', function (e)
 end);
 
 -- Memory patching cleanup when addon is unloaded..
-nomad.gc = ffi.new('uint8_t*');
-ffi.gc(nomad.gc, function ()
+nomad.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     -- Validate a pointer was found..
     if (nomad.ptr_1 == 0) then
         return;

@@ -93,8 +93,7 @@ ashita.events.register('command', 'command_cb', function (e)
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-ahgo.gc = ffi.new('uint8_t*');
-ffi.gc(ahgo.gc, function ()
+ahgo.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (ahgo.auction.ptr ~= 0) then
         ashita.memory.write_uint8(ahgo.auction.ptr, ahgo.auction.backup);
     end

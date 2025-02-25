@@ -463,8 +463,7 @@ end
 *   To prevent primitives from being left on-screen if an addon crashes, we abuse FFI's gc handling to help ensure things
 *   created by the primlib are cleaned up. (Ashita does not invoke unload events on addons that error out.)
 --]]
-primlib.cache_gc = ffi.new('uint8_t*');
-ffi.gc(primlib.cache_gc, function ()
+primlib.cache_gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (primlib == nil or primlib.cache == nil) then
         return;
     end

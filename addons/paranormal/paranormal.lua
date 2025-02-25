@@ -21,7 +21,7 @@
 
 addon.name      = 'paranormal';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables the use of [nearly] any game command while dead/unconscious.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -76,8 +76,7 @@ ashita.events.register('load', 'load_cb', function ()
 end);
 
 -- Create a cleanup object to restore the pointers when the addon is unloaded..
-paranormal.gc = ffi.new('uint8_t*');
-ffi.gc(paranormal.gc, function ()
+paranormal.gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (paranormal.ptr == 0) then
         return;
     end

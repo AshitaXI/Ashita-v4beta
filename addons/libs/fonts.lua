@@ -668,8 +668,7 @@ end
 *   To prevent fonts from being left on-screen if an addon crashes, we abuse FFI's gc handling to help ensure things
 *   created by the fontlib are cleaned up. (Ashita does not invoke unload events on addons that error out.)
 --]]
-fontlib.cache_gc = ffi.new('uint8_t*');
-ffi.gc(fontlib.cache_gc, function ()
+fontlib.cache_gc = ffi.gc(ffi.cast('uint8_t*', 0), function ()
     if (fontlib == nil or fontlib.cache == nil) then
         return;
     end
