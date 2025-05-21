@@ -37,6 +37,7 @@ local default_settings = T{
         font_family = 'Arial',
         font_height = 12,
         color = 0xFFFF0000,
+        bold = false,
         position_x = 1,
         position_y = 1,
     },
@@ -100,6 +101,7 @@ local function print_help(isError)
         { '/fps (reload | rl)', 'Reloads the addons settings from disk.' },
         { '/fps reset', 'Resets the addons settings to default.' },
         { '/fps font <family> <height>', 'Sets the fps font family and height.' },
+        { '/fps bold', 'Toggles bold font' },
         { '/fps (position | pos) <x> <y>', 'Sets the fps font position.' },
         { '/fps (color | col) <a> <r> <g> <b>', 'Sets the fps font color.' },
         { '/fps <divisor>', 'Sets the fps divisor. (1 = 60fps, 2 = 30fps, etc.)' },
@@ -187,6 +189,12 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args == 4 and args[2]:any('font')) then
         fps.settings.font.font_family = args[3];
         fps.settings.font.font_height = args[4]:number_or(12);
+        update_settings();
+        return;
+    end
+
+    if (#args == 2 and args[2]:any('bold')) then
+        fps.settings.font.bold = not fps.settings.font.bold;
         update_settings();
         return;
     end
