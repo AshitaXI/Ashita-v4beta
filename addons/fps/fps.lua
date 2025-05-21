@@ -193,6 +193,7 @@ ashita.events.register('command', 'command_cb', function (e)
         return;
     end
 
+    -- Handle: /fps bold - Toggles bold font on/off.
     if (#args == 2 and args[2]:any('bold')) then
         fps.settings.font.bold = not fps.settings.font.bold;
         update_settings();
