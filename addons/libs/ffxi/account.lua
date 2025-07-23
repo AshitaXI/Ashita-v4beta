@@ -101,7 +101,7 @@ if (not accountlib.ptrs:all(function (v) return v ~= nil and v ~= 0; end)) then
 end
 
 --[[
-* Returns the pointer to the start of the 'pGcMainSys->work.character_info[]'' array.
+* Returns the pointer to the start of the 'pGcMainSys->work.character_info[]' array.
 *
 * @return {number} The base pointer.
 --]]
@@ -114,6 +114,22 @@ local function get_base_address()
     end
 
     return ashita.memory.read_uint32(ptr) + off;
+end
+
+--[[
+* Returns the number of entries in the 'pGcMainSys->work.character_info[]' array.
+*
+* @return {number} The base pointer.
+--]]
+accountlib.get_character_count = function ()
+    local ptr = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x02);
+    local off = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x0C);
+
+    if (ptr == 0 or off == 0) then
+        return 0;
+    end
+
+    return ashita.memory.read_uint32(ashita.memory.read_uint32(ptr) + off - 4);
 end
 
 --[[
