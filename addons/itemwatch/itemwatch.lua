@@ -21,7 +21,7 @@
 
 addon.name      = 'itemwatch';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Tracks and monitors items and key items on screen.';
 addon.link      = 'https://ashitaxi.com/';
 
