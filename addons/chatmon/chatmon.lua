@@ -21,7 +21,7 @@
 
 addon.name      = 'chatmon';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Plays sounds as a reaction to certain events in chat. (And some other helpful events.)';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -246,7 +246,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         -- Left Side (Many whelps, handle it!!)
         imgui.BeginGroup();
             imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'ChatMon Rulesets');
-            imgui.BeginChild('leftpane', { 200, -imgui.GetFrameHeightWithSpacing(), }, true);
+            imgui.BeginChild('leftpane', { 200, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
                 local index = 1;
                 chatmon.rules:each(function (v)
                     if (imgui.Selectable(v.name, chatmon.editor.selected[1] == index)) then
@@ -261,7 +261,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         -- Right Side (Key Item Lookup Editor)
         imgui.BeginGroup();
             imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Ruleset Configurations');
-            imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, true);
+            imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
                 if (chatmon.editor.selected[1] == -1) then
                     imgui.TextColored({ 1.0, 1.0, 0.0, 1.0 }, '<< Select a ruleset from the left.');
                 else
