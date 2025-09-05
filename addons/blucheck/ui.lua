@@ -363,7 +363,7 @@ function ui.render_tab_spells()
     -- Left Side (Many whelps, handle it!!)
     imgui.BeginGroup();
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Blue Mage Spells');
-        imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, true);
+        imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             local index = 1;
             ui.spells:each(function (v, k)
                 if (v.known) then
@@ -398,7 +398,7 @@ function ui.render_tab_spells()
     -- Right Side (Key Item Lookup Editor)
     imgui.BeginGroup();
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Spell Information');
-        imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, true);
+        imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             ui.render_spell_info(ui.spells, ui.tab_spells.selected[1]);
         imgui.EndChild();
     imgui.EndGroup();
@@ -411,7 +411,7 @@ function ui.render_tab_zonehelper()
     -- Left Side (Many whelps, handle it!!)
     imgui.BeginGroup();
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Zone Spells');
-        imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, true);
+        imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             local index = 1;
             ui.zone:each(function (v, k)
                 if (v.known) then
@@ -446,7 +446,7 @@ function ui.render_tab_zonehelper()
     -- Right Side (Key Item Lookup Editor)
     imgui.BeginGroup();
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Spell Information');
-        imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, true);
+        imgui.BeginChild('rightpane', { 0, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             ui.render_spell_info(ui.zone, ui.tab_zonehelper.selected[1]);
         imgui.EndChild();
     imgui.EndGroup();

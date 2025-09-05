@@ -21,7 +21,7 @@
 
 addon.name      = 'blucheck';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Helper addon to assist with tracking learned BLU spells with an in-game UI.';
 addon.link      = 'https://ashitaxi.com/';
 
