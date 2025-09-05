@@ -21,7 +21,7 @@
 
 addon.name      = 'renamer';
 addon.author    = 'atom0s & Teotwawki';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Renames entities with overrides.';
 addon.link      = 'https://ashitaxi.com/';
 
