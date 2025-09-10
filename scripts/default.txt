@@ -37,7 +37,7 @@
 
 /bind insert /ashita
 /bind SYSRQ /screenshot hide
-/bind ^v /paste
+/bind $^v /paste
 /bind F11 /ambient
 /bind F12 /fps
 /bind ^F1 /ta <a10>

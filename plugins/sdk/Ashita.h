@@ -1,5 +1,5 @@
 /**
- * Ashita SDK - Copyright (c) 2023 Ashita Development Team
+ * Ashita SDK - Copyright (c) 2025 Ashita Development Team
  * Contact: https://www.ashitaxi.com/
  * Contact: https://discord.gg/Ashita
  *
@@ -1336,10 +1336,10 @@ struct IController
 struct IKeyboard
 {
     // Methods (Keybinds)
-    virtual void Bind(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win, const char* command) = 0;
-    virtual void Unbind(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win)                    = 0;
-    virtual void UnbindAll(void)                                                                                          = 0;
-    virtual bool IsBound(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win)                   = 0;
+    virtual void Bind(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win, bool requireInputClosed, bool requireInputOpened, const char* command) = 0;
+    virtual void Unbind(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win, bool requireInputClosed, bool requireInputOpened)                    = 0;
+    virtual void UnbindAll(void)                                                                                                                                            = 0;
+    virtual bool IsBound(uint32_t key, bool down, bool alt, bool apps, bool ctrl, bool shift, bool win, bool requireInputClosed, bool requireInputOpened)                   = 0;
 
     // Methods (Callbacks)
     virtual void AddCallback(const char* alias, const getdevicedatacallback_f& datacb, const getdevicestatecallback_f& statecb, const keyboardcallback_f& keyboardcb) = 0;
