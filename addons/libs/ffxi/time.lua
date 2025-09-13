@@ -24,6 +24,7 @@ require 'win32types';
 
 local chat  = require 'chat';
 local ffi   = require 'ffi';
+local jit   = require 'jit';
 
 ffi.cdef[[
     typedef struct {
@@ -88,6 +89,7 @@ end
 timelib.game_time_diff = function (time)
     return ffi.cast('ntGameTimeDiff_f', timelib.ptrs.time_diff)(time);
 end
+jit.off(timelib.game_time_diff);
 
 --[[
 * Returns the current raw game timestamp.
@@ -97,6 +99,7 @@ end
 timelib.get_game_time_raw = function ()
     return ffi.cast('ntGameTimeGet_f', timelib.ptrs.game_time)();
 end
+jit.off(timelib.get_game_time_raw);
 
 --[[
 * Returns the current epoch timestamp. (UTC)
@@ -106,6 +109,7 @@ end
 timelib.get_unix_timestamp = function ()
     return ffi.cast('xiGetTime_f', timelib.ptrs.world_time)();
 end
+jit.off(timelib.get_unix_timestamp);
 
 --[[
 * Returns the local time struct from the given epoch timestamp.
@@ -123,6 +127,7 @@ timelib.get_local_time = function (time)
 
     return tm;
 end
+jit.off(timelib.get_local_time);
 
 --[[
 * Returns the current Vana'diel week day.
@@ -134,6 +139,7 @@ timelib.get_game_weekday = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.weekday)(time);
 end
+jit.off(timelib.get_game_weekday);
 
 --[[
 * Returns the current Vana'diel day.
@@ -145,6 +151,7 @@ timelib.get_game_day = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.day)(time) + 1;
 end
+jit.off(timelib.get_game_day);
 
 --[[
 * Returns the current Vana'diel month.
@@ -156,6 +163,7 @@ timelib.get_game_month = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.month)(time) + 1;
 end
+jit.off(timelib.get_game_month);
 
 --[[
 * Returns the current Vana'diel year.
@@ -167,6 +175,7 @@ timelib.get_game_year = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.year)(time) + 886;
 end
+jit.off(timelib.get_game_year);
 
 --[[
 * Returns the current Vana'diel minutes.
@@ -178,6 +187,7 @@ timelib.get_game_minutes = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.minutes)(time);
 end
+jit.off(timelib.get_game_minutes);
 
 --[[
 * Returns the current Vana'diel hours.
@@ -189,6 +199,7 @@ timelib.get_game_hours = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.hours)(time);
 end
+jit.off(timelib.get_game_hours);
 
 --[[
 * Returns the current Vana'diel moon phase.
@@ -200,6 +211,7 @@ timelib.get_game_moon_phase = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.moon)(time);
 end
+jit.off(timelib.get_game_moon_phase);
 
 --[[
 * Returns the current Vana'diel moon percent.
@@ -211,6 +223,7 @@ timelib.get_game_moon_percent = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.moon_percent)(time);
 end
+jit.off(timelib.get_game_moon_percent);
 
 --[[
 * Returns a formatted time string using the given timestamp.
@@ -226,6 +239,7 @@ timelib.get_time_string = function (time, flags)
     end
     return ffi.string(str);
 end
+jit.off(timelib.get_time_string);
 
 --[[
 * Returns the proper calculated status timer value from its raw value.
@@ -240,5 +254,6 @@ timelib.get_calculated_status_time = function (raw_time)
 
     return tonumber(timelib.temp.nums[2]);
 end
+jit.off(timelib.get_calculated_status_time);
 
 return timelib;
