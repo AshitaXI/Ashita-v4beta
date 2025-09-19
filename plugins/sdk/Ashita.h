@@ -810,6 +810,7 @@ struct IEntity
     virtual int16_t GetFishingRodCastTime(uint32_t index) const                     = 0;
     virtual int16_t GetFishingUnknown0002(uint32_t index) const                     = 0;
     virtual uint32_t GetLastActionId(uint32_t index) const                          = 0;
+    virtual uint32_t GetMogMotionId(uint32_t index) const                           = 0;
     virtual uintptr_t GetLastActionActorPointer(uint32_t index) const               = 0;
     virtual uint16_t GetTargetedIndex(uint32_t index) const                         = 0;
     virtual uint16_t GetPetTargetIndex(uint32_t index) const                        = 0;
@@ -945,6 +946,7 @@ struct IEntity
     virtual void SetFishingRodCastTime(uint32_t index, int16_t time) const                           = 0;
     virtual void SetFishingUnknown0002(uint32_t index, int16_t unknown) const                        = 0;
     virtual void SetLastActionId(uint32_t index, uint32_t action) const                              = 0;
+    virtual void SetMogMotionId(uint32_t index, uint32_t id) const                                   = 0;
     virtual void SetLastActionActorPointer(uint32_t index, uintptr_t pointer) const                  = 0;
     virtual void SetTargetedIndex(uint32_t index, uint16_t targetIndex) const                        = 0;
     virtual void SetPetTargetIndex(uint32_t index, uint16_t targetIndex) const                       = 0;
@@ -1060,6 +1062,7 @@ struct IParty
     virtual int8_t GetAlliancePartyMemberCount2(void) const      = 0;
     virtual int8_t GetAlliancePartyMemberCount3(void) const      = 0;
     virtual int8_t GetAllianceInvited(void) const                = 0;
+    virtual int8_t GetAllianceInviteParty(void) const            = 0;
 
     // Get Properties (Party Members)
     virtual uint8_t GetMemberIndex(uint32_t index) const                       = 0;
@@ -1085,6 +1088,8 @@ struct IParty
     virtual uint8_t GetMemberMainJobLevel(uint32_t index) const                = 0;
     virtual uint8_t GetMemberSubJob(uint32_t index) const                      = 0;
     virtual uint8_t GetMemberSubJobLevel(uint32_t index) const                 = 0;
+    virtual uint8_t GetMemberMasterLevel(uint32_t index) const                 = 0;
+    virtual uint8_t GetMemberMasterBreaker(uint32_t index) const               = 0;
     virtual uint32_t GetMemberServerId2(uint32_t index) const                  = 0;
     virtual uint8_t GetMemberHPPercent2(uint32_t index) const                  = 0;
     virtual uint8_t GetMemberMPPercent2(uint32_t index) const                  = 0;
@@ -1146,7 +1151,6 @@ struct IPlayer
     virtual uint8_t GetMasteryJob(void) const                              = 0;
     virtual uint8_t GetMasteryJobLevel(void) const                         = 0;
     virtual uint8_t GetMasteryFlags(void) const                            = 0;
-    virtual uint8_t GetMasteryUnknown0000(void) const                      = 0;
     virtual uint32_t GetMasteryExp(void) const                             = 0;
     virtual uint32_t GetMasteryExpNeeded(void) const                       = 0;
     virtual Ashita::FFXI::combatskill_t GetCombatSkill(uint32_t sid) const = 0;
@@ -1183,6 +1187,7 @@ struct IPlayer
     virtual float GetStatusOffset4Z(void) const                            = 0;
     virtual float GetStatusOffset4Y(void) const                            = 0;
     virtual float GetStatusOffset4W(void) const                            = 0;
+    virtual uint32_t GetSubMapNum(void) const                              = 0;
 
     // Get Properties (Job Points)
     virtual uint16_t GetCapacityPoints(uint32_t jobid) const = 0;
@@ -1261,6 +1266,7 @@ struct ITarget
     virtual uint8_t GetIsPlayerMoving(void) const        = 0;
     virtual uint32_t GetLockedOnFlags(void) const        = 0;
     virtual uint32_t GetSubTargetFlags(void) const       = 0;
+    virtual uint32_t GetOldNotice(void) const            = 0;
     virtual uint16_t GetDefaultMode(void) const          = 0;
     virtual uint16_t GetMenuTargetLock(void) const       = 0;
     virtual uint8_t GetActionTargetActive(void) const    = 0;

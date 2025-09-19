@@ -50,9 +50,9 @@ namespace Ashita::FFXI::Configurations
         uint32_t    IsEnbled;                   // Flag if the auto-disconnect feature is enabled or disabled.
         uint32_t    NextIdleTimeout;            // The next timestamp when the client will auto-disconnect, updated each time there is input to the client. (GetTickCount + the timeout setting offset in milliseconds.)
         uint32_t    Timeout;                    // The idle timeout setting that is currently selected. (In milliseconds.)
-        uint32_t    Unknown0000;                // Unknown [Callback function for unknown purpose.]
-        uint32_t    Unknown0001;                // Unknown [Callback function for unknown purpose.]
-        uint32_t    Unknown0002;                // Unknown [Callback function for unknown purpose.]
+        uint32_t    unknown000C;                // Unknown. [Callback function for unknown purpose.]
+        uint32_t    unknown0010;                // Unknown. [Callback function for unknown purpose.]
+        uint32_t    unknown0014;                // Unknown. [Callback function for unknown purpose.]
     };
 
     /**
@@ -69,6 +69,9 @@ namespace Ashita::FFXI::Configurations
         uintptr_t   VulgarDictionaryPointer2;   // Pointer to the vulgar dictionary lookup tables. (Copy. Null when disabled.)
         uint32_t    Vulgar2DictionarySize;      // Size of the vulgar2.dic file.
     };
+    
+    static_assert(sizeof(autodisconnect_t) == 24, "Invalid 'autodisconnect_t' structure size detected!");
+    static_assert(sizeof(chatlanguagefilter_t) == 20, "Invalid 'chatlanguagefilter_t' structure size detected!");
 
 } // namespace Ashita::FFXI::Configurations
 

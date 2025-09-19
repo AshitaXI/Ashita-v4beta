@@ -76,7 +76,7 @@ namespace Ashita::FFXI
     {
         uint32_t            Slot;                       // The items equipment slot id. [Defaults to 0x10 when unused.]
         uint16_t            ItemId;                     // The items id.
-        uint16_t            Unknown0000;                // Unknown (Padding?)
+        uint16_t            padding0006;                // Padding.
         uint8_t             Extra[28];                  // The item extra data. (Augments, charges, timers, etc.)
     };
 
@@ -85,7 +85,7 @@ namespace Ashita::FFXI
         items_t             Containers[(uint32_t)Enums::Container::Max];                // Containers holding the players various items.
         uint32_t            iLookItem;                                                  //
         uintptr_t           pItem;                                                      //
-        uint8_t             Unknown0000[0x0214];                                        // Unknown [GC_ITEM_TRADE structure.]
+        uint8_t             unknownFAA0[0x0214];                                        // Unknown [GC_ITEM_TRADE structure.]
         treasureitem_t      TreasurePool[0x000A];                                       // The treasure pool container items.
         uint32_t            TreasurePoolStatus;                                         // Flag that is set stating the status of the treasure pool. (0 = Loading, 1 = Loaded, 2 = Emptied)
         uint8_t             TreasurePoolItemCount;                                      // The number of items currently in the treasure pool.
@@ -109,7 +109,7 @@ namespace Ashita::FFXI
         uint8_t             CheckMainJob2;                                              // The main job id of the entity being checked. (Duplicate.)
         uint8_t             CheckMasteryLevel;                                          // The mastery level of the entity being checked.
         uint8_t             CheckMasteryFlags;                                          // The mastery flags of the entity being checked.
-        uint8_t             Unknown0001;                                                // Unknown (Padding.)
+        uint8_t             padding104C7;                                               // Padding.
         uint8_t             CheckLinkshellName[0x10];                                   // The linkshell name of the entity being checked.. (Encoded.)
         uint16_t            CheckLinkshellColor;                                        // The linkshell color of the entity being checked.. (Raw bitpacked color.)
         uint8_t             CheckLinkshellIconSetId;                                    // The linkshell icon set id of the entity being checked.
@@ -124,6 +124,13 @@ namespace Ashita::FFXI
         uint32_t            CraftTimestampResponse;                                     // The timestamp when the previous craft attempt received a response. (If any.)
         uint32_t            CraftTimestampAttempt;                                      // The timestamp when an attempt was made to craft something.
     };
+    
+    static_assert(sizeof(item_t) == 44, "Invalid 'item_t' structure size detected!");
+    static_assert(sizeof(items_t) == 3564, "Invalid 'items_t' structure size detected!");
+    static_assert(sizeof(treasureitem_t) == 88, "Invalid 'treasureitem_t' structure size detected!");
+    static_assert(sizeof(equipmententry_t) == 8, "Invalid 'equipmententry_t' structure size detected!");
+    static_assert(sizeof(itemcheck_t) == 36, "Invalid 'itemcheck_t' structure size detected!");
+    static_assert(sizeof(inventory_t) == 66940, "Invalid 'inventory_t' structure size detected!");
 
 } // namespace Ashita::FFXI
 

@@ -85,15 +85,19 @@ namespace Ashita::FFXI::Enums
 
     enum class EntitySpawnFlags : uint32_t
     {
-        Player         = 0x0001,
-        Npc            = 0x0002,
-        PartyMember    = 0x0004,
-        AllianceMember = 0x0008,
-        Monster        = 0x0010,
-        Object         = 0x0020,
-        Elevator       = 0x0040,
-        Airship        = 0x0080,
-        LocalPlayer    = 0x0200
+        Player         = (1 << 0),  // 0x0001
+        Npc            = (1 << 1),  // 0x0002
+        PartyMember    = (1 << 2),  // 0x0004
+        AllianceMember = (1 << 3),  // 0x0008
+        Monster        = (1 << 4),  // 0x0010
+        Object         = (1 << 5),  // 0x0020
+        Elevator       = (1 << 6),  // 0x0040
+        Airship        = (1 << 7),  // 0x0080
+        Ally           = (1 << 8),  // 0x0100
+        LocalPlayer    = (1 << 9),  // 0x0200
+        Bit10          = (1 << 10), // 0x0400
+        Fellow         = (1 << 11), // 0x0800
+        Trust          = (1 << 12), // 0x1000
     };
 
     enum class EntityType : uint32_t
@@ -103,7 +107,10 @@ namespace Ashita::FFXI::Enums
         Npc2     = 2, // NPC Entity (Home Points, Moogles, Coffers, Town Folk, etc.)
         Npc3     = 3, // NPC Entity (Doors, Lights, Unique Objects, Bridges, etc.)
         Elevator = 4, // Elevators
-        Airship  = 5  // Airships and Boats
+        Airship  = 5, // Airships, Boats, Certain Plants
+        Unknown6 = 6, // Unknown (6)
+        Unknown7 = 7, // Unknown (7) [Cutscene Fixed Model Objects]
+        Unknown8 = 8, // Unknown (8) [Cutscene Chocobos]
     };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +139,7 @@ namespace Ashita::FFXI::Enums
         Wardrobe7,
         Wardrobe8,
         Recycle,
+
         Max
     };
 

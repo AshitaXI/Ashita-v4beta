@@ -32,6 +32,7 @@
 
 namespace Ashita::FFXI
 {
+    // PS2: _YK_PARTY_INFO
     struct allianceinfo_t
     {
         uint32_t    AllianceLeaderServerId; // The player server id of the overall alliance leader.
@@ -45,9 +46,10 @@ namespace Ashita::FFXI
         int8_t      PartyMemberCount2;      // The party member count of the top alliance party.
         int8_t      PartyMemberCount3;      // The party member count of the middle alliance party.
         int8_t      Invited;                // Flag stating if there is a pending invite.
-        int8_t      Unknown0000;            // Unknown
+        int8_t      InviteParty;            // Flag stating if there is a pending invite.
     };
 
+    // PS2: _YK_PARTY_DATA
     struct partymember_t
     {
         uintptr_t   AllianceInfo;           // Pointer to information regarding the party alliance.
@@ -64,7 +66,7 @@ namespace Ashita::FFXI
         uint8_t     MPPercent;              // The party members current mana percent.
         uint16_t    Zone;                   // The party members current zone id.
         uint16_t    Zone2;                  // The party members current zone id. (Duplicate, only used if the member is in a different zone that the local player. 0 otherwise.)
-        uint16_t    Unknown0000;            // Unknown (Usually 0, 4 when in party with a trust.)
+        uint16_t    unknown0036;            // Unknown. (Usually 0, 4 when in party with a trust.)
         uint32_t    FlagMask;               // The party members flag mask.
         uint16_t    TreasureLots[10];       // The party members lots.
         uint16_t    MonstrosityItemId;      // The party members monstrosity item id, if set. (Offset the id by 0x7000)
@@ -75,14 +77,17 @@ namespace Ashita::FFXI
         uint8_t     MainJobLevel;           // The party members main job level.
         uint8_t     SubJob;                 // The party members sub job id.
         uint8_t     SubJobLevel;            // The party members sub job level.
-        uint8_t     Unknown0001[3];         // Unknown
+        uint8_t     MasterLevel;            // The party members master job level.
+        uint8_t     MasterBreaker;          // The party members master breaking flag.
+        uint8_t     unknown0073;            // Unknown.
         uint32_t    ServerId2;              // The party members server id. (Duplicate.)
         uint8_t     HPPercent2;             // The party members current health percent. (Duplicate)
         uint8_t     MPPercent2;             // The party members current mana percent. (Duplicate)
         uint8_t     IsActive;               // The party members active state. (1 is active, 0 not active.)
-        uint8_t     Unknown0002;            // Unknown (Alignment padding.)
+        uint8_t     padding007B;            // Padding.
     };
 
+    // PS2: m_data
     struct party_t
     {
         partymember_t Members[18];          // The party members.
@@ -100,6 +105,12 @@ namespace Ashita::FFXI
     {
         statusiconsentry_t Members[5];      // The local party members status icon entries.
     };
+    
+    static_assert(sizeof(allianceinfo_t) == 24, "Invalid 'allianceinfo_t' structure size detected!");
+    static_assert(sizeof(partymember_t) == 124, "Invalid 'partymember_t' structure size detected!");
+    static_assert(sizeof(party_t) == 2232, "Invalid 'party_t' structure size detected!");
+    static_assert(sizeof(statusiconsentry_t) == 48, "Invalid 'statusiconsentry_t' structure size detected!");
+    static_assert(sizeof(partystatusicons_t) == 240, "Invalid 'partystatusicons_t' structure size detected!");
 
 } // namespace Ashita::FFXI
 

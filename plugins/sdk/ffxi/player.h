@@ -150,7 +150,7 @@ namespace Ashita::FFXI
         uint8_t     RecastCalc1;    // Calculation related value when determining an abilities current charges and recast timer.
         uint8_t     TimerId;        // The ability recast timer id.
         int16_t     RecastCalc2;    // Calculation related value when determining an abilities current charges and recast timer.
-        int16_t     Unknown0000;    // Unknown
+        int16_t     unknown0006;    // Unknown.
     };
 
     struct mountrecast_t
@@ -164,9 +164,10 @@ namespace Ashita::FFXI
         uint32_t Raw;
         struct
         {
-            uint32_t Faction : 4;
-            uint32_t Unknown : 6;
-            uint32_t Points : 22;
+            uint32_t Faction : 5;
+            uint32_t Unknown : 5;
+            uint32_t Points  : 17;
+            uint32_t unused  : 5;
         } Bits;
     };
 
@@ -179,7 +180,8 @@ namespace Ashita::FFXI
 
     struct jobpointsinfo_t
     {
-        uint32_t        Unknown0000;
+        uint8_t         Flags;
+        uint8_t         unknown0001[3];
         jobpointentry_t Jobs[24];
     };
 
@@ -191,6 +193,7 @@ namespace Ashita::FFXI
         float W;
     };
 
+    // PS2: STATUS_DATA
     struct player_t
     {
         uint32_t        HPMax;                                  // The players max health.
@@ -208,14 +211,14 @@ namespace Ashita::FFXI
         playerresists_t Resists;                                // The players elemental resists.
         uint16_t        Title;                                  // The players title id.
         uint16_t        Rank;                                   // The players rank number.
-        uint16_t        RankPoints;                             // The players rank points. [Two values packed.]
+        uint16_t        RankPoints;                             // The players rank points.
         uint16_t        Homepoint;                              // The players homepoint.
-        uint32_t        Unknown0000;                            // Unknown (Set from 0x61 packet. Offset: 0x4C) [Potentially BindZoneNo.]
+        uint32_t        MonsterBuster;                          // Unknown.
         uint8_t         Nation;                                 // The players nation id.
         uint8_t         Residence;                              // The players residence id.
-        uint16_t        SuLevel;                                // The players Superior Equipment level.
+        uint16_t        SuLevel;                                // The players Superior Equipment level. [Only the low byte of this value is used.]
         uint8_t         HighestItemLevel;                       // The players highest equipped item level.
-        uint8_t         ItemLevel;                              // The players item level. (1 = 100, increases from there. -1 from what the value is in memory.)
+        uint8_t         ItemLevel;                              // The players item level. [The client adds 99 to this value.]
         uint8_t         MainHandItemLevel;                      // The players main hand item level.
         uint8_t         RangedItemLevel;                        // The players ranged weapon item level.
         unityinfo_t     UnityInfo;                              // The players unity faction and points.
@@ -225,7 +228,7 @@ namespace Ashita::FFXI
         uint8_t         MasteryJob;                             // The players set Mastery job id.
         uint8_t         MasteryJobLevel;                        // The players current Mastery job level.
         uint8_t         MasteryFlags;                           // Flags that control how the Mastery system works and displays information.
-        uint8_t         MasteryUnknown0000;                     // Unknown [Potentially padding.]
+        uint8_t         padding0063;                            // Padding.
         uint32_t        MasteryExp;                             // The players current Mastery job experience points.
         uint32_t        MasteryExpNeeded;                       // The players current Mastery job experience points needed to level. 
         combatskills_t  CombatSkills;                           // The players combat skills.
@@ -233,7 +236,7 @@ namespace Ashita::FFXI
         abilityrecast_t AbilityInfo[31];                        // The players ability recast information.
         mountrecast_t   MountRecast;                            // The players mount recast information.
         uint8_t         DataLoadedFlags;                        // Flags that control what player information has been populated. Controls text visiiblity in player menus, unity information, etc.
-        uint8_t         Unknown0001;                            // Unknown [Potentially padding.]
+        uint8_t         padding01ED;                            // Padding.
         uint16_t        LimitPoints;                            // The players current limit points.
         uint16_t        MeritPoints: 7;                         // The players current merit points.
         uint16_t        AssimilationPoints: 6;                  // The players assimilation points.
@@ -241,24 +244,36 @@ namespace Ashita::FFXI
         uint16_t        IsExperiencePointsLocked: 1;            // Flag if the player has max experience points. (Also set to 1 if limit mode is enabled.)
         uint16_t        IsLimitModeEnabled: 1;                  // Flag if the player has limit mode enabled.
         uint8_t         MeritPointsMax;                         // The players max merits.
-        uint8_t         Unknown0002[3];                         // Unknown [Set with MeritPointsMax, looks to be just junk.]
-        uint16_t        Unknown0003;                            // Unknown
+        uint8_t         unknown01F3[3];                         // Unknown. [Set with MeritPointsMax, looks to be just junk.]
+        uint16_t        padding01F6;                            // Padding.
         jobpointsinfo_t JobPoints;                              // The players current job point information.
         uint8_t         HomepointMasks[64];                     // The players known homepoints. [Bitpacked masks.]
         int16_t         StatusIcons[32];                        // The players status icons used for status timers.
         uint32_t        StatusTimers[32];                       // The players status timers.
-        uint8_t         Unknown0004[32];                        // Unknown [Set from 0x63 packet, case 0x0A.]
+        uint8_t         unknown038C[32];                        // Unknown. [Set from 0x63 packet, case 0x0A.]
         uint32_t        IsZoning;                               // Flag if the player is zoning and the client should send an 0x0C request.
         statusoffset_t  StatusOffset1;                          // Status based movement offsets.
         statusoffset_t  StatusOffset2;                          // Status based movement offsets.
         statusoffset_t  StatusOffset3;                          // Status based movement offsets.
         statusoffset_t  StatusOffset4;                          // Status based movement offsets.
-        uint32_t        Unknown0005;                            // Unknown [Set from 0x10E packet, casted to a double later in usages.]
-        uint32_t        Unknown0006;                            // Unknown
+        uint32_t        SubMapNum;                              // The players submap number.
+        uint32_t        unknown03F4;                            // Unknown.
         int16_t         Buffs[32];                              // The players current status effect icon ids.
     };
 
-    constexpr auto pos_ = offsetof(player_t, Buffs);
+    static_assert(sizeof(playerstats_t) == 14, "Invalid 'playerstats_t' structure size detected!");
+    static_assert(sizeof(playerresists_t) == 16, "Invalid 'playerresists_t' structure size detected!");
+    static_assert(sizeof(combatskill_t) == 2, "Invalid 'combatskill_t' structure size detected!");
+    static_assert(sizeof(craftskill_t) == 2, "Invalid 'craftskill_t' structure size detected!");
+    static_assert(sizeof(combatskills_t) == 96, "Invalid 'combatskills_t' structure size detected!");
+    static_assert(sizeof(craftskills_t) == 32, "Invalid 'craftskills_t' structure size detected!");
+    static_assert(sizeof(abilityrecast_t) == 8, "Invalid 'abilityrecast_t' structure size detected!");
+    static_assert(sizeof(mountrecast_t) == 8, "Invalid 'mountrecast_t' structure size detected!");
+    static_assert(sizeof(unityinfo_t) == 4, "Invalid 'unityinfo_t' structure size detected!");
+    static_assert(sizeof(jobpointentry_t) == 6, "Invalid 'jobpointentry_t' structure size detected!");
+    static_assert(sizeof(jobpointsinfo_t) == 148, "Invalid 'jobpointsinfo_t' structure size detected!");
+    static_assert(sizeof(statusoffset_t) == 16, "Invalid 'statusoffset_t' structure size detected!");
+    static_assert(sizeof(player_t) == 1080, "Invalid 'player_t' structure size detected!");
 
 } // namespace Ashita::FFXI
 

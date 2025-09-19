@@ -32,23 +32,26 @@
 
 namespace Ashita::FFXI
 {
+    // PS2: CTkCastTime
     struct castbar_t
     {
-        // CTkMenuPrimitive
+        // Base: CTkMenuPrimitive
         uintptr_t   VTablePointer;
         uintptr_t   m_BaseObj;
         uintptr_t   m_pParentMCD;
         uint8_t     m_InputEnable;
-        uint8_t     Unknown0000;
+        uint8_t     unknown000D;
         uint16_t    m_SaveCursol;
         uint8_t     m_Reposition;
-        uint8_t     Unknown0001[3];
+        uint8_t     unknown0011[3];
 
         float       Max;            // The maximum value of the bar to count down from.
         float       Count;          // The current value of the bar, starting from CastBarMax and counting down to 0.
         float       Percent;        // The current cast value of the bar ranging from 0.0 to 1.0 as a float.
         uint32_t    CastType;       // The casting type that caused the menu to be opened. [0 = Magic, 1 = Items, 4 = ???]
     };
+    
+    static_assert(sizeof(castbar_t) == 36, "Invalid 'castbar_t' structure size detected!");
 
 } // namespace Ashita::FFXI
 
