@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,15 +21,16 @@
 
 addon.name      = 'tparty';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Displays party member TP amounts and target health percent.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local fonts = require('fonts');
-local scaling = require('scaling');
-local settings = require('settings');
+require 'common';
+
+local chat      = require 'chat';
+local fonts     = require 'fonts';
+local scaling   = require 'scaling';
+local settings  = require 'settings';
 
 -- Default Settings
 local default_settings = T{
