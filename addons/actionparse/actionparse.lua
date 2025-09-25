@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'actionparse';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Parses and displays incoming action packet information.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local ui = require('ui');
+require 'common';
+
+local ui = require 'ui';
 
 --[[
 * event: packet_in
