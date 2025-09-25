@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,7 +21,7 @@
 
 addon.name      = 'clearcolor';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables modding the background color of the scene.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -42,7 +42,7 @@ local function hsv_to_u32(c)
 end
 
 ashita.events.register('load', 'load_cb', function ()
-    window.pointer = ashita.memory.find('FFXiMain.dll', 0, 'A1????????0508030000C3', 0, 0);
+    window.pointer = ashita.memory.find(0, 0, 'A1????????0508030000C3', 0, 0);
     if (window.pointer == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
