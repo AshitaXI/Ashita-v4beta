@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'chatmon';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Plays sounds as a reaction to certain events in chat. (And some other helpful events.)';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local settings = require('settings');
-imgui = require('imgui');
+require 'common';
+
+local chat      = require 'chat';
+local settings  = require 'settings';
+local imgui     = require 'imgui';
 
 -- Default Settings
 local default_settings = T{ };
