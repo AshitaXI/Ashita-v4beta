@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'filterscan';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Allows filtering widescan results for specific entities.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local dats = require('ffxi.dats');
+require 'common';
+
+local chat = require 'chat';
+local dats = require 'ffxi.dats';
 
 -- FilterScan Variables
 local filterscan = T{
