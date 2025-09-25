@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'instantchat';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Removes the delay from adding messages to the chat windows.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- instantchat Variables
 local instantchat = {
@@ -41,7 +42,7 @@ local instantchat = {
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the required pointer..
-    instantchat.ptr = ashita.memory.find('FFXiMain.dll', 0, '8BF174??8B46340FBF4E5485C07D??894E34', 0x00, 0x00);
+    instantchat.ptr = ashita.memory.find(0, 0, '8BF174??8B46340FBF4E5485C07D??894E34', 0x00, 0x00);
     if (instantchat.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
