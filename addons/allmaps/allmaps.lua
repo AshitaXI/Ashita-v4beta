@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'allmaps';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables the ability to see every map via /map without needing the key items. Also works for viewing map waypoints.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- AllMaps Variables
 local allmaps = {
@@ -48,7 +49,7 @@ local allmaps = {
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the main map command pointer..
-    local pointer = ashita.memory.find('FFXiMain.dll', 0, '50??????????83C4048886????????0FBF8E????????8A', 0x01, 0);
+    local pointer = ashita.memory.find(0, 0, '50??????????83C4048886????????0FBF8E????????8A', 0x01, 0);
     if (pointer == 0) then
         error(chat.header('allmaps'):append(chat.error('Error: Failed to locate required map function pointer.')));
         return;
@@ -59,7 +60,7 @@ ashita.events.register('load', 'load_cb', function ()
     allmaps.map.backup = ashita.memory.read_array(allmaps.map.ptr, 5);
 
     -- Find the map view function pointer.. (Used for viewing waypoints/markers.)
-    pointer = ashita.memory.find('FFXiMain.dll', 0, '50??????????83C4048886????????0FBF96????????8A', 0x01, 0);
+    pointer = ashita.memory.find(0, 0, '50??????????83C4048886????????0FBF96????????8A', 0x01, 0);
     if (pointer == 0) then
         error(chat.header('allmaps'):append(chat.error('Error: Failed to locate required map waypoint view function pointer.')));
         return;
