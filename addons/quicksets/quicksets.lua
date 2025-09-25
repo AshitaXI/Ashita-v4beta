@@ -21,19 +21,20 @@
 
 addon.name      = 'quicksets';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes the delay between equipping different equipment sets.';
 addon.link      = 'https://ashitaxi.com/';
 
 require 'common';
+
 local chat  = require 'chat';
 local ffi   = require 'ffi';
 
 local quicksets = T{
     ptrs = T{
-        ptr1 = ashita.memory.find('FFXiMain.dll', 0, '75??5E5B81C448010000C3', 0x00, 0x00),
-        ptr2 = ashita.memory.find('FFXiMain.dll', 0, '75??8B4424145BF7D859C38B4424145B59C3', 0x00, 0x00),
-        ptr3 = ashita.memory.find('FFXiMain.dll', 0, '6A006A006A51E8????????8BF883C40C', 0x03, 0x00),
+        ptr1 = ashita.memory.find(0, 0, '75??5E5B81C448010000C3', 0x00, 0x00),
+        ptr2 = ashita.memory.find(0, 0, '75??8B4424145BF7D859C38B4424145B59C3', 0x00, 0x00),
+        ptr3 = ashita.memory.find(0, 0, '6A006A006A51E8????????8BF883C40C', 0x03, 0x00),
     },
     gc = nil,
 };
