@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'drawdistance';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Adds slash commands to alter the games scene rendering distances.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- DrawDistance Variables
 local drawdistance = T{
@@ -64,7 +65,7 @@ end
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the draw distance pointer..
-    drawdistance.ptr = ashita.memory.find('FFXiMain.dll', 0, '8BC1487408D80D', 0, 0);
+    drawdistance.ptr = ashita.memory.find(0, 0, '8BC1487408D80D', 0, 0);
     if (drawdistance.ptr == 0) then
         error(chat.header('drawdistance'):append(chat.error('Error: Failed to locate draw distance pointer.')));
         return;
