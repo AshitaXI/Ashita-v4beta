@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,19 +21,20 @@
 
 addon.name      = 'equipmon';
 addon.author    = 'atom0s';
-addon.version   = '1.3';
+addon.version   = '1.4';
 addon.desc      = 'Displays the players equipment onscreen at all times.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat      = require('chat');
-local d3d       = require('d3d8');
-local ffi       = require('ffi');
-local fonts     = require('fonts');
-local imgui     = require('imgui');
-local prims     = require('primitives');
-local scaling   = require('scaling');
-local settings  = require('settings');
+require 'common';
+
+local chat      = require 'chat';
+local d3d       = require 'd3d8';
+local ffi       = require 'ffi';
+local fonts     = require 'fonts';
+local imgui     = require 'imgui';
+local prims     = require 'primitives';
+local scaling   = require 'scaling';
+local settings  = require 'settings';
 
 local C = ffi.C;
 local d3d8dev = d3d.get_device();
