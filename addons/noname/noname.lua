@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2022 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'noname';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes the local player name.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- noname Variables
 local noname = T{
@@ -39,7 +40,7 @@ local noname = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Locate the needed patterns..
-    local ptr = ashita.memory.find('FFXiMain.dll', 0, '83E1F789882801000033C0668B4608', 0, 0);
+    local ptr = ashita.memory.find(0, 0, '83E1F789882801000033C0668B4608', 0, 0);
     if (ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate a required pointer.')));
         return;
