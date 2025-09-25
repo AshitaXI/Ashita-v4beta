@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,11 +21,11 @@
 
 addon.name      = 'minimapmon';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Hides the Minimap plugin under certain conditions, such as standing still.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
+require 'common';
 
 -- MinimapMon Variables
 local mmm = T{
