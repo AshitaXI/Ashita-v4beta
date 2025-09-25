@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,11 +21,11 @@
 
 addon.name      = 'cleancs';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Hides Ashita rendered elements while in a cutscene.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
+require 'common';
 
 -- CleanCS Variables
 local cleancs = T{
