@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'aspect';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Forces the games aspect ratio to match the windows resolution.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- Aspect Variables
 local aspect = T{
@@ -39,7 +40,7 @@ local aspect = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the aspect ratio configuration pointer..
-    aspect.ptr = ashita.memory.find('FFXiMain.dll', 0, 'A1????????85C074??D9442404D80D????????D80D', 1, 0);
+    aspect.ptr = ashita.memory.find(0, 0, 'A1????????85C074??D9442404D80D????????D80D', 1, 0);
     if (aspect.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate aspect pointer; cannot adjust aspect ratio.')));
         return;
