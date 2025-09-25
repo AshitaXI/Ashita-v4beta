@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'imguistyle';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Allows per-character customizations to the ImGui style settings.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat      = require('chat');
-local imgui     = require('imgui');
-local settings  = require('settings');
+require 'common';
+
+local chat      = require 'chat';
+local imgui     = require 'imgui';
+local settings  = require 'settings';
 local style     = imgui.GetStyle();
 
 -- ImGui Style Property Names
