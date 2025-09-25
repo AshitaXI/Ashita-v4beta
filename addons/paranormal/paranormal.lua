@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'paranormal';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Enables the use of [nearly] any game command while dead/unconscious.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- Paranormal Variables
 local paranormal = T{
@@ -41,7 +42,7 @@ local paranormal = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the required pointer..
-    paranormal.ptr = ashita.memory.find('FFXiMain.dll', 0, '88440C008A420141423C20????8D442400C6440C000050', 0x18, 0x00);
+    paranormal.ptr = ashita.memory.find(0, 0, '88440C008A420141423C20????8D442400C6440C000050', 0x18, 0x00);
     if (paranormal.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
