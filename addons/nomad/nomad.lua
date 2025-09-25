@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'nomad';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables mog house functionality in any zone.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- Nomad Variables
 local nomad = T{
@@ -43,8 +44,8 @@ local nomad = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Obtain the required pointers..
-    nomad.ptr_1 = ashita.memory.find('FFXiMain.dll', 0, '0544FE00000FBF2925FFFF00003BC5????4283C10283FA04', 0x00, 0x00);
-    nomad.ptr_2 = ashita.memory.find('FFXiMain.dll', 0, '8B8C24040100008B90????????0BD18990????????8B15????????8B82', 0x00, 0x00);
+    nomad.ptr_1 = ashita.memory.find(0, 0, '0544FE00000FBF2925FFFF00003BC5????4283C10283FA04', 0x00, 0x00);
+    nomad.ptr_2 = ashita.memory.find(0, 0, '8B8C24040100008B90????????0BD18990????????8B15????????8B82', 0x00, 0x00);
 
     -- Validate the base pointers were found..
     if (nomad.ptr_1 == 0 or nomad.ptr_2 == 0) then
