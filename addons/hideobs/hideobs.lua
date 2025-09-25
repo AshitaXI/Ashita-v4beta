@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'hideobs';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Hides the current game window from OBS display stream capturing.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-require('win32types');
-local chat  = require('chat');
-local ffi   = require('ffi');
+require 'common';
+require 'win32types';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 local C     = ffi.C;
 
 ffi.cdef[[
