@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'hideparty';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Adds slash commands to hide, show, or toggle the games party frames.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- Addon Variables
 local hideparty = {
@@ -88,13 +89,13 @@ end
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the needed pointers for the main party and target frames..
-    local ptr1 = ashita.memory.find('FFXiMain.dll', 0, '66C78182000000????C7818C000000????????C781900000', 0, 0);
+    local ptr1 = ashita.memory.find(0, 0, '66C78182000000????C7818C000000????????C781900000', 0, 0);
     if (ptr1 == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer. (1)')));
     end
 
     -- Find the needed pointers for the alliance party frames..
-    local ptr2 = ashita.memory.find('FFXiMain.dll', 0, 'A1????????8B0D????????89442424A1????????33DB89', 0, 0);
+    local ptr2 = ashita.memory.find(0, 0, 'A1????????8B0D????????89442424A1????????33DB89', 0, 0);
     if (ptr2 == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer. (2)')));
     end
