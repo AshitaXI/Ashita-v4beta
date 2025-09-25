@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'cartographer';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables the ability to see every map in the map menus when trying to view non-current zone maps.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat  = require('chat');
-local ffi   = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 local cartographer = T{
     patch1 = { ptr = 0, backup = nil, },
@@ -41,17 +42,17 @@ local cartographer = T{
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function ()
-    local ptr1 = ashita.memory.find('FFXiMain.dll', 0, '74??576A14E8????????83C40885C074??FF44240C83C302', 0, 0);
+    local ptr1 = ashita.memory.find(0, 0, '74??576A14E8????????83C40885C074??FF44240C83C302', 0, 0);
     if (ptr1 == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required map function pointer. (1)')));
         return;
     end
-    local ptr2 = ashita.memory.find('FFXiMain.dll', 0, '0F??????????576A14E8????????83C4088944242885C00F', 0, 0);
+    local ptr2 = ashita.memory.find(0, 0, '0F??????????576A14E8????????83C4088944242885C00F', 0, 0);
     if (ptr2 == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required map function pointer. (2)')));
         return;
     end
-    local ptr3 = ashita.memory.find('FFXiMain.dll', 0, '0F??????????556A14E8????????83C40885C00F', 0, 0);
+    local ptr3 = ashita.memory.find(0, 0, '0F??????????556A14E8????????83C40885C00F', 0, 0);
     if (ptr3 == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required map function pointer. (3)')));
         return;
