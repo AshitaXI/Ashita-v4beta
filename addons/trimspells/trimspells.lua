@@ -25,9 +25,10 @@ addon.version   = '1.0';
 addon.desc      = 'Changes the CTRL+M shortcut spell list to be trimmed to known spells.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat  = require('chat');
-local ffi   = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 local trimspells = T{
     patch   = { ptr = 0, backup = nil, },
@@ -39,7 +40,7 @@ local trimspells = T{
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function ()
-    local ptr = ashita.memory.find('FFXiMain.dll', 0, '68000100006A016A00E8????????83C40CB801000000C3', 0, 0);
+    local ptr = ashita.memory.find(0, 0, '68000100006A016A00E8????????83C40CB801000000C3', 0, 0);
     if (ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required function pointer.')));
         return;
