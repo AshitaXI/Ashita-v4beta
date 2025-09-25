@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'chime';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Play in-game chime based sound effects from a slash command.';
 addon.link      = 'https://ashitaxi.com/';
 
 require 'common';
 require 'win32types';
-local chat  = require('chat');
-local ffi   = require('ffi');
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 ffi.cdef[[
     typedef void (__cdecl* YmSePlayChime_f)(int32_t, float, bool);
@@ -36,7 +37,7 @@ ffi.cdef[[
 
 local chime = T{
     ptrs = T{
-        func = ashita.memory.find('FFXiMain.dll', 0, 'A1????????5685C00F??????????6A006A046A40E8????????8BF083C40C8BCE', 0, 0),
+        func = ashita.memory.find(0, 0, 'A1????????5685C00F??????????6A006A046A40E8????????8BF083C40C8BCE', 0, 0),
     },
 };
 
