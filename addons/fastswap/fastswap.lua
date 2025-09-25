@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'fastswap';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Fixes a state issue with the client when trying to swap jobs too fast.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 local fastswap = {
     ptr = 0,
@@ -39,7 +40,7 @@ local fastswap = {
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function ()
-    fastswap.ptr = ashita.memory.find('FFXiMain.dll', 0, '6A006A006800010000E8????????83C40C85C075??32C0C3', 0x00, 0x00);
+    fastswap.ptr = ashita.memory.find(0, 0, '6A006A006800010000E8????????83C40C85C075??32C0C3', 0x00, 0x00);
     if (fastswap.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required function.')));
         return;
