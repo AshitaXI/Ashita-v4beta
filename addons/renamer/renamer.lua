@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'renamer';
 addon.author    = 'atom0s & Teotwawki';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Renames entities with overrides.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local editor = require('editor');
+require 'common';
+
+local chat      = require 'chat';
+local editor    = require 'editor';
 
 --[[
 * Conditional printer. Prints the 'tmsg' message on true conditions, or 'fmsg' otherwise.
