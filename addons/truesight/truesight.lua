@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,16 @@
 
 addon.name      = 'truesight';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes entity occlusion and makes invisible players half-transparent instead.';
 addon.link      = 'https://ashitaxi.com/';
 
 require 'common';
 
+--[[
+* event: d3d_present
+* desc : Event called when the Direct3D device is presenting a scene.
+--]]
 ashita.events.register('d3d_present', 'd3d_present_cb', function ()
     for x = 0, 2302 do
         local ent = GetEntity(x);
