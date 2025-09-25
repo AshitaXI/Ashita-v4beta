@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'filters';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Allows for saving/loading chat filter sets with ease. (Useful for private servers.)';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
-local settings = require('settings');
+require 'common';
+
+local chat      = require 'chat';
+local ffi       = require 'ffi';
+local settings  = require 'settings';
 
 -- Filters Variables
 local filters = T{
@@ -96,7 +97,7 @@ end
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the needed mask information for the character config packets..
-    filters.ptr = ffi.cast('uint32_t**', ashita.memory.find('FFXiMain.dll', 0, 'C3C74004000000008B0D????????81C1', 0x0A, 0));
+    filters.ptr = ffi.cast('uint32_t**', ashita.memory.find(0, 0, 'C3C74004000000008B0D????????81C1', 0x0A, 0));
     if (filters.ptr == nil) then
         error(chat.header('filters'):append(chat.error('Error: Failed to locate required data pointer.')));
     end
