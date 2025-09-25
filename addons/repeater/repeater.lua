@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'repeater';
 addon.author    = 'atom0s & Felgar';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Allows setting a command to be repeated automatically.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- Repeater Variables
 local repeater = T{
@@ -111,10 +112,10 @@ ashita.events.register('command', 'command_cb', function (e)
         repeater.enabled = true;
 
         print(chat.header(addon.name):append(chat.message('Starting...')));
-            
+
         -- Execute the set command first run..
         AshitaCore:GetChatManager():QueueCommand(1, repeater.cmd);
-            
+
         return;
     end
 
