@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'ahgo';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables opening the AH from anywhere and enables being able to move with the AH open.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- AHGo Variables
 local ahgo = {
@@ -48,7 +49,7 @@ local ahgo = {
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the ahgo auction pointer..
-    local pointer = ashita.memory.find('FFXiMain.dll', 0, 'DFE02500410000DDD8????8B46086A0150', 0, 0);
+    local pointer = ashita.memory.find(0, 0, 'DFE02500410000DDD8????8B46086A0150', 0, 0);
     if (pointer == 0) then
         error(chat.header('ahgo'):append(chat.error('Error: Failed to locate required auction pointer.')));
         return;
@@ -59,7 +60,7 @@ ashita.events.register('load', 'load_cb', function ()
     ahgo.auction.backup = ashita.memory.read_uint8(ahgo.auction.ptr);
 
     -- Find the ahgo shops pointer..
-    pointer = ashita.memory.find('FFXiMain.dll', 0, 'DFE02500410000DDD8????B301', 0, 0);
+    pointer = ashita.memory.find(0, 0, 'DFE02500410000DDD8????B301', 0, 0);
     if (pointer == 0) then
         error(chat.header('ahgo'):append(chat.error('Error: Failed to locate required shop pointer.')));
         return;
