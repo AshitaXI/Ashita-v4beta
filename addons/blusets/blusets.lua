@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'blusets';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Manage blue magic spells easily with slash commands.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local blu = require('blu');
-local chat = require('chat');
+require 'common';
+
+local blu   = require 'blu';
+local chat  = require 'chat';
 
 --[[
 * Prints the addon help information.
