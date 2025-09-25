@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2022 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,11 +21,11 @@
 
 addon.name      = 'nokb';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Disables knockback effects applied to the local player.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
+require 'common';
 
 --[[
 * event: packet_in
