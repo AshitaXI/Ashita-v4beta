@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'crosshair';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Draws position helper lines to move Ashita\'s font and UI elements.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local d3d8  = require('d3d8');
-local imgui = require('imgui');
+require 'common';
+
+local chat  = require 'chat';
+local d3d8  = require 'd3d8';
+local imgui = require 'imgui';
 
 -- Addon variables..
 local crosshair = T{
