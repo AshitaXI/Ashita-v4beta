@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'config';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Enables slash commands to force-set game settings directly.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- FFI Prototypes
 ffi.cdef[[
@@ -90,10 +91,10 @@ end
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Obtain the needed function pointers..
-    local ptr = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C974??8B44240450E8????????C383C8FFC3', 0, 0);
+    local ptr = ashita.memory.find(0, 0, '8B0D????????85C974??8B44240450E8????????C383C8FFC3', 0, 0);
     config.get = ffi.cast('get_config_value_t', ptr);
-    config.set = ffi.cast('set_config_value_t', ashita.memory.find('FFXiMain.dll', 0, '85C974??8B4424088B5424045052E8????????C383C8FFC3', -6, 0));
-    config.info = ffi.cast('get_config_entry_t', ashita.memory.find('FFXiMain.dll', 0, '8B490485C974108B4424048D14808D04508D0481C2040033C0C20400', 0, 0));
+    config.set = ffi.cast('set_config_value_t', ashita.memory.find(0, 0, '85C974??8B4424088B5424045052E8????????C383C8FFC3', -6, 0));
+    config.info = ffi.cast('get_config_entry_t', ashita.memory.find(0, 0, '8B490485C974108B4424048D14808D04508D0481C2040033C0C20400', 0, 0));
 
     -- Obtain the 'this' pointer for the configuration data..
     config.this = ffi.cast('uint32_t**', ptr + 2)[0][0];
