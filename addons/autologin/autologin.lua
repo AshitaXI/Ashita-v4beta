@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,7 +21,7 @@
 
 addon.name      = 'autologin';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Automatically logs into a desired character slot.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -233,11 +233,11 @@ end
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function (e)
-    autologin.ptrs.license  = ashita.memory.find('FFXiMain.dll', 0, '895E1C895E14896E1889??????????EB??89??????????68', 0x0B, 0);
-    autologin.ptrs.lobby    = ashita.memory.find('FFXiMain.dll', 0, '89412C8B15????????897C2410894230A1', 0x5, 0);
-    autologin.ptrs.select   = ashita.memory.find('FFXiMain.dll', 0, '89412C8B15????????897C2410894230A1', 0x11, 0);
-    autologin.ptrs.selectidx= ashita.memory.find('FFXiMain.dll', 0, 'A1????????8B5108406689424C8B4908668B414C50E8', 0x01, 0);
-    autologin.ptrs.yesno    = ashita.memory.find('FFXiMain.dll', 0, '895E1C895E14896E1889??????????EB??89??????????68', 0x47, 0);
+    autologin.ptrs.license  = ashita.memory.find(0, 0, '895E1C895E14896E1889??????????EB??89??????????68', 0x0B, 0);
+    autologin.ptrs.lobby    = ashita.memory.find(0, 0, '89412C8B15????????897C2410894230A1', 0x5, 0);
+    autologin.ptrs.select   = ashita.memory.find(0, 0, '89412C8B15????????897C2410894230A1', 0x11, 0);
+    autologin.ptrs.selectidx= ashita.memory.find(0, 0, 'A1????????8B5108406689424C8B4908668B414C50E8', 0x01, 0);
+    autologin.ptrs.yesno    = ashita.memory.find(0, 0, '895E1C895E14896E1889??????????EB??89??????????68', 0x47, 0);
 
     if (not autologin.ptrs:all(function (v) return v ~= nil; end)) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required menu object pointer(s).')));
