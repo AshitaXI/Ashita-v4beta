@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'mapdot';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables seeing enemies on the compass on all jobs.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- MapDot Variables
 local mapdot = T{
@@ -43,7 +44,7 @@ local mapdot = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the compass pointer..
-    mapdot.ptr = ashita.memory.find('FFXiMain.dll', 0, 'A1????????85C074??D9442404D80D????????8B4C2404', 0, 0);
+    mapdot.ptr = ashita.memory.find(0, 0, 'A1????????85C074??D9442404D80D????????8B4C2404', 0, 0);
     if (mapdot.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
