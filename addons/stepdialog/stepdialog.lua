@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,7 +21,7 @@
 
 addon.name      = 'stepdialog';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Manually invoke the key press to continue the current chat dialog.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -37,8 +37,8 @@ ffi.cdef[[
 
 local stepdialog = T{
     ptrs = T{
-        func = ashita.memory.find('FFXiMain.dll', 0, '538B5C240856578B7C24148BF15753E8????????8B0D????????3BF174', 0, 0),
-        this = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C90F??????????8B410885C00F', 2, 0),
+        func = ashita.memory.find(0, 0, '538B5C240856578B7C24148BF15753E8????????8B0D????????3BF174', 0, 0),
+        this = ashita.memory.find(0, 0, '8B0D????????85C90F??????????8B410885C00F', 2, 0),
     },
 };
 
