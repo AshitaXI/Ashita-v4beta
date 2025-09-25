@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'mipmap';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes the recent patch made by SE to alter how mipmaps are configured.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- mipmap Variables
 local mipmap = {
@@ -42,7 +43,7 @@ local mipmap = {
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the required pointer..
-    mipmap.ptr = ashita.memory.find('FFXiMain.dll', 0, 'FEC8895E20F6D81AC0895E1C83C00288462A', 0x00, 0x00);
+    mipmap.ptr = ashita.memory.find(0, 0, 'FEC8895E20F6D81AC0895E1C83C00288462A', 0x00, 0x00);
     if (mipmap.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
