@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -25,11 +25,11 @@ addon.version   = '1.0';
 addon.desc      = 'Allows setting the current process affinity mask in-game.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-require('win32types');
+require 'common';
+require 'win32types';
 
-local chat  = require('chat');
-local ffi   = require('ffi');
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 ffi.cdef[[
     HANDLE GetCurrentProcess(void);
