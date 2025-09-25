@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,14 +19,15 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-require('common');
-local chat = require('chat');
-local imgui = require('imgui');
+require 'common';
+
+local chat  = require 'chat';
+local imgui = require 'imgui';
 
 -- ItemWatch Editor Variables
 local editor = {
-    lstMgr = require('listmanager'),
-    settings = require('settings'),
+    lstMgr      = require 'listmanager',
+    settings    = require 'settings',
 
     -- Main Window
     is_open = { false, },
