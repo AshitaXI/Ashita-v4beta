@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -23,9 +23,9 @@
 * This file is created using the information from the d3d8.h header file of the Direct3D 8 SDK.
 --]]
 
-require('win32types');
+require 'win32types';
 
-local ffi = require('ffi');
+local ffi = require 'ffi';
 
 ffi.cdef[[
     typedef struct IDirect3DBaseTexture8Vtbl {

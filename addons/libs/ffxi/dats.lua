@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,11 +19,11 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-require('common');
-require('win32types');
+require 'common';
+require 'win32types';
 
-local ffi = require('ffi');
-local C = ffi.C;
+local ffi   = require 'ffi';
+local C     = ffi.C;
 
 -- FFI Prototypes
 ffi.cdef[[
@@ -51,7 +51,7 @@ local dats = T{
 
     -- Predefined lists..
     lists = T{
-        npcs = require('ffxi.dats.npcs'),
+        npcs = require 'ffxi.dats.npcs',
     },
 };
 

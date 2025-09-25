@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -30,7 +30,7 @@
 *   - winnt.h
 --]]
 
-local ffi = require('ffi');
+local ffi = require 'ffi';
 
 ffi.cdef[[
     typedef signed char         INT8, *PINT8;

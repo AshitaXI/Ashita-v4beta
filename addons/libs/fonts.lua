@@ -19,8 +19,9 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local ffi = require('ffi');
-require('common');
+local ffi = require 'ffi';
+
+require 'common';
 
 -- Set the random seed..
 math.randomseed(os.time());

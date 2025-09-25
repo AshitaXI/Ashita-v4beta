@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,10 +19,10 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local ffi   = require('ffi');
+local ffi   = require 'ffi';
 local C     = ffi.C;
 
-require('d3d8.d3d8');
+require 'd3d8.d3d8';
 
 --[[
 * Returns the main IDirect3DDevice8 object prepared for FFI usage.

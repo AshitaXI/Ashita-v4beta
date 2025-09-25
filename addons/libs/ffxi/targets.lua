@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -54,10 +54,10 @@ ffi.cdef[[
 
 local targetslib = T{
     ptrs = T{
-        bt          = ashita.memory.find('FFXiMain.dll', 0, '66A1????????83EC186685C053565774??0FBFC08B0C85', 0, 0),-- SeekBattleActor
-        mon_name    = ashita.memory.find('FFXiMain.dll', 0, '53568B35????????33C085F6577E??8B', 0, 0),              -- GetMonsterName
-        r           = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C9750333C0C36A00', 0, 0),                -- ntSysGetLastTeller
-        scan        = ashita.memory.find('FFXiMain.dll', 0, 'A1????????85C074??F7', 0, 0),                          -- gcTrackingPosGet
+        bt          = ashita.memory.find(0, 0, '66A1????????83EC186685C053565774??0FBFC08B0C85', 0, 0), -- SeekBattleActor
+        mon_name    = ashita.memory.find(0, 0, '53568B35????????33C085F6577E??8B', 0, 0),               -- GetMonsterName
+        r           = ashita.memory.find(0, 0, '8B0D????????85C9750333C0C36A00', 0, 0),                 -- ntSysGetLastTeller
+        scan        = ashita.memory.find(0, 0, 'A1????????85C074??F7', 0, 0),                           -- gcTrackingPosGet
     },
     type = T{
         bt      = 0x00, -- Battle Target [Tag: <bt>]

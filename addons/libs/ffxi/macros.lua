@@ -40,19 +40,19 @@ ffi.cdef[[
 local macrolib = T{
     ptrs = T{
         -- Macro Objects
-        macro       = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????E8????????8B4424105EC38B15????????68', 2, 0),  -- g_pFsMacro
-        controller  = ashita.memory.find('FFXiMain.dll', 0, 'A3????????EB??891D????????6A50E8', 1, 0),                  -- g_pFsMacroController
+        macro       = ashita.memory.find(0, 0, '8B0D????????E8????????8B4424105EC38B15????????68', 2, 0),   -- g_pFsMacro
+        controller  = ashita.memory.find(0, 0, 'A3????????EB??891D????????6A50E8', 1, 0),                   -- g_pFsMacroController
 
         -- Macro Functions
-        can_use     = ashita.memory.find('FFXiMain.dll', 0, '66A1????????5633F66685C074??0FBFC08B3485????????8B0D', 0, 0),                                      -- FsMacroController::canUseMacro
-        clear       = ashita.memory.find('FFXiMain.dll', 0, '8B44240485C07C??83F8147D??8D1440C1E2052BD08D4C9104E8????????B001', 0, 0),                          -- FsMacroContainer::clearMacro
-        get_name    = ashita.memory.find('FFXiMain.dll', 0, '8B44240485C07C??83F8147D??8D1440C1E2052BD08D4C9104E8????????85C0', 0, 0),                          -- FsMacroContainer::getName
-        get_line    = ashita.memory.find('FFXiMain.dll', 0, '8B44240485C07C??83F8147D??8B542408528D1440C1E2052BD08D4C9104E8????????C2080033C0C20800', 0, 0),    -- FsMacroContainer::getLine
-        run         = ashita.memory.find('FFXiMain.dll', 0, '8A44240453563C018BF175??8A5C24108B4E040FBEC350E8', 0, 0),                                          -- FsMacroContainer::runMacro
-        set_book    = ashita.memory.find('FFXiMain.dll', 0, '8B442404568BF18B8EC01D00003BC875??8BC15EC20400', 0, 0),                                            -- FsMacroContainer::setBook
-        set_page    = ashita.memory.find('FFXiMain.dll', 0, '568BF1578B7C240C8B86C01D00008D04', 0, 0),                                                          -- FsMacroContainer::setPage
-        set         = ashita.memory.find('FFXiMain.dll', 0, '8B442408538B5C24085657508BCBE8????????85C07C??8B', 0, 0),                                          -- FsMacroContainer::setMacro
-        stop        = ashita.memory.find('FFXiMain.dll', 0, 'C781????????FFFFFFFFC3', 0, 0),                                                                    -- FsMacroContainer::stopMacro
+        can_use     = ashita.memory.find(0, 0, '66A1????????5633F66685C074??0FBFC08B3485????????8B0D', 0, 0),                                   -- FsMacroController::canUseMacro
+        clear       = ashita.memory.find(0, 0, '8B44240485C07C??83F8147D??8D1440C1E2052BD08D4C9104E8????????B001', 0, 0),                       -- FsMacroContainer::clearMacro
+        get_name    = ashita.memory.find(0, 0, '8B44240485C07C??83F8147D??8D1440C1E2052BD08D4C9104E8????????85C0', 0, 0),                       -- FsMacroContainer::getName
+        get_line    = ashita.memory.find(0, 0, '8B44240485C07C??83F8147D??8B542408528D1440C1E2052BD08D4C9104E8????????C2080033C0C20800', 0, 0), -- FsMacroContainer::getLine
+        run         = ashita.memory.find(0, 0, '8A44240453563C018BF175??8A5C24108B4E040FBEC350E8', 0, 0),                                       -- FsMacroContainer::runMacro
+        set_book    = ashita.memory.find(0, 0, '8B442404568BF18B8EC01D00003BC875??8BC15EC20400', 0, 0),                                         -- FsMacroContainer::setBook
+        set_page    = ashita.memory.find(0, 0, '568BF1578B7C240C8B86C01D00008D04', 0, 0),                                                       -- FsMacroContainer::setPage
+        set         = ashita.memory.find(0, 0, '8B442408538B5C24085657508BCBE8????????85C07C??8B', 0, 0),                                       -- FsMacroContainer::setMacro
+        stop        = ashita.memory.find(0, 0, 'C781????????FFFFFFFFC3', 0, 0),                                                                 -- FsMacroContainer::stopMacro
     },
 };
 

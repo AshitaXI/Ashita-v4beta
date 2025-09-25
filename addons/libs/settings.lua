@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -41,8 +41,9 @@
 *       Character: <AshitaPath>/config/fps/Atomos_1337/settings.lua
 --]]
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- Settings library table..
 local settingslib       = T{ };

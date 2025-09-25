@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,7 +19,7 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-require('common');
+require 'common';
 
 --[[
 * Returns a table that contains every zones DAT file that contains it's list of npcs/mobs.
@@ -350,31 +350,31 @@ return T{
     *   else
     *       fileid = subid + 66911;
     --]]
-    [1000] = 'ROM/214/62.DAT',  -- Moblin Maze Mongers
-    [1001] = 'ROM/216/50.DAT',  -- Moblin Maze Mongers
-    [1002] = 'ROM/216/51.DAT',  -- Moblin Maze Mongers
-    [1003] = 'ROM/216/52.DAT',  -- Moblin Maze Mongers
-    [1004] = 'ROM/216/53.DAT',  -- Moblin Maze Mongers
-    [1005] = 'ROM/216/54.DAT',  -- Moblin Maze Mongers
-    [1006] = 'ROM/216/55.DAT',  -- Moblin Maze Mongers
-    [1007] = 'ROM/224/117.DAT', -- Moblin Maze Mongers
-    [1008] = 'ROM/238/86.DAT',  -- Moblin Maze Mongers
-    [1009] = 'ROM/281/80.DAT',  -- Meeble Burrows
-    [1010] = 'ROM/281/81.DAT',  -- Meeble Burrows
-    [1011] = 'ROM/281/82.DAT',  -- Meeble Burrows
-    [1012] = 'ROM/281/83.DAT',  -- Meeble Burrows
-    [1013] = 'ROM/286/102.DAT', -- Meeble Burrows
-    [1014] = 'ROM/288/41.DAT',  -- Meeble Burrows
-    [1015] = 'ROM/288/42.DAT',  -- Meeble Burrows
-    [1016] = 'ROM/288/43.DAT',  -- Meeble Burrows
-    [1017] = 'ROM/288/44.DAT',  -- Meeble Burrows
-    [1018] = 'ROM/288/45.DAT',  -- Meeble Burrows
-    [1019] = 'ROM/363/67.DAT',  -- Odyssey
-    [1020] = 'ROM/363/68.DAT',  -- Odyssey
-    [1021] = 'ROM/363/69.DAT',  -- Odyssey
-    [1022] = 'ROM/363/70.DAT',  -- Odyssey
-    [1023] = 'ROM/363/71.DAT',  -- Odyssey
-    [1024] = 'ROM/363/72.DAT',  -- Odyssey
-    [1025] = 'ROM/364/110.DAT', -- Odyssey
-    [1026] = 'ROM/364/111.DAT', -- Odyssey
+    [1000] = '/ROM/214/62.DAT',  -- Moblin Maze Mongers
+    [1001] = '/ROM/216/50.DAT',  -- Moblin Maze Mongers
+    [1002] = '/ROM/216/51.DAT',  -- Moblin Maze Mongers
+    [1003] = '/ROM/216/52.DAT',  -- Moblin Maze Mongers
+    [1004] = '/ROM/216/53.DAT',  -- Moblin Maze Mongers
+    [1005] = '/ROM/216/54.DAT',  -- Moblin Maze Mongers
+    [1006] = '/ROM/216/55.DAT',  -- Moblin Maze Mongers
+    [1007] = '/ROM/224/117.DAT', -- Moblin Maze Mongers
+    [1008] = '/ROM/238/86.DAT',  -- Moblin Maze Mongers
+    [1009] = '/ROM/281/80.DAT',  -- Meeble Burrows
+    [1010] = '/ROM/281/81.DAT',  -- Meeble Burrows
+    [1011] = '/ROM/281/82.DAT',  -- Meeble Burrows
+    [1012] = '/ROM/281/83.DAT',  -- Meeble Burrows
+    [1013] = '/ROM/286/102.DAT', -- Meeble Burrows
+    [1014] = '/ROM/288/41.DAT',  -- Meeble Burrows
+    [1015] = '/ROM/288/42.DAT',  -- Meeble Burrows
+    [1016] = '/ROM/288/43.DAT',  -- Meeble Burrows
+    [1017] = '/ROM/288/44.DAT',  -- Meeble Burrows
+    [1018] = '/ROM/288/45.DAT',  -- Meeble Burrows
+    [1019] = '/ROM/363/67.DAT',  -- Odyssey
+    [1020] = '/ROM/363/68.DAT',  -- Odyssey
+    [1021] = '/ROM/363/69.DAT',  -- Odyssey
+    [1022] = '/ROM/363/70.DAT',  -- Odyssey
+    [1023] = '/ROM/363/71.DAT',  -- Odyssey
+    [1024] = '/ROM/363/72.DAT',  -- Odyssey
+    [1025] = '/ROM/364/110.DAT', -- Odyssey
+    [1026] = '/ROM/364/111.DAT', -- Odyssey
 };

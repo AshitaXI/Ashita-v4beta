@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -23,7 +23,7 @@
 * This file is created using the information from the d3d8.h header file of the Direct3D 8 SDK.
 --]]
 
-local ffi = require('ffi');
+local ffi = require 'ffi';
 
 ffi.cdef[[
     /**
@@ -45,29 +45,29 @@ ffi.cdef[[
 ]];
 
 -- Require the Win32 type definitions..
-require('win32types');
+require 'win32types';
 
 -- Require Direct3D8 type definitions..
-require('d3d8.d3d8types');
-require('d3d8.d3d8caps');
+require 'd3d8.d3d8types';
+require 'd3d8.d3d8caps';
 
 -- Require Direct3D8 interfaces..
-require('d3d8.interfaces.iunknown');
-require('d3d8.interfaces.idirect3d8');
-require('d3d8.interfaces.idirect3ddevice8');
-require('d3d8.interfaces.idirect3dresource8');
-require('d3d8.interfaces.idirect3dbasetexture8');
-require('d3d8.interfaces.idirect3dtexture8');
-require('d3d8.interfaces.idirect3dvolumetexture8');
-require('d3d8.interfaces.idirect3dcubetexture8');
-require('d3d8.interfaces.idirect3dvertexbuffer8');
-require('d3d8.interfaces.idirect3dindexbuffer8');
-require('d3d8.interfaces.idirect3dsurface8');
-require('d3d8.interfaces.idirect3dvolume8');
-require('d3d8.interfaces.idirect3dswapchain8');
+require 'd3d8.interfaces.iunknown';
+require 'd3d8.interfaces.idirect3d8';
+require 'd3d8.interfaces.idirect3ddevice8';
+require 'd3d8.interfaces.idirect3dresource8';
+require 'd3d8.interfaces.idirect3dbasetexture8';
+require 'd3d8.interfaces.idirect3dtexture8';
+require 'd3d8.interfaces.idirect3dvolumetexture8';
+require 'd3d8.interfaces.idirect3dcubetexture8';
+require 'd3d8.interfaces.idirect3dvertexbuffer8';
+require 'd3d8.interfaces.idirect3dindexbuffer8';
+require 'd3d8.interfaces.idirect3dsurface8';
+require 'd3d8.interfaces.idirect3dvolume8';
+require 'd3d8.interfaces.idirect3dswapchain8';
 
 -- Require d3dx8 definitions..
-require('d3d8.d3dx8');
+require 'd3d8.d3dx8';
 
 ffi.cdef[[
     enum {

@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,7 +19,7 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-require('common');
+require 'common';
 
 --[[
 * Scaling Helper Library
@@ -48,7 +48,7 @@ local scaling = {
 
 do
     -- Find the CYmdb object which holds the current scaling information..
-    local ptr = ashita.memory.find('FFXiMain.dll', 0, 'A1????????85C05E74????80', 0x01, 0x00);
+    local ptr = ashita.memory.find(0, 0, 'A1????????85C05E74????80', 0x01, 0x00);
     if (ptr == 0) then
         error('[libs::scaling] Failed to find required CYmdb manager object! (1)');
     end

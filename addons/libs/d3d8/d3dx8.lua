@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -25,9 +25,9 @@
 * d3dx8.h, d3dx8core.h, d3dx8effect.h, d3dx8math.h, d3dx8mesh.h, d3dx8shape.h, d3dx8tex.h, dxerr8.h, dxfile.h
 --]]
 
-require('win32types');
+require 'win32types';
 
-local ffi   = require('ffi');
+local ffi   = require 'ffi';
 local C     = ffi.C;
 
 ffi.cdef[[

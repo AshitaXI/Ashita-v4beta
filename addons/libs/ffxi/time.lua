@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -50,25 +50,25 @@ ffi.cdef[[
 local timelib = T{
     ptrs = T{
         -- Helpers
-        time_diff   = ashita.memory.find('FFXiMain.dll', 0, 'E8????????8BC88B4424043BC876??2BC1488BC8B8FFFFFF7F', 0, 0), -- ntGameTimeDiff
+        time_diff   = ashita.memory.find(0, 0, 'E8????????8BC88B4424043BC876??2BC1488BC8B8FFFFFF7F', 0, 0), -- ntGameTimeDiff
 
         -- Vana'diel Time
-        game_time   = ashita.memory.find('FFXiMain.dll', 0, 'E8????????0305????????C3', 0, 0),      -- ntGameTimeGet
-        weekday     = ashita.memory.find('FFXiMain.dll', 0, '8B44240433D2B9006C0000F7F1', 0, 0),    -- ntGameDayWeekGet
-        day         = ashita.memory.find('FFXiMain.dll', 0, '8B44240433D2B900950100F7F1', 0, 0),    -- ntGameDayGet
-        month       = ashita.memory.find('FFXiMain.dll', 0, '8B44240433D2B900FC1200F7F1', 0, 0),    -- ntGameMonthGet
-        year        = ashita.memory.find('FFXiMain.dll', 0, 'B84134F81AF7642404C1EA118BC2C3', 0, 0),-- ntGameYearGet
-        minutes     = ashita.memory.find('FFXiMain.dll', 0, '8B44240433D2B990000000F7F1', 0, 0),    -- ntGameMinGet
-        hours       = ashita.memory.find('FFXiMain.dll', 0, '8B44240433D2B9800D0000F7F1', 0, 0),    -- ntGameHourGet
-        moon        = ashita.memory.find('FFXiMain.dll', 0, '8B4C2404B8DB4B682FF7E12BCA', 0, 0),    -- ntGameMoonGet
-        moon_percent= ashita.memory.find('FFXiMain.dll', 0, '8B4C2404B8DB4B682FF7E18BC1', 0, 0),    -- ntGameMoonPerGet
+        game_time   = ashita.memory.find(0, 0, 'E8????????0305????????C3', 0, 0),       -- ntGameTimeGet
+        weekday     = ashita.memory.find(0, 0, '8B44240433D2B9006C0000F7F1', 0, 0),     -- ntGameDayWeekGet
+        day         = ashita.memory.find(0, 0, '8B44240433D2B900950100F7F1', 0, 0),     -- ntGameDayGet
+        month       = ashita.memory.find(0, 0, '8B44240433D2B900FC1200F7F1', 0, 0),     -- ntGameMonthGet
+        year        = ashita.memory.find(0, 0, 'B84134F81AF7642404C1EA118BC2C3', 0, 0), -- ntGameYearGet
+        minutes     = ashita.memory.find(0, 0, '8B44240433D2B990000000F7F1', 0, 0),     -- ntGameMinGet
+        hours       = ashita.memory.find(0, 0, '8B44240433D2B9800D0000F7F1', 0, 0),     -- ntGameHourGet
+        moon        = ashita.memory.find(0, 0, '8B4C2404B8DB4B682FF7E12BCA', 0, 0),     -- ntGameMoonGet
+        moon_percent= ashita.memory.find(0, 0, '8B4C2404B8DB4B682FF7E18BC1', 0, 0),     -- ntGameMoonPerGet
 
         -- World (Earth) Time
-        world_time  = ashita.memory.find('FFXiMain.dll', 0, '518D44240050E8????????8B44240483C408C3', 0, 0),        -- xiGetTime
-        time_str    = ashita.memory.find('FFXiMain.dll', 0, '8B44240481EC8000000053555633F685C05774??50E8', 0, 0),  -- YkGetTimeString
+        world_time  = ashita.memory.find(0, 0, '518D44240050E8????????8B44240483C408C3', 0, 0),         -- xiGetTime
+        time_str    = ashita.memory.find(0, 0, '8B44240481EC8000000053555633F685C05774??50E8', 0, 0),   -- YkGetTimeString
 
         -- Local Time
-        local_time  = ashita.memory.find('FFXiMain.dll', 0, '8B442404568BC833F63D8017E87F894C2408', 0, 0), -- sqLocalTime
+        local_time  = ashita.memory.find(0, 0, '8B442404568BC833F63D8017E87F894C2408', 0, 0), -- sqLocalTime
     },
     temp = T{
         nums = ffi.new('uint32_t[?]', 3),

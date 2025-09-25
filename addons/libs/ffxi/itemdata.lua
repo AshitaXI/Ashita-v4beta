@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -19,8 +19,8 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-require('common');
-require('win32types');
+require 'common';
+require 'win32types';
 
 local chat      = require 'chat';
 local ffi       = require 'ffi';
@@ -93,8 +93,8 @@ local itemdata = T{
     },
 };
 
-itemdata.ptrs.parse_augments        = ashita.memory.find('FFXiMain.dll', 0, '8B54240481EC????????B95A00000033', 0, 0);
-itemdata.ptrs.parse_synthesis_rate  = ashita.memory.find('FFXiMain.dll', 0, '8B5424048B42088BC883E10F4983F903', 0, 0);
+itemdata.ptrs.parse_augments        = ashita.memory.find(0, 0, '8B54240481EC????????B95A00000033', 0, 0);
+itemdata.ptrs.parse_synthesis_rate  = ashita.memory.find(0, 0, '8B5424048B42088BC883E10F4983F903', 0, 0);
 
 if (not itemdata.ptrs:all(function (v) return v ~= nil; end)) then
     error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointers for itemdata library.')));
