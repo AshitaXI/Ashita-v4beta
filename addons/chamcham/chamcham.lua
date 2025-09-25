@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'chamcham';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Enables coloring models based on their entity type.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local d3d8 = require('d3d8');
-local imgui = require('imgui');
+require 'common';
+
+local d3d8  = require 'd3d8';
+local imgui = require 'imgui';
 
 -- ChamCham Variables
 local chamcham = {
