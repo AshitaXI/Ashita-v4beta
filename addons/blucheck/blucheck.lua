@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,19 +21,19 @@
 
 addon.name      = 'blucheck';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Helper addon to assist with tracking learned BLU spells with an in-game UI.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local ui = require('ui');
+require 'common';
+
+local ui = require 'ui';
 
 --[[
 * event: load
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', ui.load);
-
 
 --[[
 * event: command
