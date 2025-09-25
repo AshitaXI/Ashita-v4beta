@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,7 +21,7 @@
 
 addon.name      = 'namecolors';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables editing the games name color table.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -154,7 +154,7 @@ end);
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function (e)
-    namecolors.ptr = ashita.memory.find('FFXiMain.dll', 0, 'B917000000B880808080BF', 0x0B, 0);
+    namecolors.ptr = ashita.memory.find(0, 0, 'B917000000B880808080BF', 0x0B, 0);
     if (namecolors.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
