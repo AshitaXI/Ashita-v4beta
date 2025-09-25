@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'macrofix';
 addon.author    = 'atom0s & Sorien';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Removes the macro bar delay when pressing CTRL or ALT.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- MacroFix Variables
 local macrofix = T{
@@ -48,7 +49,7 @@ local macrofix = T{
 ashita.events.register('load', 'load_cb', function ()
     -- Locate all pointers and backup patch data..
     macrofix.ptrs:ieach(function (v)
-        local ptr = ashita.memory.find('FFXiMain.dll', 0, v.pattern, v.off, v.cnt);
+        local ptr = ashita.memory.find(0, 0, v.pattern, v.off, v.cnt);
         if (ptr == 0) then
             error(chat.header(addon.name):append(chat.error('Error: Failed to locate a required pointer.')));
         end
