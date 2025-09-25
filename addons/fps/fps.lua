@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'fps';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Displays and manipulates the games framerate handling.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local fonts = require('fonts');
-local settings = require('settings');
+require 'common';
+
+local chat      = require 'chat';
+local fonts     = require 'fonts';
+local settings  = require 'settings';
 
 -- Default Settings
 local default_settings = T{
@@ -210,7 +211,7 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /fps <divisor> - Sets the fps divisor.
     if (#args == 2) then
         -- Find the FPS divisor pointer..
-        local pointer = ashita.memory.find('FFXiMain.dll', 0, '81EC000100003BC174218B0D', 0, 0);
+        local pointer = ashita.memory.find(0, 0, '81EC000100003BC174218B0D', 0, 0);
         if (pointer == 0) then
             print(chat.header(addon.name):append(chat.error('Error: Failed to locate FPS divisor pointer; cannot adjust framerate!')));
             return;
