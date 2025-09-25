@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2023 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,15 +21,16 @@
 
 addon.name      = 'watchdog';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Enables widescan tracking [nearly] anything with a command.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-require('win32types');
-local chat  = require('chat');
-local dats  = require('ffxi.dats');
-local ffi   = require('ffi');
+require 'common';
+require 'win32types';
+
+local chat  = require 'chat';
+local dats  = require 'ffxi.dats';
+local ffi   = require 'ffi';
 
 ffi.cdef[[
     typedef bool (__cdecl* gcTrackingStartSet_f)(uint32_t);
@@ -137,8 +138,8 @@ end
 * desc : Event called when the addon is being loaded.
 --]]
 ashita.events.register('load', 'load_cb', function ()
-    watchdog.pointers.func = ashita.memory.find('FFXiMain.dll', 0, '66837C240405568BF10F85????????0FBF44240C480F84????????48', 0xD7, 0x00);
-    watchdog.pointers.zone = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????8B44240425FFFF00003B', 0x02, 0x00);
+    watchdog.pointers.func = ashita.memory.find(0, 0, '66837C240405568BF10F85????????0FBF44240C480F84????????48', 0xD7, 0x00);
+    watchdog.pointers.zone = ashita.memory.find(0, 0, '8B0D????????8B44240425FFFF00003B', 0x02, 0x00);
 
     if (watchdog.pointers.func == 0 or watchdog.pointers.zone == 0) then
         error(chat.header(addon.name):append(chat.error('Failed to locate required pointer(s); cannot continue!')));
