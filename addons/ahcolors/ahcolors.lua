@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,11 +21,12 @@
 
 addon.name      = 'ahcolors';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Changes the auction house listing colors to be easier to see.';
 addon.link      = 'https://ashitaxi.com/';
 
 require 'common';
+
 local chat  = require 'chat';
 local ffi   = require 'ffi';
 
@@ -44,7 +45,7 @@ local ahcolors = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     ahcolors.ptrs:ieach(function (v)
-        local ptr = ashita.memory.find('FFXiMain.dll', 0, v.pattern, v.off, 0);
+        local ptr = ashita.memory.find(0, 0, v.pattern, v.off, 0);
         if (ptr == 0) then
             error(chat.header(addon.name):append(chat.error('Error: Failed to locate a required pointer.')));
         end
