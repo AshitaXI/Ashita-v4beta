@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'filterless';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Disables the bad language filter for private servers.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
+require 'common';
+
+local chat = require 'chat';
 
 -- Filterless Variables
 local filterless = T{
@@ -39,7 +40,7 @@ local filterless = T{
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Find the game configurations pointer..
-    filterless.ptr = ashita.memory.find('FFXiMain.dll', 0, '8B0D????????85C975??83C8??C38B44240450E8????????C3', 0, 0);
+    filterless.ptr = ashita.memory.find(0, 0, '8B0D????????85C975??83C8??C38B44240450E8????????C3', 0, 0);
     if (filterless.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));
         return;
