@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,14 +21,15 @@
 
 addon.name      = 'recast';
 addon.author    = 'atom0s, Thorny, RZN';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Displays ability and spell recast times.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local fonts = require('fonts');
-local scaling = require('scaling');
-local settings = require('settings');
+require 'common';
+
+local fonts     = require 'fonts';
+local scaling   = require 'scaling';
+local settings  = require 'settings';
 
 -- Default Settings
 local default_settings = T{
