@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,15 +21,15 @@
 
 addon.name      = 'move';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Window helper to adjust position, size, border, etc.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-require('win32types');
+require 'common';
+require 'win32types';
 
-local chat  = require('chat');
-local ffi   = require('ffi');
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 local C     = ffi.C;
 
 --[[
