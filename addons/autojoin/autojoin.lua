@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,13 @@
 
 addon.name      = 'autojoin';
 addon.author    = 'atom0s & Thorny';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Automatically handles party invite related interactions.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local settings = require('settings');
+require 'common';
+local chat      = require 'chat';
+local settings  = require 'settings';
 
 -- Default Settings
 local default_settings = T{
