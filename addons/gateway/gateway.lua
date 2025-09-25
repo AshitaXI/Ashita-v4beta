@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,13 @@
 
 addon.name      = 'gateway';
 addon.author    = 'atom0s & bluekirby0';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Forces all doors to always be open.';
 addon.link      = 'https://ashitaxi.com/';
 
 -- Enable jitting..
-local ffi = require('ffi');
-local jit = require('jit');
+local ffi = require 'ffi';
+local jit = require 'jit';
 jit.on();
 
 --[[
