@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,13 +21,14 @@
 
 addon.name      = 'ime';
 addon.author    = 'atom0s';
-addon.version   = '1.0';
+addon.version   = '1.1';
 addon.desc      = 'Allows non-Japanese clients to talk using the Japanese IME and character sets.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local chat = require('chat');
-local ffi = require('ffi');
+require 'common';
+
+local chat  = require 'chat';
+local ffi   = require 'ffi';
 
 -- IME Variables
 local ime = T{
@@ -75,7 +76,7 @@ end
 --]]
 ashita.events.register('load', 'load_cb', function ()
     -- Create a pointer to the IME language check..
-    ime.ptr_check = ffi.gc(ffi.cast('uint8_t*', ashita.memory.find('FFXiMain.dll', 0, '83EC08A1????????5333DB56', 0x2F, 0)), function ()
+    ime.ptr_check = ffi.gc(ffi.cast('uint8_t*', ashita.memory.find(0, 0, '83EC08A1????????5333DB56', 0x2F, 0)), function ()
         ime.ptr_check[0] = 0x74;
     end);
 
@@ -84,7 +85,7 @@ ashita.events.register('load', 'load_cb', function ()
     end
 
     -- Create a pointer to the IME language object..
-    ime.ptr_input = ffi.gc(ffi.cast('uint8_t*', (ffi.cast('uint32_t**', ashita.memory.find('FFXiMain.dll', 0, '8B0D????????81EC0401000053568B', 2, 0))[0])[0]), function ()
+    ime.ptr_input = ffi.gc(ffi.cast('uint8_t*', (ffi.cast('uint32_t**', ashita.memory.find(0, 0, '8B0D????????81EC0401000053568B', 2, 0))[0])[0]), function ()
         ime.ptr_input[ime.off_input_1] = 0x01;
         ime.ptr_input[ime.off_input_2] = 0x01;
     end);
@@ -94,7 +95,7 @@ ashita.events.register('load', 'load_cb', function ()
     end
 
     -- Create a pointer to the client language id..
-    ime.ptr_lang = ffi.gc(ffi.cast('uint8_t*', (ffi.cast('uint32_t**', ashita.memory.find('FFXiMain.dll', 0, '8B0D????????83EC0C8A51188B410884D256', 2, 0))[0])[0]), function ()
+    ime.ptr_lang = ffi.gc(ffi.cast('uint8_t*', (ffi.cast('uint32_t**', ashita.memory.find(0, 0, '8B0D????????83EC0C8A51188B410884D256', 2, 0))[0])[0]), function ()
         ime.ptr_lang[ime.off_langid] = ime.langid;
     end);
 
