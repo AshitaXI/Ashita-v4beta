@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2021 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
@@ -21,12 +21,13 @@
 
 addon.name      = 'petinfo';
 addon.author    = 'atom0s & Tornac';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Displays information about the players pet.';
 addon.link      = 'https://ashitaxi.com/';
 
-require('common');
-local imgui = require('imgui');
+require 'common';
+
+local imgui = require 'imgui';
 
 -- PetInfo Variables
 local petinfo = T{
