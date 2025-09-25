@@ -1,5 +1,5 @@
 --[[
-* Addons - Copyright (c) 2024 Ashita Development Team
+* Addons - Copyright (c) 2025 Ashita Development Team
 * Contact: https://www.ashitaxi.com/
 * Contact: https://discord.gg/Ashita
 *
