@@ -28,6 +28,7 @@ local sugar = { };
 --]]
 local modules = {
     { 'sugar.table',    'table_mt' },
+    { 'sugar.coroutine', 'coroutine_mt' },
     { 'sugar.boolean',  'boolean_mt' },
     { 'sugar.function', 'function_mt' },
     { 'sugar.math',     'math_mt' },
