@@ -107,6 +107,7 @@
         "ITarget",
         "IXInput",
         // Global Objects (Ashita)
+        "AddonManager",
         "AshitaCore",
         "LogManager",
         // Global Objects (ImGui)
