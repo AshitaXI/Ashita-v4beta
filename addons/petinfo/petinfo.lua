@@ -21,7 +21,7 @@
 
 addon.name      = 'petinfo';
 addon.author    = 'atom0s & Tornac';
-addon.version   = '1.3';
+addon.version   = '1.4';
 addon.desc      = 'Displays information about the players pet.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -120,58 +120,61 @@ ashita.events.register('d3d_present', 'present_cb', function ()
         return;
     end
 
+    -- Calculate the needed minimum window width..
+    local dist  = ('%.1f'):fmt(math.sqrt(pet.Distance));
+    local x1, _ = imgui.CalcTextSize(pet.Name);
+    local x2, _ = imgui.CalcTextSize(dist);
+    local x3, _ = imgui.CalcTextSize(' ');
+    local min_w = math.clamp(x1 + x2 + (x3 * 5), 250, 800);
+
     imgui.SetNextWindowBgAlpha(0.8);
-    imgui.SetNextWindowSize({ 250, -1, }, ImGuiCond_Always);
-    if (imgui.Begin('PetInfo', petinfo.is_open, bit.bor(ImGuiWindowFlags_NoDecoration, ImGuiWindowFlags_AlwaysAutoResize, ImGuiWindowFlags_NoSavedSettings, ImGuiWindowFlags_NoFocusOnAppearing, ImGuiWindowFlags_NoNav))) then
-        -- Obtain and prepare pet information..
+    imgui.SetNextWindowSizeConstraints({ min_w, -1 }, { FLT_MAX, FLT_MAX });
+    if (imgui.Begin('PetInfo', petinfo.is_open, bit.bor(ImGuiWindowFlags_AlwaysAutoResize, ImGuiWindowFlags_NoDecoration, ImGuiWindowFlags_NoNav, ImGuiWindowFlags_NoFocusOnAppearing))) then
         local petmp = AshitaCore:GetMemoryManager():GetPlayer():GetPetMPPercent();
         local pettp = AshitaCore:GetMemoryManager():GetPlayer():GetPetTP();
-        local dist  = ('%.1f'):fmt(math.sqrt(pet.Distance));
-        local x, _  = imgui.CalcTextSize(dist);
 
-        -- Display the pets information..
         imgui.Text(pet.Name);
         imgui.SameLine();
-        imgui.SetCursorPosX(imgui.GetCursorPosX() + imgui.GetColumnWidth() - x - imgui.GetStyle().FramePadding.x);
+        imgui.SetCursorPosX(imgui.GetCursorPosX() + imgui.GetColumnWidth() - x2 - imgui.GetStyle().FramePadding.x);
         imgui.Text(dist);
         imgui.Separator();
         imgui.Text('HP:');
         imgui.SameLine();
-        imgui.ProgressBar(pet.HPPercent / 100, { -1, 16 });
+        imgui.ProgressBar(pet.HPPercent / 100, { -1, imgui.GetStyle().FontSizeBase + 4 });
         imgui.Text('MP:');
         imgui.SameLine();
         imgui.PushStyleColor(ImGuiCol_PlotHistogram, { 0.0, 0.49, 1.0, 1.0 });
-        imgui.ProgressBar(petmp / 100, { -1, 16 });
-        imgui.PopStyleColor(1);
+        imgui.ProgressBar(petmp / 100, { -1, imgui.GetStyle().FontSizeBase + 4 });
+        imgui.PopStyleColor();
         imgui.Text('TP:');
         imgui.SameLine();
         imgui.PushStyleColor(ImGuiCol_PlotHistogram, { 0.0, 0.6, 0.14, 1.0 });
-        imgui.ProgressBar(pettp / 3000, { -1, 16 }, tostring(pettp));
-        imgui.PopStyleColor(1);
+        imgui.ProgressBar(pettp / 3000, { -1, imgui.GetStyle().FontSizeBase + 4 }, tostring(pettp));
+        imgui.PopStyleColor();
 
-        -- Display the pets target information..
         if (petinfo.target ~= nil) then
             local target = GetEntityByServerId(petinfo.target);
             if (target == nil or target.ActorPointer == 0 or target.HPPercent == 0) then
                 petinfo.target = nil;
             else
-                dist = ('%.1f'):fmt(math.sqrt(target.Distance));
-                x, _ = imgui.CalcTextSize(dist);
+                imgui.NewLine();
 
-                local tname = target.Name;
-                if (tname == nil) then
-                    tname = '';
+                local name = target.Name;
+                if (name == nil) then
+                    name = '';
                 end
 
-                imgui.Separator();
-                imgui.Text(tname);
+                dist    = ('%.1f'):fmt(math.sqrt(target.Distance));
+                x2, _   = imgui.CalcTextSize(dist);
+
+                imgui.Text(name);
                 imgui.SameLine();
-                imgui.SetCursorPosX(imgui.GetCursorPosX() + imgui.GetColumnWidth() - x - imgui.GetStyle().FramePadding.x);
+                imgui.SetCursorPosX(imgui.GetCursorPosX() + imgui.GetColumnWidth() - x2 - imgui.GetStyle().FramePadding.x);
                 imgui.Text(dist);
                 imgui.Separator();
                 imgui.Text('HP:');
                 imgui.SameLine();
-                imgui.ProgressBar(target.HPPercent / 100, { -1, 16 });
+                imgui.ProgressBar(target.HPPercent / 100, { -1, imgui.GetStyle().FontSizeBase + 4 });
             end
         end
     end
