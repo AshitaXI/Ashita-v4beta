@@ -1,8 +1,10 @@
 {
+    "lua.debug.settings.luaVersion": "luajit",
     "Lua.diagnostics.disable": [
         "lowercase-global",
         "undefined-field"
     ],
+    "Lua.diagnostics.enable": true,
     "Lua.diagnostics.globals": [
         // Enumerations (Ashita)
         "ChatInputOpenStatus",
@@ -168,7 +170,20 @@
         "GetEntity",
         "GetPlayerEntity",
     ],
-    "Lua.runtime.version": "LuaJIT",
+    "Lua.diagnostics.ignoredFiles": "Disable",
     "Lua.diagnostics.workspaceDelay": -1,
-    "lua.debug.settings.luaVersion": "luajit"
+    "Lua.diagnostics.workspaceEvent": "OnSave",
+    "Lua.hint.enable": false,
+    "Lua.hint.setType": false,
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.workspace.ignoreDir": [
+        ".vscode",
+        "libs/socket",
+        "libs/json.lua",
+        "libs/mime.lua",
+        "libs/reflect.lua",
+        "libs/socket.lua",
+    ],
+    "Lua.workspace.maxPreload": 100000,
+    "Lua.workspace.preloadFileSize": 100000
 }
