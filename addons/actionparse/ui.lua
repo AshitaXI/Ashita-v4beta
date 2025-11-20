@@ -140,7 +140,7 @@ function ui.render_action_info()
         imgui.TableHeadersRow();
 
         local idx = 1;
-        action.target:each(function (v, k)
+        action.target:each(function (v)
             imgui.PushID(idx);
             imgui.TableNextRow();
             imgui.TableSetColumnIndex(0);
@@ -190,7 +190,7 @@ function ui.render_action_info()
         imgui.TableHeadersRow();
 
         local idx = 1;
-        target.result:each(function (v, k)
+        target.result:each(function (v)
             imgui.PushID(idx);
             imgui.TableNextRow();
             imgui.TableSetColumnIndex(0);

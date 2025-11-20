@@ -21,7 +21,7 @@
 
 addon.name      = 'namecolors';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Enables editing the games name color table.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -153,7 +153,7 @@ end);
 * event: load
 * desc : Event called when the addon is being loaded.
 --]]
-ashita.events.register('load', 'load_cb', function (e)
+ashita.events.register('load', 'load_cb', function ()
     namecolors.ptr = ashita.memory.find(0, 0, 'B917000000B880808080BF', 0x0B, 0);
     if (namecolors.ptr == 0) then
         error(chat.header(addon.name):append(chat.error('Error: Failed to locate required pointer.')));

@@ -21,7 +21,7 @@
 
 addon.name      = 'equipmon';
 addon.author    = 'atom0s';
-addon.version   = '1.4';
+addon.version   = '1.5';
 addon.desc      = 'Displays the players equipment onscreen at all times.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -237,7 +237,7 @@ end
 --]]
 local function update_equipment_textures()
     eqmon.slots:each(function (v)
-        local id, count = get_equipped_item(v.slot);
+        local id, _ = get_equipped_item(v.slot);
         if (id == nil) then
             v.itemid = 0;
             v.texture = nil;

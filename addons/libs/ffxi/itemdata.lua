@@ -549,8 +549,6 @@ itemdata.parse_raw_augments = function (item, ritem)
 
         return data;
     end
-
-    return data;
 end
 
 --[[

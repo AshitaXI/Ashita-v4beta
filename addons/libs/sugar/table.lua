@@ -31,7 +31,7 @@ local table_mt = { };
 table_mt.all = function (self, f)
     f = f or function (v) return v == true; end;
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         if (not f(v)) then
             return false;
         end
@@ -50,7 +50,7 @@ end
 table_mt.any = function (self, f)
     f = f or function (v) return v == true; end;
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         if (f(v)) then
             return true;
         end
@@ -181,7 +181,7 @@ end
 table_mt.countf = function (self, f)
     local ret = 0;
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         if (f(v)) then
             ret = ret + 1;
         end
@@ -353,7 +353,7 @@ end
 table_mt.filteri = function (self, f)
     local ret = { };
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         if (f(v)) then
             ret[#ret + 1] = v;
         end
@@ -489,7 +489,7 @@ table_mt.imap = function (self, f)
     local ret = { };
     local n = 0;
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         n = n + 1;
         ret[n] = f(v);
     end
@@ -670,7 +670,7 @@ end
 table_mt.mapk = function (self, f)
     local ret = { };
 
-    for k, v in pairs(self) do
+    for _, v in pairs(self) do
         ret[f(v)] = v;
     end
 

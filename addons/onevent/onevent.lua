@@ -21,7 +21,7 @@
 
 addon.name      = 'onevent';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Reacts to chat based events with customized commands.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -113,7 +113,7 @@ local function cmd(e, args)
         end
 
         -- Update existing trigger entry if available..
-        for k, v in pairs(onevent.events) do
+        for _, v in pairs(onevent.events) do
             if (v[1] == trigger) then
                 v[2] = action;
                 print(chat.header(addon.name):append(chat.message(('Updated existing trigger: %s => %s'):fmt(chat.success(trigger), chat.success(action)))));

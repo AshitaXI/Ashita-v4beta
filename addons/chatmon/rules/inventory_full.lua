@@ -77,7 +77,7 @@ end
 * event: packet_in
 * desc : Event called when the addon is processing incoming packets.
 --]]
-ruleset.callback = function (e)
+ruleset.callback = function ()
     -- Ensure inventory full alerts are enabled..
     if (not chatmon.settings.inventory_full.inventory.enabled) then
         return;

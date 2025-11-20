@@ -21,7 +21,7 @@
 
 addon.name      = 'chatmon';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Plays sounds as a reaction to certain events in chat. (And some other helpful events.)';
 addon.link      = 'https://ashitaxi.com/';
 

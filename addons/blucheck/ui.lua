@@ -156,7 +156,7 @@ function ui.get_spell_counts()
         total   = 0,
     };
 
-    ui.spells:each(function (v, k)
+    ui.spells:each(function (v)
         counts.total = counts.total + 1;
 
         if (v.known) then
@@ -243,7 +243,7 @@ function ui.packet_in(e)
             local player = GetPlayerEntity();
             if (sender == player.TargetIndex and target == player.TargetIndex) then
                 -- Mark the spell as known..
-                ui.spells:each(function (v, k)
+                ui.spells:each(function (v)
                     if (v.index == spellId) then
                         v.known = true;
                     end
@@ -366,7 +366,7 @@ function ui.render_tab_spells()
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Blue Mage Spells');
         imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             local index = 1;
-            ui.spells:each(function (v, k)
+            ui.spells:each(function (v)
                 if (v.known) then
                     imgui.PushStyleColor(ImGuiCol_Text, { 0.0, 1.0, 0.0, 1.0 });
                 else
@@ -414,7 +414,7 @@ function ui.render_tab_zonehelper()
         imgui.TextColored({ 1.0, 0.65, 0.26, 1.0 }, 'Zone Spells');
         imgui.BeginChild('leftpane', { 230, -imgui.GetFrameHeightWithSpacing(), }, ImGuiChildFlags_Borders);
             local index = 1;
-            ui.zone:each(function (v, k)
+            ui.zone:each(function (v)
                 if (v.known) then
                     imgui.PushStyleColor(ImGuiCol_Text, { 0.0, 1.0, 0.0, 1.0 });
                 else

@@ -21,13 +21,11 @@
 
 addon.name      = 'logs';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Logs all text that goes through the chat log to a file.';
 addon.link      = 'https://ashitaxi.com/';
 
 require 'common';
-
-local chat = require 'chat';
 
 -- Logs Variables
 local logs = T{

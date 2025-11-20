@@ -21,7 +21,7 @@
 
 addon.name      = 'actionparse';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Parses and displays incoming action packet information.';
 addon.link      = 'https://ashitaxi.com/';
 

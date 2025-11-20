@@ -21,7 +21,7 @@
 
 addon.name      = 'nokb';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Disables knockback effects applied to the local player.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -41,7 +41,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
             local b = 150;
 
             -- Loop the targets affected by the action..
-            for x = 0, n - 1 do
+            for _ = 0, n - 1 do
                 -- Prevent the knock back from happening..
                 ashita.bits.pack_be(e.data_modified_raw, 0, b + 60, 3);
 

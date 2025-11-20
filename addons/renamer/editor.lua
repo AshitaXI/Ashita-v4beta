@@ -96,7 +96,7 @@ function editor.update_zone_npcs(zid, zsubid)
     end
 
     -- Parse the file for npc entries..
-    for x = 0, ((size / 0x20) - 0x01) do
+    for _ = 0, ((size / 0x20) - 0x01) do
         local data = f:read(0x20);
         local name, id = struct.unpack('c28L', data);
         table.insert(editor.npcs, { id, bit.band(id, 0x0FFF), name });
@@ -482,7 +482,7 @@ function editor.beginscene()
     end
 
     -- Rename entities..
-    T(renames):each(function (v, k)
+    T(renames):each(function (v)
         local idx = bit.band(v[1], 0x0FFF);
         AshitaCore:GetMemoryManager():GetEntity():SetName(idx, v[2]);
     end);
