@@ -21,7 +21,7 @@
 
 addon.name      = 'blumon';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Monitors for learnt Blue Mage spells and announces them with color.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -46,7 +46,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
 
             -- Obtain the player entity..
             local player = GetPlayerEntity();
-            if (sender == player.TargetIndex and target == player.TargetIndex) then
+            if (player ~= nil and sender == player.TargetIndex and target == player.TargetIndex) then
                 local name = AshitaCore:GetResourceManager():GetString('spells.names', spellId);
                 if (name == nil) then
                     name = spellId;

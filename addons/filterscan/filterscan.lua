@@ -21,7 +21,7 @@
 
 addon.name      = 'filterscan';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Allows filtering widescan results for specific entities.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -70,7 +70,7 @@ local function update_npcs(zid, zsubid)
     end
 
     -- Parse the file for npc entries..
-    for x = 0, ((size / 0x20) - 0x01) do
+    for _ = 0, ((size / 0x20) - 0x01) do
         local data = f:read(0x20);
         local name, id = struct.unpack('c28L', data);
         table.insert(filterscan.npcs, { bit.band(id, 0x0FFF), name });

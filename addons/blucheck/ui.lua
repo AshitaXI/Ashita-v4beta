@@ -241,7 +241,7 @@ function ui.packet_in(e)
 
             -- Obtain the player entity..
             local player = GetPlayerEntity();
-            if (sender == player.TargetIndex and target == player.TargetIndex) then
+            if (player ~= nil and sender == player.TargetIndex and target == player.TargetIndex) then
                 -- Mark the spell as known..
                 ui.spells:each(function (v)
                     if (v.index == spellId) then
