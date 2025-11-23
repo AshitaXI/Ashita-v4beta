@@ -139,26 +139,49 @@ function IAshitaCore:GetPointer() end
 --[[
 API Hook Forwards (Advanced Use Only!)
 
-Note: These are for advanced users only and will not be annotated fully.
+Note: These are for advanced users only!
 --]]
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:GetSystemMetrics() end
+---Retrieves the specified system metric or system configuration setting.
+---@param self IAshitaCore
+---@param index number
+---@return number
+---@nodiscard
+function IAshitaCore:GetSystemMetrics(index) end
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:SendMessageA() end
+---Sends the specified message to a window or windows.
+---@param self IAshitaCore
+---@param hwnd number
+---@param msg number
+---@param wparam number
+---@param lparam number
+---@return number
+function IAshitaCore:SendMessageA(hwnd, msg, wparam, lparam) end
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:SetCursorPos() end
+---Moves the cursor to the specified screen coordinates.
+---@param x number
+---@param y number
+---@return boolean
+function IAshitaCore:SetCursorPos(x, y) end
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:SetFocus() end
+---Sets the keyboard focus to the specified window.
+---@param self IAshitaCore
+---@param hwnd number
+---@return number
+function IAshitaCore:SetFocus(hwnd) end
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:SetForegroundWindow() end
+---Brings the thread that created the specified window into the foreground and activates the window.
+---@param self IAshitaCore
+---@param hwnd number
+---@return boolean
+function IAshitaCore:SetForegroundWindow(hwnd) end
 
----This function-forward is intended for advanced use only!
-function IAshitaCore:SetPriorityClass() end
+---Sets the priority class for the specified process.
+---@param self IAshitaCore
+---@param handle number
+---@param priority_class number
+---@return boolean
+function IAshitaCore:SetPriorityClass(handle, priority_class) end
 
 ---@type IAshitaCore
 AshitaCore = {};
