@@ -21,7 +21,7 @@
 
 addon.name      = 'autologin';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Automatically logs into a desired character slot.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -99,13 +99,11 @@ local autologin = T{
     },
 };
 
---[[
-* Returns a casted menu type from a base pointer.
-*
-* @param {number} ptr   - The base pointer of the menu object.
-* @param {string} t     - The menu object type.
-* @return {userdata|nil} The casted pointer on success, nil otherwise.
---]]
+---Returns a casted menu type from a base pointer.
+---@param ptr number
+---@param t string
+---@return any|nil
+---@nodiscard
 local function get_menu_obj(ptr, t)
     if (ptr == 0) then return nil; end
     ptr = ashita.memory.read_uint32(ptr);
@@ -113,11 +111,8 @@ local function get_menu_obj(ptr, t)
     return ffi.cast(t:append('*'), ashita.memory.read_uint32(ptr));
 end
 
---[[
-* Returns the name of the current opened and focused menu.
-*
-* @return {string|nil} The name of the menu if open, nil otherwise.
---]]
+---Returns the name of the current opened and focused menu.
+---@return string|nil
 local function get_menu_name()
     local ptr = AshitaCore:GetPointerManager():Get('menu');
     if (ptr == 0) then return nil; end
@@ -130,11 +125,8 @@ local function get_menu_name()
     return ashita.memory.read_string(ptr + 0x46, 16);
 end
 
---[[
-* Prints the addon help information.
-*
-* @param {boolean} is_err - Flag if this function was invoked due to an error.
---]]
+---Prints the addon help information.
+---@param is_err boolean
 local function print_help(is_err)
     -- Print the help header..
     if (is_err) then
@@ -154,9 +146,7 @@ local function print_help(is_err)
     end);
 end
 
---[[
-* Automates the login process.
---]]
+--- Automates the login process.
 local function do_login()
     local function step()
         local menu_names = T{
