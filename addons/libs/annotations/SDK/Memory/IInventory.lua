@@ -146,7 +146,7 @@ function IInventory:GetRawStructure() end
 ---@param self IInventory
 ---@param container number
 ---@param index number
----@return item_t?
+---@return item_t|nil
 ---@nodiscard
 function IInventory:GetContainerItem(container, index) end
 
@@ -167,7 +167,7 @@ function IInventory:GetContainerCountMax(container) end
 ---Returns the requested treasure pool item.
 ---@param self IInventory
 ---@param index number
----@return treasureitem_t?
+---@return treasureitem_t|nil
 ---@nodiscard
 function IInventory:GetTreasurePoolItem(index) end
 
@@ -210,14 +210,14 @@ function IInventory:GetDisplayItemPointer() end
 ---Returns the requested equipped item.
 ---@param self IInventory
 ---@param index number
----@return equipmententry_t?
+---@return equipmententry_t|nil
 ---@nodiscard
 function IInventory:GetEquippedItem(index) end
 
 ---Returns the requested check equipped item.
 ---@param self IInventory
 ---@param index number
----@return itemcheck_t?
+---@return itemcheck_t|nil
 ---@nodiscard
 function IInventory:GetCheckEquippedItem(index) end
 

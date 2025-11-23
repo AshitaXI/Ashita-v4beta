@@ -47,13 +47,13 @@ function IFontObject:HitTest(x, y) end
 
 ---Returns the font objects parent.
 ---@param self IFontObject
----@return IFontObject?
+---@return IFontObject|nil
 ---@nodiscard
 function IFontObject:GetParent() end
 
 ---Returns the font objects background primitive.
 ---@param self IFontObject
----@return IPrimitiveObject?
+---@return IPrimitiveObject|nil
 ---@nodiscard
 function IFontObject:GetBackground() end
 
@@ -381,13 +381,13 @@ local IFontManager = {};
 ---Creates a new, or returns an existing, font object.
 ---@param self IFontManager
 ---@param alias string
----@return IFontObject?
+---@return IFontObject|nil
 function IFontManager:Create(alias) end
 
 ---Returns an existing font object.
 ---@param self IFontManager
 ---@param alias string
----@return IFontObject?
+---@return IFontObject|nil
 ---@nodiscard
 function IFontManager:Get(alias) end
 
@@ -398,7 +398,7 @@ function IFontManager:Delete(alias) end
 
 ---Returns the currently focused font object.
 ---@param self IFontManager
----@return IFontObject?
+---@return IFontObject|nil
 ---@nodiscard
 function IFontManager:GetFocusedObject() end
 

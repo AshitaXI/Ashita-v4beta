@@ -87,14 +87,14 @@ function IPolPluginManager:IsLoaded(name) end
 ---Returns the plugin instance by name.
 ---@param self IPolPluginManager
 ---@param name string
----@return IPolPlugin?
+---@return IPolPlugin|nil
 ---@nodiscard
 function IPolPluginManager:Get(name) end
 
 ---Returns the plugin instance by index.
 ---@param self IPolPluginManager
 ---@param index number
----@return IPolPlugin?
+---@return IPolPlugin|nil
 ---@nodiscard
 function IPolPluginManager:Get(index) end
 

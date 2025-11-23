@@ -71,7 +71,7 @@ function IChatManager:ExecuteScriptString(str, args, threaded) end
 
 ---Returns the current raw input text.
 ---@param self IChatManager
----@return string?
+---@return string|nil
 function IChatManager:GetInputTextRaw() end
 
 ---Sets the current raw input text.
@@ -92,7 +92,7 @@ function IChatManager:GetInputTextRawCaretPosition() end
 
 ---Returns the current parsed input text.
 ---@param self IChatManager
----@return string?
+---@return string|nil
 function IChatManager:GetInputTextParsed() end
 
 ---Sets the current parsed input text.
@@ -112,7 +112,7 @@ function IChatManager:GetInputTextParsedLengthMax() end
 
 ---Returns the current display input text.
 ---@param self IChatManager
----@return string?
+---@return string|nil
 function IChatManager:GetInputTextDisplay() end
 
 ---Sets the current display input text.

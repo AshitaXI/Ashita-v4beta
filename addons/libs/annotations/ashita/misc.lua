@@ -33,7 +33,7 @@ Clipboard Functions
 --]]
 
 ---Returns the current clipboard content. (String)
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.misc.get_clipboard() end
 

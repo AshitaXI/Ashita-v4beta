@@ -34,7 +34,7 @@ ashita.regex = {};
 ---@param message string
 ---@param pattern string
 ---@param flags? number
----@return table?
+---@return table|nil
 ---@nodiscard
 function ashita.regex.match(message, pattern, flags) end
 
@@ -44,7 +44,7 @@ function ashita.regex.match(message, pattern, flags) end
 ---@param message string
 ---@param pattern string
 ---@param flags? number
----@return table?
+---@return table|nil
 ---@nodiscard
 function ashita.regex.search(message, pattern, flags) end
 
@@ -53,7 +53,7 @@ function ashita.regex.search(message, pattern, flags) end
 ---See: https://en.cppreference.com/w/cpp/regex/regex_replace.html
 ---@overload fun(message: string, pattern: string, replace: string, flags?: number): string?
 ---@overload fun(message: string, pattern: string, replace: function, flags?: number): string?
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.regex.replace(...) end
 

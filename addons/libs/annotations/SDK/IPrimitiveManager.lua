@@ -294,13 +294,13 @@ local IPrimitiveManager = {};
 ---Creates a new, or returns an existing, primitive object.
 ---@param self IPrimitiveManager
 ---@param alias string
----@return IPrimitiveObject?
+---@return IPrimitiveObject|nil
 function IPrimitiveManager:Create(alias) end
 
 ---Returns an existing primitive object.
 ---@param self IPrimitiveManager
 ---@param alias string
----@return IPrimitiveObject?
+---@return IPrimitiveObject|nil
 ---@nodiscard
 function IPrimitiveManager:Get(alias) end
 
@@ -311,7 +311,7 @@ function IPrimitiveManager:Delete(alias) end
 
 ---Returns the currently focused primitive object.
 ---@param self IPrimitiveManager
----@return IPrimitiveObject?
+---@return IPrimitiveObject|nil
 ---@nodiscard
 function IPrimitiveManager:GetFocusedObject() end
 

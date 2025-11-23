@@ -54,7 +54,7 @@ function ashita.fs.create_directory(path) end
 
 ---Returns (or sets) the current directory.
 ---@param path? string
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.fs.current_directory(path) end
 
@@ -75,20 +75,20 @@ function ashita.fs.exists(path) end
 ---@param path string
 ---@param mask? string
 ---@param subfolders? boolean
----@return table?
+---@return table|nil
 ---@nodiscard
 function ashita.fs.get_directory(path, mask, subfolders) end
 
 ---Returns the given applications install directory.
 ---@param lang_id number
 ---@param game_id number
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.fs.get_install_directory(lang_id, game_id) end
 
 ---Returns the normalized path.
 ---@param path string
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.fs.normalize(path) end
 
@@ -110,13 +110,13 @@ function ashita.fs.size(path) end
 
 ---Returns the space information for the given path.
 ---@param path string
----@return FileSystemSpace?
+---@return FileSystemSpace|nil
 ---@nodiscard
 function ashita.fs.space(path) end
 
 ---Returns the status of the given file or folder.
 ---@param path string
----@return FileSystemStatus?
+---@return FileSystemStatus|nil
 ---@nodiscard
 function ashita.fs.status(path) end
 

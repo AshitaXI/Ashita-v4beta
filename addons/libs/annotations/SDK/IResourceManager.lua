@@ -184,7 +184,7 @@ local IResourceManager = {};
 ---Returns an ability by its id.
 ---@param self IResourceManager
 ---@param id number
----@return IAbility?
+---@return IAbility|nil
 ---@nodiscard
 function IResourceManager:GetAbilityById(id) end
 
@@ -192,21 +192,21 @@ function IResourceManager:GetAbilityById(id) end
 ---@param self IResourceManager
 ---@param name number
 ---@param lang number
----@return IAbility?
+---@return IAbility|nil
 ---@nodiscard
 function IResourceManager:GetAbilityByName(name, lang) end
 
 ---Returns an ability by its timer id.
 ---@param self IResourceManager
 ---@param id number
----@return IAbility?
+---@return IAbility|nil
 ---@nodiscard
 function IResourceManager:GetAbilityByTimerId(id) end
 
 ---Returns a spell by its id.
 ---@param self IResourceManager
 ---@param id number
----@return ISpell?
+---@return ISpell|nil
 ---@nodiscard
 function IResourceManager:GetSpellById(id) end
 
@@ -214,14 +214,14 @@ function IResourceManager:GetSpellById(id) end
 ---@param self IResourceManager
 ---@param name string
 ---@param lang number
----@return ISpell?
+---@return ISpell|nil
 ---@nodiscard
 function IResourceManager:GetSpellByName(name, lang) end
 
 ---Returns an item by its id.
 ---@param self IResourceManager
 ---@param id number
----@return IItem?
+---@return IItem|nil
 ---@nodiscard
 function IResourceManager:GetItemById(id) end
 
@@ -229,21 +229,21 @@ function IResourceManager:GetItemById(id) end
 ---@param self IResourceManager
 ---@param name string
 ---@param lang number
----@return IItem?
+---@return IItem|nil
 ---@nodiscard
 function IResourceManager:GetItemByName(name, lang) end
 
 ---Returns a status icon by its index.
 ---@param self IResourceManager
 ---@param index number
----@return IStatusIcon?
+---@return IStatusIcon|nil
 ---@nodiscard
 function IResourceManager:GetStatusIconByIndex(index) end
 
 ---Returns a status icon by its id.
 ---@param self IResourceManager
 ---@param id number
----@return IStatusIcon?
+---@return IStatusIcon|nil
 ---@nodiscard
 function IResourceManager:GetStatusIconById(id) end
 
@@ -251,7 +251,7 @@ function IResourceManager:GetStatusIconById(id) end
 ---@param self IResourceManager
 ---@param tbl string
 ---@param index number
----@return string?
+---@return string|nil
 ---@nodiscard
 function IResourceManager:GetString(tbl, index) end
 
@@ -260,7 +260,7 @@ function IResourceManager:GetString(tbl, index) end
 ---@param tbl string
 ---@param index number
 ---@param lang number
----@return string?
+---@return string|nil
 ---@nodiscard
 function IResourceManager:GetString(tbl, index, lang) end
 
@@ -301,7 +301,7 @@ function IResourceManager:GetStringLength(tbl, index, lang) end
 ---Returns a cached texture by its name.
 ---@param self IResourceManager
 ---@param name string
----@return userdata?
+---@return userdata|nil
 ---@nodiscard
 function IResourceManager:GetTexture(name) end
 

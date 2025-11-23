@@ -214,12 +214,12 @@ Global Functions
 
 ---Returns the raw entity at the given index.
 ---@param index number
----@return entity_t?
+---@return entity_t|nil
 ---@nodiscard
 function GetEntity(index) end
 
 ---Returns the raw player entity.
----@return entity_t?
+---@return entity_t|nil
 ---@nodiscard
 function GetPlayerEntity() end
 
@@ -233,7 +233,7 @@ local IEntity = {};
 ---Returns the raw entity structure for the requested entity.
 ---@param self IEntity
 ---@param index number
----@return entity_t?
+---@return entity_t|nil
 ---@nodiscard
 function IEntity:GetRawEntity(index) end
 

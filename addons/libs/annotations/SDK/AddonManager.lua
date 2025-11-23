@@ -33,7 +33,7 @@ function AddonManager:Count() end
 ---Returns the name of the addon at the given index.
 ---@param self AddonManager
 ---@param index number
----@return string?
+---@return string|nil
 ---@nodiscard
 function AddonManager:Get(index) end
 

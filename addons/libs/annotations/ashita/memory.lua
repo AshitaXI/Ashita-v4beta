@@ -65,7 +65,7 @@ function ashita.memory.unprotect(addr, size) end
 
 ---Allocates a block of memory.
 ---@param size number
----@return number?
+---@return number|nil
 ---@nodiscard
 function ashita.memory.alloc(size) end
 
@@ -147,21 +147,21 @@ function ashita.memory.read_double(addr) end
 ---Reads and returns an array of values from the given address.
 ---@param addr number
 ---@param size number
----@return table?
+---@return table|nil
 ---@nodiscard
 function ashita.memory.read_array(addr, size) end
 
 ---Reads and returns a string value from the given address.
 ---@param addr number
 ---@param size number
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.memory.read_string(addr, size) end
 
 ---Reads and returns a literal string value from the given address.
 ---@param addr number
 ---@param size number
----@return string?
+---@return string|nil
 ---@nodiscard
 function ashita.memory.read_literal(addr, size) end
 
@@ -250,13 +250,13 @@ function ashita.memory.assembler.nop(addr, nops) end
 
 ---Assembles and returns the given x86 assembly instructions as bytes.
 ---@param str string
----@return table?
+---@return table|nil
 ---@nodiscard
 function ashita.memory.assembler.assemble(str) end
 
 ---Assembles and injects the given x86 assembly instructions as a code cave. Returns the allocated code cave address.
 ---@param str string
----@return number?
+---@return number|nil
 ---@nodiscard
 function ashita.memory.assembler.cave(str) end
 

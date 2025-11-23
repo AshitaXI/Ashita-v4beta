@@ -93,14 +93,14 @@ function IPluginManager:IsLoaded(name) end
 ---Returns the plugin instance by name.
 ---@param self IPluginManager
 ---@param name string
----@return IPlugin?
+---@return IPlugin|nil
 ---@nodiscard
 function IPluginManager:Get(name) end
 
 ---Returns the plugin instance by index.
 ---@param self IPluginManager
 ---@param index number
----@return IPlugin?
+---@return IPlugin|nil
 ---@nodiscard
 function IPluginManager:Get(index) end
 
