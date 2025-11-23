@@ -176,8 +176,12 @@
     "Lua.hint.enable": false,
     "Lua.hint.setType": false,
     "Lua.runtime.version": "LuaJIT",
+    "Lua.workspace.library": [
+        "libs/annotations"
+    ],
     "Lua.workspace.ignoreDir": [
         ".vscode",
+        "libs/annotations",
         "libs/socket",
         "libs/json.lua",
         "libs/mime.lua",
