@@ -30,6 +30,7 @@
 local bit = require 'bit';
 
 -- Create a helper table for ImGui functions as well as inherit from the main IGuiManager..
+---@type IGuiManager
 local imgui = { };
 local imgui_mt = {
     __index = AshitaCore:GetGuiManager();
