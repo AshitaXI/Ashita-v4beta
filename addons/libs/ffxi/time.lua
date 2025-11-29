@@ -27,7 +27,7 @@ local ffi   = require 'ffi';
 local jit   = require 'jit';
 
 ffi.cdef[[
-    typedef struct {
+    typedef struct tm {
         int32_t tm_sec;
         int32_t tm_min;
         int32_t tm_hour;
@@ -37,7 +37,7 @@ ffi.cdef[[
         int32_t tm_wday;
         int32_t tm_yday;
         int32_t tm_isdst;
-    } tm;
+    } tm_t;
 
     typedef uint32_t    (__cdecl*   ntGameTimeDiff_f)(uint32_t);
     typedef uint32_t    (__stdcall* ntGameTimeGet_f)(void);
@@ -80,43 +80,35 @@ if (not timelib.ptrs:all(function (v) return v ~= nil and v ~= 0; end)) then
     return;
 end
 
---[[
-* Returns the game time difference between the given time and the current game time.
-*
-* @param {number} time - The time value to adjust.
-* @return {number} The adjusted time value.
---]]
+---Returns the game time difference between the given time and the current game time.
+---@param time number The time value to adjust.
+---@return number
+---@nodiscard
 timelib.game_time_diff = function (time)
     return ffi.cast('ntGameTimeDiff_f', timelib.ptrs.time_diff)(time);
 end
 jit.off(timelib.game_time_diff);
 
---[[
-* Returns the current raw game timestamp.
-*
-* @return {number} The raw game timestamp.
---]]
+---Returns the current raw game timestamp.
+---@return number
+---@nodiscard
 timelib.get_game_time_raw = function ()
     return ffi.cast('ntGameTimeGet_f', timelib.ptrs.game_time)();
 end
 jit.off(timelib.get_game_time_raw);
 
---[[
-* Returns the current epoch timestamp. (UTC)
-*
-* @return {number} The current epoch timestamp.
---]]
+---Returns the current epoch timestamp. (UTC)
+---@return number
+---@nodiscard
 timelib.get_unix_timestamp = function ()
     return ffi.cast('xiGetTime_f', timelib.ptrs.world_time)();
 end
 jit.off(timelib.get_unix_timestamp);
 
---[[
-* Returns the local time struct from the given epoch timestamp.
-*
-* @param {number} time - The timestamp value.
-* @return {tm|nil} The time struct on success, nil otherwise.
---]]
+---Returns the local time struct from the given epoch timestamp.
+---@param time number The timestamp value.
+---@return userdata|nil
+---@nodiscard
 timelib.get_local_time = function (time)
     local tm = ffi.cast('sqLocalTime_f', timelib.ptrs.local_time)(time);
     if (tm == nil) then
@@ -129,109 +121,91 @@ timelib.get_local_time = function (time)
 end
 jit.off(timelib.get_local_time);
 
---[[
-* Returns the current Vana'diel week day.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel week day.
---]]
+---Returns the current Vana'diel week day.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_weekday = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.weekday)(time);
 end
 jit.off(timelib.get_game_weekday);
 
---[[
-* Returns the current Vana'diel day.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel day.
---]]
+---Returns the current Vana'diel day.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_day = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.day)(time) + 1;
 end
 jit.off(timelib.get_game_day);
 
---[[
-* Returns the current Vana'diel month.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel month.
---]]
+---Returns the current Vana'diel month.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_month = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.month)(time) + 1;
 end
 jit.off(timelib.get_game_month);
 
---[[
-* Returns the current Vana'diel year.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel year.
---]]
+---Returns the current Vana'diel year.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_year = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.year)(time) + 886;
 end
 jit.off(timelib.get_game_year);
 
---[[
-* Returns the current Vana'diel minutes.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel minutes.
---]]
+---Returns the current Vana'diel minutes.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_minutes = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.minutes)(time);
 end
 jit.off(timelib.get_game_minutes);
 
---[[
-* Returns the current Vana'diel hours.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel hours.
---]]
+---Returns the current Vana'diel hours.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_hours = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.hours)(time);
 end
 jit.off(timelib.get_game_hours);
 
---[[
-* Returns the current Vana'diel moon phase.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel moon phase.
---]]
+---Returns the current Vana'diel moon phase.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_moon_phase = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.moon)(time);
 end
 jit.off(timelib.get_game_moon_phase);
 
---[[
-* Returns the current Vana'diel moon percent.
-*
-* @param {number} time - (Optional) The timestamp to perform the calculation against, if given.
-* @return {number} The current Vana'diel moon percent.
---]]
+---Returns the current Vana'diel moon percent.
+---@param time? number The timestamp to perform the calculation against, if given.
+---@return number
+---@nodiscard
 timelib.get_game_moon_percent = function (time)
     time = time or timelib.get_game_time_raw();
     return ffi.cast('ntGameTimeFunc_f', timelib.ptrs.moon_percent)(time);
 end
 jit.off(timelib.get_game_moon_percent);
 
---[[
-* Returns a formatted time string using the given timestamp.
-*
-* @param {number} time - The timestamp value.
-* @param {number} flags - The flags used for formatting.
-* @return {string|nil} The time string on success, nil otherwise.
---]]
+---Returns a formatted time string using the given timestamp.
+---@param time number The timestamp value.
+---@param flags number The flags used for formatting.
+---@return string|nil
+---@nodiscard
 timelib.get_time_string = function (time, flags)
     local str= ffi.cast('YkGetTimeString_f', timelib.ptrs.time_str)(time, flags);
     if (str == nil) then
@@ -241,12 +215,10 @@ timelib.get_time_string = function (time, flags)
 end
 jit.off(timelib.get_time_string);
 
---[[
-* Returns the proper calculated status timer value from its raw value.
-*
-* @param {number} raw_time - The raw status timer value.
-* @return {number} The calculated status timer value.
---]]
+---Returns the proper calculated status timer value from its raw value.
+---@param raw_time number
+---@return number
+---@nodiscard
 timelib.get_calculated_status_time = function (raw_time)
     timelib.temp.nums[0] = 60 * timelib.get_game_time_raw();
     timelib.temp.nums[1] = raw_time;
