@@ -24,8 +24,32 @@ require 'common';
 local reflect   = require 'reflect';
 local reflex    = T{};
 
+---@class ReflexMember
+---@field bits number
+---@field ctype? string
+---@field element_count number
+---@field element_size number
+---@field enum_type string
+---@field is_array boolean
+---@field is_bitfield boolean
+---@field is_bool boolean
+---@field is_const boolean
+---@field is_enum boolean
+---@field is_function boolean
+---@field is_ptr boolean
+---@field is_struct boolean
+---@field is_transparent boolean
+---@field is_union boolean
+---@field is_unsigned boolean
+---@field is_vla boolean
+---@field is_volatile boolean
+---@field memory_size number
+---@field name string
+---@field offset number
+---@field struct? table<number, ReflexMember>
 local member_properties = T{
     bits            = 0,
+    ctype           = '',
     element_count   = 0,
     element_size    = 0,
     enum_type       = '',
@@ -45,15 +69,17 @@ local member_properties = T{
     memory_size     = 0,
     name            = '(anonymous)',
     offset          = 0,
+    struct          = nil,
 };
 
---[[
-* Populates common flags for the given structure member.
-*
-* @param {table} member - The processed member table.
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
---]]
+---@class ReflexOptions
+---@field expand_base_classes? boolean
+local reflex_options = {};
+
+---Populates common flags for the given structure member.
+---@param member ReflexMember The processed member table.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
 reflex.populate_flags = function (member, m, options)
     if (not member.is_bool)     then member.is_bool     = m.bool        and true or false; end
     if (not member.is_const)    then member.is_const    = m.const       and true or false; end
@@ -70,13 +96,11 @@ reflex.populate_flags = function (member, m, options)
     end
 end
 
---[[
-* Process an array structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process an array structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.array = function (m, options)
     local member = T{};
 
@@ -87,13 +111,11 @@ reflex.array = function (m, options)
     return member:merge(reflex.parse_member(m.element_type, options));
 end
 
---[[
-* Process a bitfield structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a bitfield structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.bitfield = function (m, options)
     local member = T{};
 
@@ -103,13 +125,11 @@ reflex.bitfield = function (m, options)
     return member:merge(reflex.parse_member(m.type, options));
 end
 
---[[
-* Process an enum structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process an enum structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.enum = function (m, options)
     local member = T{};
 
@@ -119,24 +139,20 @@ reflex.enum = function (m, options)
     return member:merge(reflex.parse_member(m.type, options));
 end
 
---[[
-* Process a field structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a field structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.field = function (m, options)
     return reflex.parse_member(m.type, options);
 end
 
---[[
-* Process an float structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a float/double structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.float = function (m, options)
     local member = T{};
 
@@ -151,13 +167,11 @@ reflex.float = function (m, options)
     return member;
 end
 
---[[
-* Process a function structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a function structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.func = function (m, options)
     local member = T{};
 
@@ -170,13 +184,11 @@ reflex.func = function (m, options)
     return member;
 end
 
---[[
-* Process an integer structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a integer structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.int = function (m, options)
     local member = T{};
 
@@ -198,13 +210,11 @@ reflex.int = function (m, options)
     return member;
 end
 
---[[
-* Process a pointer structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a pointer structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.ptr = function (m, options)
     local member = T{};
 
@@ -215,13 +225,11 @@ reflex.ptr = function (m, options)
     return member;
 end
 
---[[
-* Process a struct structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a struct structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.struct = function (m, options)
     local member = T{};
 
@@ -235,13 +243,11 @@ reflex.struct = function (m, options)
     return member;
 end
 
---[[
-* Process a union structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a union structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.union = function (m, options)
     local member = T{};
 
@@ -257,13 +263,11 @@ reflex.union = function (m, options)
     return member;
 end
 
---[[
-* Process a void structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a void structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.void = function (m, options)
     local member = T{};
 
@@ -272,13 +276,11 @@ reflex.void = function (m, options)
     return member;
 end
 
---[[
-* Process a structure member.
-*
-* @param {table} m - The structure member being processed.
-* @param {table} options - Reflection options.
-* @return {table} The processed member table.
---]]
+---Process a structure member.
+---@param m table The structure member being processed.
+---@param options ReflexOptions Reflection options.
+---@return ReflexMember
+---@nodiscard
 reflex.parse_member = function (m, options)
     local f = reflex[m.what];
     if (not f) then
@@ -287,13 +289,11 @@ reflex.parse_member = function (m, options)
     return f(m, options);
 end
 
---[[
-* Reflects an FFI ctype back into a Lua table of structure members.
-*
-* @param {ctype} ctype - The C-type to reflect.
-* @param {table} options - Reflection options.
-* @return {table} Table containing the reflected structure members.
---]]
+---Reflects an FFI ctype back into a Lua table of structure members.
+---@param ctype string|number The C-type to reflect.
+---@param options? ReflexOptions Reflection options.
+---@return table<number, ReflexMember>
+---@nodiscard
 reflex.reflect = function (ctype, options)
     options = options or T{};
     options.expand_base_classes = options.expand_base_classes or false;
