@@ -23,14 +23,20 @@ require 'common';
 
 local ffi = require 'ffi';
 
+---@class MemoryPatch
+---@field private address_ number
+---@field private backup_ table
+---@field private enabled_ boolean
+---@field private patch_ table
+---@field private patch_gc_ ffi.cdata*
 local patch_type = T{};
 
---[[
-* Creates a new memory patch object.
-*
-* @param {number} address - The address to write the patch to.
-* @param {table} patch - The table of bytes to write to the address.
---]]
+---Creates a new memory patch object.
+---@param self MemoryPatch
+---@param address number The address to write the patch to.
+---@param patch table The table of bytes to write to the address.
+---@return MemoryPatch
+---@nodiscard
 function patch_type:new(address, patch)
     local o = T{};
 
@@ -48,9 +54,8 @@ function patch_type:new(address, patch)
     return o;
 end
 
---[[
-* Enables the patch.
---]]
+---Enables the patch.
+---@param self MemoryPatch
 function patch_type:enable()
     if (self.enabled_) then
         return;
@@ -64,9 +69,8 @@ function patch_type:enable()
     end
 end
 
---[[
-* Disables the patch.
---]]
+---Disables the patch.
+---@param self MemoryPatch
 function patch_type:disable()
     if (not self.enabled_) then
         return;
@@ -80,11 +84,10 @@ function patch_type:disable()
     end
 end
 
---[[
-* Returns if the patch is currently enabled.
-*
-* @returns {boolean} True if enabled, false otherwise.
---]]
+---Returns if the patch is currently enabled.
+---@param self MemoryPatch
+---@return boolean
+---@nodiscard
 function patch_type:enabled()
     return self.enabled_;
 end

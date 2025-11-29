@@ -23,17 +23,25 @@ require 'common';
 
 local ffi = require 'ffi';
 
+---@class MemoryCave
+---@field private address_ number
+---@field private backup_ table
+---@field private cave_ number
+---@field private cave_gc_ ffi.cdata*
+---@field private enabled_ boolean
+---@field private nops_ number
+---@field private offset_ number
+---@field private size_ number
 local cave_type = T{};
 
---[[
-* Creates a new memory cave object.
-*
-* @param {number} address - The address to apply the code cave to. [Will inject an 0xE8 call opcode at this address.]
-* @param {number} size - The size of the instruction(s) byte code being overwritten.
-* @param {number} nops - The number of additional nops to inject.
-* @param {string} cave_code - The code cave assembly, in AsmJit format.
-* @return {table} The created code cave object.
---]]
+---Creates a new memory cave object.
+---@param self MemoryCave
+---@param address number The address to apply the code cave to. [Will inject an 0xE8 call opcode at this address.]
+---@param size number The size of the instruction(s) byte code being overwritten.
+---@param nops number The number of additional nops to inject.
+---@param cave_code string The code cave assembly, in AsmJit format.
+---@return MemoryCave
+---@nodiscard
 function cave_type:new(address, size, nops, cave_code)
     local o = T{};
 
@@ -55,9 +63,8 @@ function cave_type:new(address, size, nops, cave_code)
     return o;
 end
 
---[[
-* Enables the code cave.
---]]
+---Enables the code cave.
+---@param self MemoryCave
 function cave_type:enable()
     if (self.enabled_) then
         return;
@@ -71,9 +78,8 @@ function cave_type:enable()
     end
 end
 
---[[
-* Disables the code cave.
---]]
+---Disables the code cave.
+---@param self MemoryCave
 function cave_type:disable()
     if (not self.enabled_) then
         return;
@@ -87,29 +93,25 @@ function cave_type:disable()
     end
 end
 
---[[
-* Sets the offset into the code cave that the injected call should be calculated to.
-*
-* @param {number} offset - The offset into the code cave that the injected call will be calculated to.
---]]
+---Sets the offset into the code cave that the injected call should be calculated to.
+---@param self MemoryCave
+---@param offset number The offset into the code cave that the injected call will be calculated to.
 function cave_type:set_offset(offset)
     self.offset_ = offset;
 end
 
---[[
-* Returns if the code cave is currently enabled.
-*
-* @returns {boolean} True if enabled, false otherwise.
---]]
+---Returns if the code cave is currently enabled.
+---@param self MemoryCave
+---@return boolean
+---@nodiscard
 function cave_type:enabled()
     return self.enabled_;
 end
 
---[[
-* Returns the address of the code cave.
-*
-* @returns {number} The address of the code cave.
---]]
+---Returns the address of the code cave.
+---@param self MemoryCave
+---@return number
+---@nodiscard
 function cave_type:get_cave_address()
     return self.cave_;
 end
