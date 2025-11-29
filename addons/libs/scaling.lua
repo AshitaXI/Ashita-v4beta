@@ -72,40 +72,32 @@ do
     scaling.scaled.h = scaling.window.h / scaling.menu.h;
 end
 
---[[
-* Scales a font size based on the users configurations.
-*
-* @param {number} height - The default font size to be scaled.
-* @return {number} The scaled height, floored to the nearest integer.
---]]
+---Scales a font size based on the users configurations.
+---@param height number The default font size to be scaled.
+---@return integer
+---@nodiscard
 scaling.scale_font = function (height)
     return math.floor(height * scaling.scaled.h);
 end
 
-scaling.scale_f = scaling.scale_font;
-
---[[
-* Scales a width based on the users configurations.
-*
-* @param {number} width - The width to be scaled.
-* @return {number} The scaled width.
---]]
+---Scales a width based on the users configurations.
+---@param width number The width to be scaled.
+---@return number
+---@nodiscard
 scaling.scale_width = function (width)
     return width * scaling.scaled.w;
 end
 
-scaling.scale_w = scaling.scale_width;
-
---[[
-* Scales a height based on the users configurations.
-*
-* @param {number} height - The height to be scaled.
-* @return {number} The scaled height.
---]]
+---Scales a height based on the users configurations.
+---@param height number The height to be scaled.
+---@return number
+---@nodiscard
 scaling.scale_height = function (height)
     return height * scaling.scaled.h;
 end
 
+scaling.scale_f = scaling.scale_font;
+scaling.scale_w = scaling.scale_width;
 scaling.scale_h = scaling.scale_height;
 
 -- Return the library table..
