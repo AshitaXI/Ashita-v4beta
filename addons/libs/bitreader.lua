@@ -34,7 +34,7 @@ local breader = T{
 ---Creates and returns a new bit reader instance.
 ---@param self BitReader
 ---@param o nil|table The default object, if provided.
----@param data nil|table The data to be used with this reader.
+---@param data nil|string|table The data to be used with this reader.
 ---@param pos nil|number The position within the data, if provided.
 ---@return BitReader
 function breader:new(o, data, pos)
