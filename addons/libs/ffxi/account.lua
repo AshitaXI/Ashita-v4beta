@@ -100,11 +100,9 @@ if (not accountlib.ptrs:all(function (v) return v ~= nil and v ~= 0; end)) then
     return;
 end
 
---[[
-* Returns the pointer to the start of the 'pGcMainSys->work.character_info[]' array.
-*
-* @return {number} The base pointer.
---]]
+---Returns the pointer to the start of the 'pGcMainSys->work.character_info[]' array.
+---@return number
+---@nodiscard
 local function get_base_address()
     local ptr = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x02);
     local off = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x0C);
@@ -116,11 +114,9 @@ local function get_base_address()
     return ashita.memory.read_uint32(ptr) + off;
 end
 
---[[
-* Returns the number of entries in the 'pGcMainSys->work.character_info[]' array.
-*
-* @return {number} The base pointer.
---]]
+---Returns the number of entries in the 'pGcMainSys->work.character_info[]' array.
+---@return number
+---@nodiscard
 accountlib.get_character_count = function ()
     local ptr = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x02);
     local off = ashita.memory.read_uint32(accountlib.ptrs.main_sys + 0x0C);
@@ -132,11 +128,9 @@ accountlib.get_character_count = function ()
     return ashita.memory.read_uint32(ashita.memory.read_uint32(ptr) + off - 4);
 end
 
---[[
-* Returns the current selected character index that is being played.
-*
-* @return {number} The current selected character index.
---]]
+---Returns the current selected character index that is being played.
+---@return number
+---@nodiscard
 accountlib.get_selected_character_index = function ()
     local ptr = ashita.memory.read_uint32(accountlib.ptrs.nt_sys + 0x02);
     local off = ashita.memory.read_uint32(accountlib.ptrs.nt_sys + 0x08);
@@ -148,12 +142,10 @@ accountlib.get_selected_character_index = function ()
     return ashita.memory.read_uint32(ashita.memory.read_uint32(ptr) + off);
 end
 
---[[
-* Returns the requested characters ffxi_id.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters ffxi_id.
---]]
+---Returns the requested characters ffxi_id.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_ffxi_id = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -162,12 +154,10 @@ accountlib.get_login_ffxi_id = function (idx)
     return cinfo[idx].ffxi_id;
 end
 
---[[
-* Returns the requested characters ffxi_id_world.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters ffxi_id_world.
---]]
+---Returns the requested characters ffxi_id_world.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_ffxi_id_world = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -176,12 +166,10 @@ accountlib.get_login_ffxi_id_world = function (idx)
     return cinfo[idx].ffxi_id_world;
 end
 
---[[
-* Returns the requested characters world_id.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters world_id.
---]]
+---Returns the requested characters world_id.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_world_id = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -190,12 +178,10 @@ accountlib.get_login_world_id = function (idx)
     return cinfo[idx].worldid;
 end
 
---[[
-* Returns the requested characters status.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters status.
---]]
+---Returns the requested characters status.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_status = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -204,12 +190,10 @@ accountlib.get_login_status = function (idx)
     return cinfo[idx].status;
 end
 
---[[
-* Returns the requested characters renamef.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters renamef.
---]]
+---Returns the requested characters renamef.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_renamef = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -218,12 +202,10 @@ accountlib.get_login_renamef = function (idx)
     return cinfo[idx].renamef;
 end
 
---[[
-* Returns the requested characters reacechangef.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters racechangef.
---]]
+---Returns the requested characters reacechangef.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_racechangef = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -232,12 +214,10 @@ accountlib.get_login_racechangef = function (idx)
     return cinfo[idx].race_change;
 end
 
---[[
-* Returns the requested characters world_tbl.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters world_tbl.
---]]
+---Returns the requested characters world_tbl.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_ffxi_id_world_tbl = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -246,12 +226,10 @@ accountlib.get_login_ffxi_id_world_tbl = function (idx)
     return cinfo[idx].ffxi_id_world_tbl;
 end
 
---[[
-* Returns the requested characters character_name.
-*
-* @param {number} idx - The requested character index.
-* @return {string} The requested characters character_name.
---]]
+---Returns the requested characters character_name.
+---@param idx number
+---@return string|nil
+---@nodiscard
 accountlib.get_login_character_name = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -260,12 +238,10 @@ accountlib.get_login_character_name = function (idx)
     return ffi.string(cinfo[idx].character_name, 16):split('\0'):first();
 end
 
---[[
-* Returns the requested characters world_name.
-*
-* @param {number} idx - The requested character index.
-* @return {string} The requested characters world_name.
---]]
+---Returns the requested characters world_name.
+---@param idx number
+---@return string|nil
+---@nodiscard
 accountlib.get_login_world_name = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
@@ -274,12 +250,10 @@ accountlib.get_login_world_name = function (idx)
     return ffi.string(cinfo[idx].world_name, 16):split('\0'):first();
 end
 
---[[
-* Returns the requested characters extended info.
-*
-* @param {number} idx - The requested character index.
-* @return {number} The requested characters extended info.
---]]
+---Returns the requested characters extended info.
+---@param idx number
+---@return number
+---@nodiscard
 accountlib.get_login_character_info = function (idx)
     local cinfo = ffi.cast('lpkt_chr_info_sub2*', get_base_address());
     if (cinfo == nil) then
