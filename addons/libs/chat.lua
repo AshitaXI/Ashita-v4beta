@@ -19,86 +19,81 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+require 'common';
+
 local chat = { };
 
---[[
-* Returns the string wrapped in the given color tag. (Color table 1.)
-*
-* @param {number} n - The color code to use.
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in the given color.
+---@param color string The color to use.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
+chat.color = function (color, str)
+    return ('%s%s\30\01'):fmt(color, str);
+end
+
+---Returns the string wrapped in the given color tag. (Color table 1.)
+---@param n number The color code to use.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.color1 = function (n, str)
     return ('\30%c%s\30\01'):fmt(n, str);
 end
 
---[[
-* Returns the string wrapped in the given color tag. (Color table 2.)
-*
-* @param {number} n - The color code to use.
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in the given color tag. (Color table 2.)
+---@param n number The color code to use.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.color2 = function (n, str)
     return ('\31%c%s\30\01'):fmt(n, str);
 end
 
---[[
-* Returns the string wrapped in a colored header tag.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a colored header tag.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.header = function (str)
     return ('\30\81[\30\06%s\30\81]\30\01 '):fmt(str);
 end
 
---[[
-* Returns the string wrapped in a red color for critical errors.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a red color for critical errors.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.critical = function (str)
     return chat.color1(76, str);
 end
 
---[[
-* Returns the string wrapped in a red color for general errors.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a red color for general errors.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.error = function (str)
     return chat.color1(68, str);
 end
 
---[[
-* Returns the string wrapped in a cream/yellow color for general messages.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a cream/yellow color for general messages.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.message = function (str)
     return chat.color1(106, str);
 end
 
---[[
-* Returns the string wrapped in a green color for successful messages.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a green color for successful messages.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.success = function (str)
     return chat.color1(2, str);
 end
 
---[[
-* Returns the string wrapped in a yellow color for warnings.
-*
-* @param {string} str - The string to wrap.
-* @return {string} The wrapped string.
---]]
+---Returns the string wrapped in a yellow color for warnings.
+---@param str string The string to wrap.
+---@return string
+---@nodiscard
 chat.warning = function (str)
     return chat.color1(104, str);
 end
