@@ -19,6 +19,7 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+---@overload fun(value: any, cases: table<any, function>): nil|any
 switch = require 'switch';
 
 -- Extension Libraries
