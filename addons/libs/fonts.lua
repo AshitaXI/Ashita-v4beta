@@ -19,67 +19,74 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local ffi = require 'ffi';
-
 require 'common';
 
--- Set the random seed..
+local ffi = require 'ffi';
+
 math.randomseed(os.time());
 
--- Font Library Internal Table
-local fontlib = T{ };
-
--- Font Library Internal Cache
-fontlib.cache = T{ };
-
--- Font Library Default Font Settings
-fontlib.defaults = T{
-    visible        = true,
-    can_focus      = true,
-    locked         = false,
-    lockedz        = false,
-    is_dirty       = true,
-    font_file      = nil,
-    font_family    = 'Arial',
-    font_height    = 10,
-    bold           = false,
-    italic         = false,
-    right_justified= false,
-    strike_through = false,
-    underlined     = false,
-    color          = 0xFFFF0000,
-    color_outline  = 0x00000000,
-    padding        = 0.1,
-    position_x     = 0,
-    position_y     = 0,
-    auto_resize    = true,
-    anchor         = FrameAnchor.TopLeft,
-    anchor_parent  = FrameAnchor.TopLeft,
-    text           = '',
-
-    -- Font Background Defaults
-    background = T{
-        texture_offset_x= 0.0,
-        texture_offset_y= 0.0,
-        border_visible  = false,
-        border_color    = 0x00000000,
-        border_flags    = FontBorderFlags.None,
-        border_sizes    = '0,0,0,0',
-        visible         = false,
-        position_x      = 0,
-        position_y      = 0,
+---@class fontlib
+local fontlib = T{
+    cache = T{ },
+    defaults = T{
+        visible         = true,
         can_focus       = true,
         locked          = false,
         lockedz         = false,
-        scale_x         = 1.0,
-        scale_y         = 1.0,
-        width           = 0.0,
-        height          = 0.0,
-        color           = 0xFFFFFFFF,
-    };
+        is_dirty        = true,
+        font_file       = nil,
+        font_family     = 'Arial',
+        font_height     = 10,
+        bold            = false,
+        italic          = false,
+        right_justified = false,
+        strike_through  = false,
+        underlined      = false,
+        color           = 0xFFFF0000,
+        color_outline   = 0x00000000,
+        padding         = 0.1,
+        position_x      = 0,
+        position_y      = 0,
+        auto_resize     = true,
+        anchor          = FrameAnchor.TopLeft,
+        anchor_parent   = FrameAnchor.TopLeft,
+        text            = '',
+
+        background = T{
+            texture_offset_x= 0.0,
+            texture_offset_y= 0.0,
+            border_visible  = false,
+            border_color    = 0x00000000,
+            border_flags    = FontBorderFlags.None,
+            border_sizes    = '0,0,0,0',
+            visible         = false,
+            position_x      = 0,
+            position_y      = 0,
+            can_focus       = true,
+            locked          = false,
+            lockedz         = false,
+            scale_x         = 1.0,
+            scale_y         = 1.0,
+            width           = 0.0,
+            height          = 0.0,
+            color           = 0xFFFFFFFF,
+        },
+    },
+    mouse_events = T{
+        [0x200] = 'mouse_move',
+        [0x201] = 'left_click_down',
+        [0x202] = 'left_click_up',
+        [0x204] = 'right_click_down',
+        [0x205] = 'right_click_up',
+        [0x207] = 'middle_click_down',
+        [0x208] = 'middle_click_up',
+        [0x20A] = 'mouse_wheel',
+        [0x20B] = 'x_click_down',
+        [0x20C] = 'x_click_up',
+        [0x20E] = 'mouse_hwheel',
+    },
 };
 
--- Font Library Property Method Fowards
 fontlib.methods = T{
     ['alias']           = { 'GetAlias', 'SetAlias' },
     ['visible']         = { 'GetVisible', 'SetVisible' },
@@ -160,9 +167,9 @@ fontlib.methods = T{
     },
 };
 
--- Font Library Property Method Forwards (Background)
 fontlib.methods_bg = T{
     ['alias']               = { 'GetAlias', 'SetAlias' },
+    ['texture']             = { nil, 'SetTextureFromFile' },
     ['texture_offset_x']    = { 'GetTextureOffsetX', 'SetTextureOffsetX' },
     ['texture_offset_y']    = { 'GetTextureOffsetY', 'SetTextureOffsetY' },
     ['border_visible']      = { 'GetBorderVisible', 'SetBorderVisible' },
@@ -191,30 +198,16 @@ fontlib.methods_bg = T{
             else
                 local r     = RECT.new();
                 local vals  = tostring(v):split(',');
-                r.left      = tonumber(vals[1] or 0);
-                r.top       = tonumber(vals[2] or 0);
-                r.right     = tonumber(vals[3] or 0);
-                r.bottom    = tonumber(vals[4] or 0);
+                r.left      = tonumber(vals[1] or 0); ---@diagnostic disable-line: assign-type-mismatch
+                r.top       = tonumber(vals[2] or 0); ---@diagnostic disable-line: assign-type-mismatch
+                r.right     = tonumber(vals[3] or 0); ---@diagnostic disable-line: assign-type-mismatch
+                r.bottom    = tonumber(vals[4] or 0); ---@diagnostic disable-line: assign-type-mismatch
 
                 self:SetBorderSizes(r);
             end
         end,
     },
 };
-
--- Font Library Mouse Events
-fontlib.mouse_events = T{ };
-fontlib.mouse_events[0x200] = 'mouse_move';
-fontlib.mouse_events[0x201] = 'left_click_down';
-fontlib.mouse_events[0x202] = 'left_click_up';
-fontlib.mouse_events[0x204] = 'right_click_down';
-fontlib.mouse_events[0x205] = 'right_click_up';
-fontlib.mouse_events[0x207] = 'middle_click_down';
-fontlib.mouse_events[0x208] = 'middle_click_up';
-fontlib.mouse_events[0x20A] = 'mouse_wheel';
-fontlib.mouse_events[0x20B] = 'x_click_down';
-fontlib.mouse_events[0x20C] = 'x_click_up';
-fontlib.mouse_events[0x20E] = 'mouse_hwheel';
 
 --[[
 * Font Object Wrapper Metatable Overrides
@@ -382,13 +375,12 @@ do
     end);
 end
 
---[[
-* Creates and returns a new font object.
-*
-* @param {table} settings - The [optional] settings overrides to apply to the font after creating it.
-* @return {table} The font object wrapped in a custom table.
---]]
+---Creates and returns a new font object.
+---@param settings? table The settings overrides to apply to the font after creating it.
+---@return LuaFontObject
 function fontlib.new(settings)
+    settings = settings or {};
+
     -- Create a unique alias for the font object..
     local n = ('%s_********_********'):fmt(addon.name):gsub('[\\*]', function ()
         return ('%x'):fmt(math.random(0x00, 0x0F));
@@ -419,12 +411,9 @@ function fontlib.new(settings)
     return fobj;
 end
 
---[[
-* Wraps an existing font object.
-*
-* @param {userdata} o - The font object to wrap.
-* @return {table} The font object wrapped in a custom table.
---]]
+---Wraps an existing font object.
+---@param o IFontObject The font object to wrap.
+---@return LuaFontObject
 function fontlib.wrap(o)
     -- Create a wrapper for this font object..
     local f     = T{ };
@@ -442,12 +431,9 @@ function fontlib.wrap(o)
     return fobj;
 end
 
---[[
-* Wraps an existing font object background primitive.
-*
-* @param {userdata} o - The font object background primitive to wrap.
-* @return {table} The font objects background wrapped in a custom table.
---]]
+---Wraps an existing font object background primitive.
+---@param o IPrimitiveObject The font object background primitive to wrap.
+---@return LuaPrimitiveObject
 function fontlib.wrapbg(o)
     -- Create a wrapper for this font object background..
     local f = T{ };
@@ -457,17 +443,14 @@ function fontlib.wrapbg(o)
     return setmetatable(f, fontlib.fontobj_bg_mt);
 end
 
---[[
-* Return a table of font settings from a loaded configuration block.
-*
-* @param {string} alias - The configuration alias.
-* @param {string} key - The configuration key to find the values within.
-* @return {table} Table of font object settings.
-*
-* @note
-*   This is a helper that will try and load settings from the given configuration block.
-*   If a setting value exists, it will be used, otherwise the defaults table data is used instead.
---]]
+---Return a table of font settings from a loaded configuration block.
+---
+---This is a helper that will try and load settings from the given configuration block.<br>
+---If a setting value exists, it will be used, otherwise the defaults table data is used instead.
+---@param alias string The configuration alias.
+---@param key string The configuration key to find the values within.
+---@return table
+---@nodiscard
 function fontlib.load_settings(alias, key)
     -- Prepare the configurations..
     local settings = T{ };
@@ -496,10 +479,10 @@ function fontlib.load_settings(alias, key)
                         ret = RECT.new();
 
                         local v     = vals:split(',');
-                        ret.left    = tonumber(v[1] or def.left);
-                        ret.top     = tonumber(v[2] or def.top);
-                        ret.right   = tonumber(v[3] or def.right);
-                        ret.bottom  = tonumber(v[4] or def.bottom);
+                        ret.left    = tonumber(v[1] or def.left); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.top     = tonumber(v[2] or def.top); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.right   = tonumber(v[3] or def.right); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.bottom  = tonumber(v[4] or def.bottom); ---@diagnostic disable-line: assign-type-mismatch
                     else
                         ret = def;
                     end
@@ -529,11 +512,8 @@ function fontlib.load_settings(alias, key)
     return settings;
 end
 
---[[
-* Destroys the font object.
-*
-* @param {table} self - The font object wrapper to destroy.
---]]
+---Destroys the font object.
+---@param self LuaFontObject
 function fontlib.fontobj_mt.destroy(self)
     -- Remove the object from the cache..
     local k, _ = fontlib.cache:find_if(function (v)
@@ -547,12 +527,9 @@ function fontlib.fontobj_mt.destroy(self)
     AshitaCore:GetFontManager():Delete(self.alias);
 end
 
---[[
-* Applies the given settings to the font object.
-*
-* @param {table} self - The font object wrapper.
-* @param {table} settings - The settings to apply to the font object.
---]]
+---Applies the given settings to the font object.
+---@param self LuaFontObject
+---@param settings table The settings to apply to the font object.
 function fontlib.fontobj_mt.apply(self, settings)
     -- Prepare the font settings using the defaults and merging in any overrides..
     local s = fontlib.defaults:copy(true):merge(settings or {}, true);
@@ -574,14 +551,12 @@ function fontlib.fontobj_mt.apply(self, settings)
     end);
 end
 
---[[
-* Finds and returns the index of a registered event for the given font.
-*
-* @param {table} self - The font object wrapper.
-* @param {string} eventName - The name of the event.
-* @param {string} eventAlias - The alias of the event.
-* @return {number|nil} The index if found, nil otherwise.
---]]
+---Finds and returns the index of a registered event for the given font.
+---@param self LuaFontObject
+---@param eventName string The name of the event.
+---@param eventAlias string The alias of the event.
+---@return number|nil
+---@nodiscard
 function fontlib.fontobj_mt.find_event(self, eventName, eventAlias)
     -- Obtain the events table for the given event name..
     local events = self.events[eventName:lower()];
@@ -597,14 +572,11 @@ function fontlib.fontobj_mt.find_event(self, eventName, eventAlias)
     return k;
 end
 
---[[
-* Registers an event callback for the given event.
-*
-* @param {table} self - The font object wrapper.
-* @param {string} eventName - The name of the event.
-* @param {string} eventAlias - The alias of the event.
-* @param {function} callback - The function to invoke when the event is fired.
---]]
+---Registers an event callback for the given event.
+---@param self LuaFontObject
+---@param eventName string The name of the event.
+---@param eventAlias string The alias of the event.
+---@param callback function The function to invoke when the event is fired.
 function fontlib.fontobj_mt.register(self, eventName, eventAlias, callback)
     assert(type(eventName) == 'string', 'Invalid event name; expected a string.');
     assert(type(eventAlias) == 'string', 'Invalid event alias; expected a string.');
@@ -633,13 +605,10 @@ function fontlib.fontobj_mt.register(self, eventName, eventAlias, callback)
     end
 end
 
---[[
-* Unregisters an event callback for the given event.
-*
-* @param {table} self - The font object wrapper.
-* @param {string} eventName - The name of the event.
-* @param {string} eventAlias - The alias of the event.
---]]
+---Unregisters an event callback for the given event.
+---@param self LuaFontObject
+---@param eventName string The name of the event.
+---@param eventAlias string The alias of the event.
 function fontlib.fontobj_mt.unregister(self, eventName, eventAlias)
     assert(type(eventName) == 'string', 'Invalid event name; expected a string.');
     assert(type(eventAlias) == 'string', 'Invalid event alias; expected a string.');
