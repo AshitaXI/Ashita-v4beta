@@ -34,17 +34,19 @@ local ffi = require 'ffi';
 
 ffi.cdef[[
     typedef signed char         INT8, *PINT8;
-    typedef char                CHAR;
+    typedef char                CHAR, *PCHAR, *LPCH, *PCH, *LPSTR, *PSTR;
+    typedef const char          *LPCCH, *PCCH;
     typedef unsigned char       BYTE, *PBYTE, *LPBYTE, UCHAR, *PUCHAR, UINT8, *PUINT8;
-    typedef wchar_t             WCHAR, *PWCHAR;
+    typedef wchar_t             WCHAR, *PWCHAR, *LPWCH, *PWCH, *LPWSTR, *PWSTR;
+    typedef const wchar_t       *LPCWCH, *PCWCH;
     typedef signed short        INT16, *PINT16;
-    typedef short               SHORT;
+    typedef short               SHORT, *PSHORT;
     typedef unsigned short      WORD, *PWORD, *LPWORD, USHORT, *PUSHORT, UINT16, *PUINT16;
     typedef int                 INT, *PINT, *LPINT;
     typedef int                 BOOL, *PBOOL, *LPBOOL;
     typedef signed int          INT32, *PINT32, LONG32, *PLONG32;
     typedef unsigned int        UINT, *PUINT, UINT32, *PUINT32, DWORD32, *PDWORD32, ULONG32, *PULONG32, UINT_PTR;
-    typedef long                LONG, *LPLONG, LONG_PTR;
+    typedef long                LONG, *PLONG, *LPLONG, LONG_PTR;
     typedef unsigned long       DWORD, *PDWORD, *LPDWORD, ULONG, *PULONG;
     typedef signed __int64      INT64, *PINT64;
     typedef __int64             LONG64, *PLONG64;
@@ -52,6 +54,7 @@ ffi.cdef[[
     typedef unsigned __int64    UINT64, *PUINT64, DWORD64, *PDWORD64, ULONG64, *PULONG64, ULONGLONG;
     typedef float               FLOAT, *PFLOAT;
 
+    typedef void                *PVOID;
     typedef void                *LPVOID;
     typedef const void          *LPCVOID;
 
@@ -95,6 +98,20 @@ ffi.cdef[[
 	typedef HANDLE              HFONT;
 	typedef HANDLE              HMODULE;
     typedef uint32_t            HRESULT;
+    typedef HANDLE              HKEY, *PHKEY;
+    typedef HANDLE              HMETAFILE;
+    typedef HANDLE              HRGN;
+    typedef HANDLE              HRSRC;
+    typedef HANDLE              HSPRITE;
+    typedef HANDLE              HLSURF;
+    typedef HANDLE              HSTR;
+    typedef HANDLE              HTASK;
+    typedef HANDLE              HWINSTA;
+    typedef HANDLE              HKL;
+
+    typedef WORD                ATOM
+    typedef WORD                LANGID;
+    typedef DWORD               LCID;
     
     typedef union _LARGE_INTEGER {
         struct {
