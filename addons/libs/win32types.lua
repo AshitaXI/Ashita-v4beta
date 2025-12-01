@@ -109,7 +109,7 @@ ffi.cdef[[
     typedef HANDLE              HWINSTA;
     typedef HANDLE              HKL;
 
-    typedef WORD                ATOM
+    typedef WORD                ATOM;
     typedef WORD                LANGID;
     typedef DWORD               LCID;
     
