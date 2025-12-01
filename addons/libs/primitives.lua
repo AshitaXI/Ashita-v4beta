@@ -71,7 +71,7 @@ local primlib = T{
         ['border_sizes'] = {
             function (self)
                 local sizes = self:GetBorderSizes();
-                return sizes.left, sizes.top, sizes.right, sizes.bottom;
+                return T{ sizes.left, sizes.top, sizes.right, sizes.bottom };
             end,
             function (self, v)
                 if (type(v) == 'userdata' and RECT.__type.is(v)) then
