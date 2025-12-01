@@ -147,7 +147,7 @@ primlib = {};
 ---@field width number
 ---@field height number
 ---@field color number
----@field border_sizes number
+---@field border_sizes RECT|string|table
 LuaPrimitiveObject = {};
 
 ---Applies the given settings to the primitive object.
