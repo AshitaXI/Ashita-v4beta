@@ -70,15 +70,12 @@ local ffi = require 'ffi';
 
 local inheritance = T{};
 
---[[
-* Metamethod override helper for ctype objects to enable C++ style inheritance. (__index)
-*
-* @param {number} depth - The inheritance depth the 'self' object supports.
-* @param {function} callback - Callback function to be invoked to allow for manual member overrides.
-* @param {userdata} self - The parent object.
-* @param {string} k - The name of the member variable being accessed.
-* @return {any} The desired member value.
---]]
+---Metamethod override helper for ctype objects to enable C++ style inheritance. (__index)
+---@param depth number The inheritance depth the 'self' object supports.
+---@param callback function Callback function to be invoked to allow for manual member overrides.
+---@param self userdata The parent object.
+---@param k string The name of the member variable being accessed.
+---@return any
 inheritance.index = function (depth, callback, self, k)
     -- Check for the lowest depth reachable to exit early..
     if (depth == 0) then
@@ -100,15 +97,12 @@ inheritance.index = function (depth, callback, self, k)
     return self.BaseClass[k];
 end
 
---[[
-* Metamethod override helper for ctype objects to enable C++ style inheritance. (__newindex)
-*
-* @param {number} depth - The inheritance depth the 'self' object supports.
-* @param {function} callback - Callback function to be invoked to allow for manual member overrides.
-* @param {userdata} self - The parent object.
-* @param {string} k - The name of the member variable being accessed.
-* @param {any} v - The new value to be set.
---]]
+---Metamethod override helper for ctype objects to enable C++ style inheritance. (__newindex)
+---@param depth number The inheritance depth the 'self' object supports.
+---@param callback function Callback function to be invoked to allow for manual member overrides.
+---@param self userdata The parent object.
+---@param k string The name of the member variable being accessed.
+---@param v any The new value to be set.
 inheritance.newindex = function (depth, callback, self, k, v)
     -- Check for the lowest depth reachable to exit early..
     if (depth == 0) then
@@ -129,12 +123,9 @@ inheritance.newindex = function (depth, callback, self, k, v)
     self.BaseClass[k] = v;
 end
 
---[[
-* Registers a bare minimum metatype for the given ctype to allow inheritance to function properly.
-*
-* @param {number} depth - The depth of the inheritance chain.
-* @param {string} tname - The ctype name to register the metatype for.
---]]
+---Registers a bare minimum metatype for the given ctype to allow inheritance to function properly.
+---@param depth number The depth of the inheritance chain.
+---@param tname string The ctype name to register the metatype for.
 inheritance.proxy = function (depth, tname)
     ffi.metatype(tname, T{
         __index = inheritance.index:bindn(depth, function (_, k)
