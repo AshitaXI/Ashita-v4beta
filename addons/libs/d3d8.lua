@@ -24,26 +24,19 @@ local C     = ffi.C;
 
 require 'd3d8.d3d8';
 
---[[
-* Returns the main IDirect3DDevice8 object prepared for FFI usage.
-*
-* @return {IDirect3DDevice8*} The FFI-casted IDirect3DDevice8 object.
---]]
+---Returns the main IDirect3DDevice8 object prepared for FFI usage.
+---@return IDirect3DDevice8
+---@nodiscard
 local function get_device()
     return ffi.cast('IDirect3DDevice8*', AshitaCore:GetDirect3DDevice());
 end
 
---[[
-* Garbage collection helper for COM interface objects that will automatically call 'Release' for you when the object is no longer in use.
-*
-* @param {any} o - The COM object with a valid 'Release' call to wrap.
-* @return {any} o - Returns the passed 'o' object, unaltered.
-*
-* Note:
-*   This can have unwanted side effects or cause crashes if used incorrectly!
-*   Types that you use such as textures and surfaces should not use this.
-*   Manage them fully yourself.
---]]
+---Garbage collection helper for COM interface objects that will automatically call 'Release' for you when the object is no longer in use.
+---
+---This can have unwanted side effects or cause crashes if used incorrectly!
+---Types that you use such as textures and surfaces should not use this. Manage them fully yourself.
+---@param o any The COM object with a valid 'Release' call to wrap.
+---@return ffi.cdata*
 local function gc_safe_release(o)
     if (o == nil) then
         error('Invalid object for safe_release!');
@@ -54,28 +47,16 @@ local function gc_safe_release(o)
     end);
 end
 
---[[
-* Converts an IID string to an FFI GUID object.
-*
-* @param {string} str - The IID string to convert.
-* @return {GUID} The converted GUID on success.
-*
-* @note
-*   This helper supports both IID and GUIDs.
-*
-* Valid formats:
-*
-*   This helper supports IIDs that have the following:
-*       - (Optional) Braces surrounding the IID.
-*       - (Optional) Dashes separating the groups in the IID.
-*
-* Valid IUnknown IID Examples:
-*
-*   {00000000-0000-0000-C000-000000000046}  - With braces, with dashes.
-*   00000000-0000-0000-C000-000000000046    - Without braces, with dashes.
-*   {0000000000000000C000000000000046}      - With braces, without dashes.
-*   0000000000000000C000000000000046        - Without braces, without dashes.
---]]
+---Converts an IID string to an FFI GUID object.
+---
+---This helper supports both IID and GUIDs. Valid Formats:
+--- - {00000000-0000-0000-C000-000000000046}  - With braces, with dashes.
+--- - 00000000-0000-0000-C000-000000000046    - Without braces, with dashes.
+--- - {0000000000000000C000000000000046}      - With braces, without dashes.
+--- - 0000000000000000C000000000000046        - Without braces, without dashes.
+---@param str string The IID string to convert.
+---@return ffi.cdata*
+---@nodiscard
 local function iid_from_str(str)
     local d1, d2, d3, d4_1, d4_2, d4_3, d4_4, d4_5, d4_6, d4_7, d4_8 = string.match(str, '^{?(%x%x%x%x%x%x%x%x)%-?(%x%x%x%x)%-?(%x%x%x%x)%-?(%x%x)(%x%x)%-?(%x%x)(%x%x)(%x%x)(%x%x)(%x%x)(%x%x)}?$');
 
@@ -83,18 +64,18 @@ local function iid_from_str(str)
         error('Invalid IID string; cannot convert.');
     end
 
+    ---LLS does not process this correctly for some reason..
+    ---@diagnostic disable-next-line: missing-return-value
     return ffi.new('GUID', {
         tonumber(d1, 16), tonumber(d2, 16), tonumber(d3, 16), {
         tonumber(d4_1, 16), tonumber(d4_2, 16), tonumber(d4_3, 16), tonumber(d4_4, 16), tonumber(d4_5, 16), tonumber(d4_6, 16), tonumber(d4_7, 16), tonumber(d4_8, 16)
     }});
 end
 
---[[
-* Converts an HRESULT to it's actual error name, if known.
-*
-* @param {HRESULT} hres - The HRESULT to obtain the name of.
-* @return {string} The result name if known, UNKNOWN_ERROR otherwise.
---]]
+---Converts an HRESULT to it's actual error name, if known.
+---@param hres any The HRESULT to obtain the name of.
+---@return string
+---@nodiscard
 local function get_error(hres)
     -- Win32 Error Codes
         if (hres == C.S_OK) then return "S_OK";
@@ -422,147 +403,128 @@ local function get_error(hres)
     end
 end
 
---[[
-* Converts the given ARGB values to a Direct3D color code.
-*
-* @param {number} a - The alpha color code.
-* @param {number} r - The red color code.
-* @param {number} g - The green color code.
-* @param {number} b - The blue color code.
-* @return {number} The converted color code.
---]]
+---Converts the given ARGB values to a Direct3D color code.
+---@param a number The alpha color code.
+---@param r number The red color code.
+---@param g number The green color code.
+---@param b number The blue color code.
+---@return number
+---@nodiscard
 local function D3DCOLOR_ARGB(a, r, g, b)
     local c_a = bit.lshift(bit.band(a, 0xFF), 24);
     local c_r = bit.lshift(bit.band(r, 0xFF), 16);
     local c_g = bit.lshift(bit.band(g, 0xFF), 8);
     local c_b = bit.band(b, 0xFF);
 
-    return tonumber('0x' .. bit.tohex(bit.band(bit.bor(c_a, c_r, c_g, c_b), 0xFFFFFFFF)));
+    local ret = tonumber('0x' .. bit.tohex(bit.band(bit.bor(c_a, c_r, c_g, c_b), 0xFFFFFFFF)));
+    if (ret == nil) then
+        return 0;
+    end
+    return ret;
 end
 
---[[
-* Converts the given RGBA values to a Direct3D color code.
-*
-* @param {number} r - The red color code.
-* @param {number} g - The green color code.
-* @param {number} b - The blue color code.
-* @param {number} a - The alpha color code.
-* @return {number} The converted color code.
---]]
+---Converts the given RGBA values to a Direct3D color code.
+---@param r number The red color code.
+---@param g number The green color code.
+---@param b number The blue color code.
+---@param a number The alpha color code.
+---@return number
+---@nodiscard
 local function D3DCOLOR_RGBA(r, g, b, a)
     return D3DCOLOR_ARGB(a, r, g, b);
 end
 
---[[
-* Converts the given XRGB values to a Direct3D color code.
-*
-* @param {number} r - The red color code.
-* @param {number} g - The green color code.
-* @param {number} b - The blue color code.
-* @return {number} The converted color code.
---]]
+---Converts the given XRGB values to a Direct3D color code.
+---@param r number The red color code.
+---@param g number The green color code.
+---@param b number The blue color code.
+---@return number
+---@nodiscard
 local function D3DCOLOR_XRGB(r, g, b)
     return D3DCOLOR_ARGB(0xFF, r, g, b);
 end
 
---[[
-* Converts the given float-based color values to a Direct3D color code.
-*
-* @param {number} r - The red color value.
-* @param {number} g - The green color value.
-* @param {number} b - The blue color value.
-* @return {number} The converted color code.
---]]
+---Converts the given float-based color values to a Direct3D color code.
+---@param r number The red color value.
+---@param g number The green color value.
+---@param b number The blue color value.
+---@param a number The alpha color value.
+---@return number
+---@nodiscard
 local function D3DCOLOR_COLORVALUE(r, g, b, a)
     return D3DCOLOR_RGBA(r * 255.0, g * 255.0, b * 255.0, a * 255.0);
 end
 
---[[
-* Converts the given matrix index into a world matrix index.
-*
-* @param {number} index - The index to convert.
-* @return {number} The converted index.
---]]
+---Converts the given matrix index into a world matrix index.
+---@param index number The index to convert.
+---@return number
+---@nodiscard
 local function D3DTS_WORLDMATRIX(index)
     return (index + 256);
 end
 
---[[
-* Converts the given token type into a valid vertex definition type.
-*
-* @param {number} tokenType - The token type to convert.
-* @return {number} The converted value.
---]]
+---Converts the given token type into a valid vertex definition type.
+---@param tokenType number The token type to convert.
+---@return number
+---@nodiscard
 local function D3DVSD_MAKETOKENTYPE(tokenType)
     return bit.band(bit.lshift(tokenType, C.D3DVSD_TOKENTYPESHIFT), C.D3DVSD_TOKENTYPEMASK);
 end
 
---[[
-* Sets the current stream.
-*
-* @param {number} streamNumber - The stream to use for data.
-* @return {number} The converted value.
---]]
+---Sets the current stream.
+---@param streamNumber number The stream to use for data.
+---@return number
+---@nodiscard
 local function D3DVSD_STREAM(streamNumber)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_STREAM);
     return bit.bor(ret, streamNumber);
 end
 
---[[
-* Sets the tessellator stream.
-*
-* @return {number} The converted value.
---]]
+---Sets the tessellator stream.
+---@return number
+---@nodiscard
 local function D3DVSD_STREAM_TESS()
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_STREAM);
     return bit.bor(ret, C.D3DVSD_STREAMTESSMASK);
 end
 
---[[
-* Binds a single vertex register to a vertex element from the vertex stream.
-*
-* @param {number} vertexRegister - Address of the vertex register.
-* @param {number} type - The dimensionality and arithmetic data type
-* @return {number} The converted value.
---]]
+---Binds a single vertex register to a vertex element from the vertex stream.
+---@param vertexRegister number Address of the vertex register.
+---@param type number The dimensionality and arithmetic data type
+---@return number
+---@nodiscard
 local function D3DVSD_REG(vertexRegister, type)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_STREAMDATA);
     local tsh = bit.lshift(type, C.D3DVSD_DATATYPESHIFT);
     return bit.bor(ret, tsh, vertexRegister);
 end
 
---[[
-* Sets the number of vertices to skip in the vertex.
-*
-* @param {number} dwordCount - The number of vertices to skip.
-* @return {number} The converted value.
---]]
+---Sets the number of vertices to skip in the vertex.
+---@param dwordCount number The number of vertices to skip.
+---@return number
+---@nodiscard
 local function D3DVSD_SKIP(dwordCount)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_STREAMDATA);
     local csh = bit.lshift(dwordCount, C.D3DVSD_SKIPCOUNTSHIFT);
     return bit.bor(ret, 0x10000000, csh);
 end
 
---[[
-* Loads data into the vertex shader constant memory.
-*
-* @param {number} constantAddress - Address of the constant array to begin filling data.
-* @param {number} count - Number of constant vectors to load.
-* @return {number} The converted value.
---]]
+---Loads data into the vertex shader constant memory.
+---@param constantAddress number Address of the constant array to begin filling data.
+---@param count number Number of constant vectors to load.
+---@return number
+---@nodiscard
 local function D3DVSD_CONST(constantAddress, count)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_CONSTMEM);
     local csh = bit.lshift(count, C.D3DVSD_CONSTCOUNTSHIFT);
     return bit.bor(ret, csh, constantAddress);
 end
 
---[[
-* Enables tessellator-generated normals.
-*
-* @param {number} vertexRegisterIn - Address of the vertex register whose input stream will be used in normal computation.
-* @param {number} vertexRegisterOut - Address of the vertex register to output the normal to.
-* @return {number} The converted value.
---]]
+---Enables tessellator-generated normals.
+---@param vertexRegisterIn number Address of the vertex register whose input stream will be used in normal computation.
+---@param vertexRegisterOut number Address of the vertex register to output the normal to.
+---@return number
+---@nodiscard
 local function D3DVSD_TESSNORMAL(vertexRegisterIn, vertexRegisterOut)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_TESSELLATOR);
     local ish = bit.lshift(vertexRegisterIn, C.D3DVSD_VERTEXREGINSHIFT);
@@ -570,171 +532,138 @@ local function D3DVSD_TESSNORMAL(vertexRegisterIn, vertexRegisterOut)
     return bit.bor(ret, ish, osh);
 end
 
---[[
-* Enables tessellator-generated surface parameters.
-*
-* @param {number} vertexRegister - Address of the vertex register to output parameters.
-* @return {number} The converted value.
---]]
+---Enables tessellator-generated surface parameters.
+---@param vertexRegister number Address of the vertex register to output parameters.
+---@return number
+---@nodiscard
 local function D3DVSD_TESSUV(vertexRegister)
     local ret = D3DVSD_MAKETOKENTYPE(C.D3DVSD_TOKEN_TESSELLATOR);
     local vsh = bit.bor(bit.lshift(0x01, C.D3DVSD_DATATYPESHIFT), vertexRegister);
     return bit.bor(ret, 0x10000000, vsh);
 end
 
---[[
-* Returns an end token.
-*
-* @return {number} The vertex definition end token.
---]]
+---Returns an end token.
+---@return number
+---@nodiscard
 local function D3DVSD_END()
     return 0xFFFFFFFF;
 end
 
---[[
-* Returns an NOP token.
-*
-* @return {number} The vertex definition NOP token.
---]]
+---Returns an NOP token.
+---@return number
+---@nodiscard
 local function D3DVSD_NOP()
     return 0x00000000;
 end
 
---[[
-* Generates a pixel shader version token.
-*
-* @param {number} major - The shader major version.
-* @param {number} minor - The shader minor version.
-* @return {number} The converted value.
---]]
+---Generates a pixel shader version token.
+---@param major number The shader major version.
+---@param minor number The shader minor version.
+---@return number
+---@nodiscard
 local function D3DPS_VERSION(major, minor)
     return bit.bor(0xFFFF0000, bit.lshift(major, 0x08), minor);
 end
 
---[[
-* Generates a vertex shader version token.
-*
-* @param {number} major - The shader major version.
-* @param {number} minor - The shader minor version.
-* @return {number} The converted value.
---]]
+---Generates a vertex shader version token.
+---@param major number The shader major version.
+---@param minor number The shader minor version.
+---@return number
+---@nodiscard
 local function D3DVS_VERSION(major, minor)
     return bit.bor(0xFFFE0000, bit.lshift(major, 0x08), minor);
 end
 
---[[
-* Returns the major version from a shader version value.
-*
-* @param {number} version - The shader version value.
-* @return {number} The shaders major version value.
---]]
+---Returns the major version from a shader version value.
+---@param version number The shader version value.
+---@return number
+---@nodiscard
 local function D3DSHADER_VERSION_MAJOR(version)
     return bit.band(bit.rshift(version, 0x08), 0xFF);
 end
 
---[[
-* Returns the minor version from a shader version value.
-*
-* @param {number} version - The shader version value.
-* @return {number} The shaders minor version value.
---]]
+---Returns the minor version from a shader version value.
+---@param version number The shader version value.
+---@return number
+---@nodiscard
 local function D3DSHADER_VERSION_MINOR(version)
     return bit.band(bit.rshift(version, 0x00), 0xFF);
 end
 
---[[
-* Sets the number of bytes to skip for a comment.
-*
-* @param {number} dwordSize - The size of the comment.
-* @return {number} The converted value.
---]]
+---Sets the number of bytes to skip for a comment.
+---@param dwordSize number The size of the comment.
+---@return number
+---@nodiscard
 local function D3DSHADER_COMMENT(dwordSize)
     return bit.bor(bit.band(bit.lshift(dwordSize, C.D3DSI_COMMENTSIZE_SHIFT), C.D3DSI_COMMENTSIZE_MASK), C.D3DSIO_COMMENT);
 end
 
---[[
-* Returns a pixel shader END token.
-*
-* @return {number} The pixel shader END token.
---]]
+---Returns a pixel shader END token.
+---@return number
+---@nodiscard
 local function D3DPS_END()
     return 0x0000FFFF;
 end
 
---[[
-* Returns a vertex shader END token.
-*
-* @return {number} The vertex shader END token.
---]]
+---Returns a vertex shader END token.
+---@return number
+---@nodiscard
 local function D3DVS_END()
     return 0x0000FFFF;
 end
 
---[[
-* Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
-*
-* @param {number} coordIndex - Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
-* @return {number} The converted value.
---]]
+---Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
+---@param coordIndex number Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
+---@return number
+---@nodiscard
 local function D3DFVF_TEXCOORDSIZE1(coordIndex)
     return bit.lshift(C.D3DFVF_TEXTUREFORMAT1, (coordIndex * 2 + 16));
 end
 
---[[
-* Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
-*
-* @param {number} coordIndex - Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
-* @return {number} The converted value.
---]]
+---Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
+---@param coordIndex number Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
+---@return number
+---@nodiscard
 local function D3DFVF_TEXCOORDSIZE2(coordIndex)
     return C.D3DFVF_TEXTUREFORMAT2;
 end
 
---[[
-* Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
-*
-* @param {number} coordIndex - Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
-* @return {number} The converted value.
---]]
+---Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
+---@param coordIndex number Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
+---@return number
+---@nodiscard
 local function D3DFVF_TEXCOORDSIZE3(coordIndex)
     return bit.lshift(C.D3DFVF_TEXTUREFORMAT3, (coordIndex * 2 + 16));
 end
 
---[[
-* Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
-*
-* @param {number} coordIndex - Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
-* @return {number} The converted value.
---]]
+---Constructs bit patterns that are used to identify texture coordinate formats within a flexible vertex format description.
+---@param coordIndex number Value that identifies the texture coordinate set at which the texture coordinate size (1-, 2-, 3-, or 4-dimensional) applies.
+---@return number
+---@nodiscard
 local function D3DFVF_TEXCOORDSIZE4(coordIndex)
     return bit.lshift(C.D3DFVF_TEXTUREFORMAT4, (coordIndex * 2 + 16));
 end
 
---[[
-* Converts the given params into a format value.
-*
-* @param {char} ch0 - Value to use to generate the result.
-* @param {char} ch1 - Value to use to generate the result.
-* @param {char} ch2 - Value to use to generate the result.
-* @param {char} ch3 - Value to use to generate the result.
-* @return {number} The converted value.
-*
-* @note
-*
-* Formats generally follow the following format guidelines:
-*
-*   A = Alpha
-*   R = Red
-*   G = Green
-*   B = Blue
-*   X = Unused Bits
-*   P = Palette
-*   L = Luminance
-*   U = dU coordinate for BumpMap
-*   V = dV coordinate for BumpMap
-*   S = Stencil
-*   D = Depth (e.g. Z or W buffer)
---]]
+---Converts the given params into a format value.
+---
+---Formats generally follow the following format guidelines:
+--- - A = Alpha
+--- - R = Red
+--- - G = Green
+--- - B = Blue
+--- - X = Unused Bits
+--- - P = Palette
+--- - L = Luminance
+--- - U = dU coordinate for BumpMap
+--- - V = dV coordinate for BumpMap
+--- - S = Stencil
+--- - D = Depth (e.g. Z or W buffer)
+---@param ch0 number|string
+---@param ch1 number|string
+---@param ch2 number|string
+---@param ch3 number|string
+---@return number
+---@nodiscard
 local function MAKEFOURCC(ch0, ch1, ch2, ch3)
     return bit.bor(string.byte(ch0), bit.lshift(string.byte(ch1), 0x08), bit.lshift(string.byte(ch2), 0x10), bit.lshift(string.byte(ch3), 0x18));
 end
