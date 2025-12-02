@@ -46,9 +46,9 @@ ffi.cdef[[
         D3DRESOURCETYPE __stdcall (*GetType)(IDirect3DTexture8* This);
 
         /*** IDirect3DBaseTexture8 methods ***/
-        DWORD           __stdcall (*SetLOD)(IDirect3DCubeTexture8* This, DWORD LODNew);
-        DWORD           __stdcall (*GetLOD)(IDirect3DCubeTexture8* This);
-        DWORD           __stdcall (*GetLevelCount)(IDirect3DCubeTexture8* This);
+        DWORD           __stdcall (*SetLOD)(IDirect3DTexture8* This, DWORD LODNew);
+        DWORD           __stdcall (*GetLOD)(IDirect3DTexture8* This);
+        DWORD           __stdcall (*GetLevelCount)(IDirect3DTexture8* This);
 
         /*** IDirect3DTexture8 methods ***/
         HRESULT         __stdcall (*GetLevelDesc)(IDirect3DTexture8* This, UINT Level, D3DSURFACE_DESC *pDesc);
