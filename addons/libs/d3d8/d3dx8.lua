@@ -199,7 +199,7 @@ ID3DXFont = ffi.metatype('ID3DXFont', {
         Release         = IUnknown.Release,
 
         -- ID3DXFont Methods
-        GetDevice = function (self, ppDevice)
+        GetDevice = function (self)
             local device_ptr    = ffi.new('IDirect3DDevice8*[1]');
             local res           = self.lpVtbl.GetDevice(self, device_ptr);
             local device        = nil;
@@ -245,7 +245,7 @@ ID3DXSprite = ffi.metatype('ID3DXSprite', {
         Release         = IUnknown.Release,
 
         -- ID3DXSprite Methods
-        GetDevice = function (self, ppDevice)
+        GetDevice = function (self)
             local device_ptr    = ffi.new('IDirect3DDevice8*[1]');
             local res           = self.lpVtbl.GetDevice(self, device_ptr);
             local device        = nil;

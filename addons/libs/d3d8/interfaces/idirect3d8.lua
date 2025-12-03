@@ -69,7 +69,7 @@ IDirect3D8 = ffi.metatype('IDirect3D8', {
         Release         = IUnknown.Release,
 
         -- IDirect3D8 Methods
-        RegisterSoftwareDevice = function (self, pInitializeFunction)
+        RegisterSoftwareDevice = function (self, pInitializeFunction) ---@diagnostic disable-line: unused-local
             -- Direct3D8 marks this as a dead function:
             -- "Because the pluggable software device feature is no longer supported in Microsoft DirectX® 8.x, do not use this method."
             error('Not implemented.');

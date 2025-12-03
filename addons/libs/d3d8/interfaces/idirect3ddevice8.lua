@@ -208,7 +208,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
 
             return res, swap;
         end,
-        Reset = function (self, pPresentationParameters)
+        Reset = function (self, pPresentationParameters) ---@diagnostic disable-line: unused-local
             -- Note: Reset calls are not valid for FFXI.
             error('Not implemented.');
         end,
@@ -500,7 +500,7 @@ IDirect3DDevice8 = ffi.metatype('IDirect3DDevice8', {
 
             return res, res == C.S_OK and passes[0] or nil;
         end,
-        GetInfo = function (self, DevInfoID, pDevInfoStruct, DevInfoStructSize)
+        GetInfo = function (self, DevInfoID, pDevInfoStruct, DevInfoStructSize) ---@diagnostic disable-line: unused-local
             error('Not implemented.');
         end,
         SetPaletteEntries = function (self, PaletteNumber, pEntries)
