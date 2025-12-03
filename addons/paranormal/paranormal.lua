@@ -21,7 +21,7 @@
 
 addon.name      = 'paranormal';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Enables the use of [nearly] any game command while dead/unconscious.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -56,7 +56,7 @@ ashita.events.register('load', 'load_cb', function ()
         local cflag = ashita.memory.read_uint8(start + 0x16);
 
         -- Check for a forward-slash to ensure the command entry is valid..
-        if (not cname:startswith('/')) then
+        if (cname == nil or not cname:startswith('/')) then
             break;
         end
 
