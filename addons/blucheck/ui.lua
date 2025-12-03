@@ -326,7 +326,7 @@ function ui.render_spell_info(lst, index)
 
             if (spell.zones:len() > 0) then
                 spell.zones:each(function (v, k)
-                    imgui.TextColored({ 1.0, 0.0, 1.0, 1.0 }, AshitaCore:GetResourceManager():GetString('zones.names', tonumber(k)));
+                    imgui.TextColored({ 1.0, 0.0, 1.0, 1.0 }, AshitaCore:GetResourceManager():GetString('zones.names', tonumber(k) or 0) or '(Unknown)');
                     imgui.Indent();
                     for _, vv in pairs(v) do
                         imgui.TextColored({ 1.0, 1.0, 1.0, 1.0 }, tostring(vv));
