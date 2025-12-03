@@ -21,7 +21,7 @@
 
 addon.name      = 'repeater';
 addon.author    = 'atom0s & Felgar';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Allows setting a command to be repeated automatically.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -89,8 +89,8 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /repeater - Displays the current addon settings.
     if (#args == 1) then
         print(chat.header(addon.name):append(chat.message('Command set to: ')):append(chat.success(repeater.cmd)));
-        print(chat.header(addon.name):append(chat.message('Delay set to: ')):append(chat.success(repeater.delay)):append(chat.success('ms')));
-        print(chat.header(addon.name):append(chat.message('Jitter set to: ')):append(chat.success(repeater.jitter)):append(chat.success('ms')));
+        print(chat.header(addon.name):append(chat.message('Delay set to: ')):append(chat.success(tostring(repeater.delay))):append(chat.success('ms')));
+        print(chat.header(addon.name):append(chat.message('Jitter set to: ')):append(chat.success(tostring(repeater.jitter))):append(chat.success('ms')));
         return;
     end
 
@@ -139,7 +139,7 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args >= 3 and args[2]:any('delay', 'cycle')) then
         repeater.delay = math.max(args[3]:num_or(1000), 0);
 
-        print(chat.header(addon.name):append(chat.message('Delay set to: ')):append(chat.success(repeater.delay)):append(chat.success('ms')));
+        print(chat.header(addon.name):append(chat.message('Delay set to: ')):append(chat.success(tostring(repeater.delay))):append(chat.success('ms')));
         return;
     end
 
@@ -147,7 +147,7 @@ ashita.events.register('command', 'command_cb', function (e)
     if (#args >= 3 and args[2]:any('jitter')) then
         repeater.jitter = math.max(args[3]:num_or(1000), 0);
 
-        print(chat.header(addon.name):append(chat.message('Jitter set to: ')):append(chat.success(repeater.jitter)):append(chat.success('ms')));
+        print(chat.header(addon.name):append(chat.message('Jitter set to: ')):append(chat.success(tostring(repeater.jitter))):append(chat.success('ms')));
         return;
     end
 
