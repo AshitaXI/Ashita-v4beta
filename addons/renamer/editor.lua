@@ -172,7 +172,7 @@ function editor.render_tab_zonerenames()
                         imgui.EndPopup();
                     end
 
-                    imgui.PopID(x);
+                    imgui.PopID();
                 end
             end
         imgui.EndChild();
