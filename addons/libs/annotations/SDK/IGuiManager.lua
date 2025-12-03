@@ -133,7 +133,7 @@ function IGuiManager.ShowIDStackToolWindow(is_open) end
 function IGuiManager.ShowAboutWindow(is_open) end
 
 ---Shows the ImGui style editor.
----@param ref ImGuiStyle
+---@param ref? ImGuiStyle
 function IGuiManager.ShowStyleEditor(ref) end
 
 ---Shows the ImGui style selector.
@@ -2076,7 +2076,7 @@ Item/Widgets Utilities and Query Functions
 --]]
 
 ---Returns if the last item is hovered.
----@param flags ImGuiHoveredFlags
+---@param flags? ImGuiHoveredFlags
 ---@return boolean
 ---@nodiscard
 function IGuiManager.IsItemHovered(flags) end
@@ -2630,3 +2630,30 @@ function IGuiManager.BeginMenuEx(label, icon, enabled) end
 ---@param enabled? boolean
 ---@return boolean
 function IGuiManager.MenuItemEx(label, icon, shortcut, selected, enabled) end
+
+--[[
+ImGui Custom Helpers
+
+Note: These require the use of the main imgui library!
+--]]
+
+---Convert the given ARGB values into a 32bit color.
+---@param a number The alpha color code.
+---@param r number The red color code.
+---@param g number The green color code.
+---@param b number The blue color code.
+---@return number
+function IGuiManager.col32(a, r, g, b) end
+
+---Draws an help marker with ImGui that will display some text when hovered over with the mouse.
+---@param text string
+---@param sameLine boolean
+function IGuiManager.ShowHelp(text, sameLine) end
+
+---Helper function that displays a popup if it is currently enabled to be displayed.
+---@param title string The title text of the popup.
+---@param name string The internal ImGui hashtag name of the popup.
+---@param cb function The callback function to call to render the popups contents.
+---@param buttons number The type of buttons to show on the popup. (See PopupButtons.)
+---@return number The popup result. (See PopupResult.)
+function IGuiManager.DisplayPopup(title, name, cb, buttons) end
