@@ -21,7 +21,7 @@
 
 addon.name      = 'craftmon';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Displays crafting results immediately upon starting a synth.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -29,12 +29,9 @@ require 'common';
 
 local chat = require 'chat';
 
---[[
-* Returns the crafting result based on the animation id.
-*
-* @param {number} id - The craft animation id.
-* @return {table} A table containing a color code and string representing the craft result type.
---]]
+---Returns the crafting result based on the animation id.
+---@param res number The craft animation id.
+---@return [number, string]
 local function get_craft_result(res)
     return switch(res, {
         [0] = function () return { 1, 'Normal Quality', }; end,
