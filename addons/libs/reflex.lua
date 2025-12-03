@@ -153,7 +153,7 @@ end
 ---@param options ReflexOptions Reflection options.
 ---@return ReflexMember
 ---@nodiscard
-reflex.float = function (m, options)
+reflex.float = function (m, options) ---@diagnostic disable-line: unused-local
     local member = T{};
 
     member.ctype = switch(m.size, T{
@@ -172,7 +172,7 @@ end
 ---@param options ReflexOptions Reflection options.
 ---@return ReflexMember
 ---@nodiscard
-reflex.func = function (m, options)
+reflex.func = function (m, options) ---@diagnostic disable-line: unused-local
     local member = T{};
 
     member.is_function  = true;
@@ -189,7 +189,7 @@ end
 ---@param options ReflexOptions Reflection options.
 ---@return ReflexMember
 ---@nodiscard
-reflex.int = function (m, options)
+reflex.int = function (m, options) ---@diagnostic disable-line: unused-local
     local member = T{};
 
     member.ctype = switch(m.size, T{
@@ -268,7 +268,7 @@ end
 ---@param options ReflexOptions Reflection options.
 ---@return ReflexMember
 ---@nodiscard
-reflex.void = function (m, options)
+reflex.void = function (m, options) ---@diagnostic disable-line: unused-local
     local member = T{};
 
     member.ctype = 'void';
