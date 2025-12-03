@@ -21,7 +21,7 @@
 
 addon.name      = 'drawdistance';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Adds slash commands to alter the games scene rendering distances.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -95,14 +95,14 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /drawdistance (setentity | setmob | sete | setm) <n> - Sets the entity draw distance.
     if (#args == 3 and args[2]:any('setentity', 'setmob', 'sete', 'setm')) then
         local ptr = ashita.memory.read_uint32(drawdistance.ptr + 0x0F);
-        ashita.memory.write_float(ptr, tonumber(args[3]));
+        ashita.memory.write_float(ptr, tonumber(args[3]) or 1);
         return;
     end
 
     -- Handle: /drawdistance (setworld | setw) <n> - Sets the world draw distance.
     if (#args == 3 and args[2]:any('setworld', 'setw')) then
         local ptr = ashita.memory.read_uint32(drawdistance.ptr + 0x07);
-        ashita.memory.write_float(ptr, tonumber(args[3]));
+        ashita.memory.write_float(ptr, tonumber(args[3]) or 1);
         return;
     end
 
