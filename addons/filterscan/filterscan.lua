@@ -21,7 +21,7 @@
 
 addon.name      = 'filterscan';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Allows filtering widescan results for specific entities.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -172,7 +172,7 @@ ashita.events.register('packet_in', 'packet_in_cb', function (e)
     -- Packet: Widescan Entry
     if (e.id == 0x00F4) then
         -- Ensure a filter is set..
-        if (table.getn(filterscan.filter) == 0) then
+        if (#filterscan.filter == 0) then
             return;
         end
 
