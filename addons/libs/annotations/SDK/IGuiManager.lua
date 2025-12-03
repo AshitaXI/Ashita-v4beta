@@ -2647,7 +2647,7 @@ function IGuiManager.col32(a, r, g, b) end
 
 ---Draws an help marker with ImGui that will display some text when hovered over with the mouse.
 ---@param text string
----@param sameLine boolean
+---@param sameLine? boolean
 function IGuiManager.ShowHelp(text, sameLine) end
 
 ---Helper function that displays a popup if it is currently enabled to be displayed.
