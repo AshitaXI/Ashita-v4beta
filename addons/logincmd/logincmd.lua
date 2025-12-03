@@ -51,7 +51,7 @@ local function protected_dofile(path)
 
     if (not status) then
         print(chat.header(addon.name):append(chat.message('Failed to execute current player profile due to error:')));
-        print(chat.header(addon.name):append(chat.error(err)));
+        print(chat.header(addon.name):append(chat.error(tostring(err))));
     end
 end
 
