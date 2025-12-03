@@ -21,7 +21,7 @@
 
 addon.name      = 'crosshair';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Draws position helper lines to move Ashita\'s font and UI elements.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -66,7 +66,7 @@ ashita.events.register('d3d_present', 'present_cb', function ()
     if (crosshair.enabled == false) then return; end
 
     local res, vp = d3d8.get_device():GetViewport();
-    if (res ~= 0) then
+    if (res ~= 0 or vp == nil) then
         return;
     end
 
