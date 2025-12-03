@@ -21,7 +21,7 @@
 
 addon.name      = 'blusets';
 addon.author    = 'atom0s';
-addon.version   = '1.1';
+addon.version   = '1.2';
 addon.desc      = 'Manage blue magic spells easily with slash commands.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -235,7 +235,7 @@ ashita.events.register('command', 'command_cb', function (e)
             blu.delay = 1;
         end
 
-        print(chat.header(addon.name):append(chat.message('BluSets packet delay set to: ')):append(chat.success(blu.delay)));
+        print(chat.header(addon.name):append(chat.message('BluSets packet delay set to: ')):append(chat.success(tostring(blu.delay))));
         return;
     end
 
