@@ -224,7 +224,7 @@ timelib.get_calculated_status_time = function (raw_time)
     timelib.temp.nums[1] = raw_time;
     timelib.temp.nums[2] = (timelib.temp.nums[1] - timelib.temp.nums[0] + 59) / 60;
 
-    return tonumber(timelib.temp.nums[2]);
+    return tonumber(timelib.temp.nums[2]) or 0;
 end
 jit.off(timelib.get_calculated_status_time);
 
