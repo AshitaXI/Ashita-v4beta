@@ -144,7 +144,7 @@ fontlib.methods = T{
         function (self)
             return fontlib.wrapbg(self:GetBackground());
         end,
-        function (self, o)
+        function (self, o) ---@diagnostic disable-line: unused-local
             -- Ignore set attempts, this also allows settings to be merged in for background properties
             -- without erroring out.
         end,
