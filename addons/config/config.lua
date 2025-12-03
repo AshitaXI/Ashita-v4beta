@@ -21,7 +21,7 @@
 
 addon.name      = 'config';
 addon.author    = 'atom0s';
-addon.version   = '1.2';
+addon.version   = '1.3';
 addon.desc      = 'Enables slash commands to force-set game settings directly.';
 addon.link      = 'https://ashitaxi.com/';
 
@@ -133,13 +133,13 @@ ashita.events.register('command', 'command_cb', function (e)
             print(chat.header('config')
                 :append(chat.critical('Error! '))
                 :append(chat.error('Invalid configuration id: '))
-                :append(chat.success(id)));
+                :append(chat.success(tostring(id))));
 
             return;
         end
 
         print(chat.header('config'):append(chat.message('Value for configuration id \''))
-                                   :append(chat.success(id))
+                                   :append(chat.success(tostring(id)))
                                    :append(chat.message('\' is: '))
                                    :append(chat.success(tostring(config.get(id)))));
         return;
@@ -152,7 +152,7 @@ ashita.events.register('command', 'command_cb', function (e)
             print(chat.header('config')
                 :append(chat.critical('Error! '))
                 :append(chat.error('Invalid configuration id: '))
-                :append(chat.success(id)));
+                :append(chat.success(tostring(id))));
             return;
         end
 
@@ -185,7 +185,7 @@ ashita.events.register('command', 'command_cb', function (e)
             print(chat.header('config')
                 :append(chat.critical('Error! '))
                 :append(chat.error('Invalid configuration id: '))
-                :append(chat.success(id)));
+                :append(chat.success(tostring(id))));
             return;
         end
 
@@ -194,25 +194,25 @@ ashita.events.register('command', 'command_cb', function (e)
             print(chat.header('config')
                 :append(chat.critical('Error! '))
                 :append(chat.error('Failed to find configuration entry for configuration id: '))
-                :append(chat.success(id)));
+                :append(chat.success(tostring(id))));
             return;
         end
 
         print(chat.header('config')
             :append(chat.message('Configuration Info: '))
-            :append(chat.success(cfg.m_configKey))
+            :append(chat.success(tostring(cfg.m_configKey)))
             :append(chat.message(' -- Value: '))
-            :append(chat.success(cfg.m_configValue))
+            :append(chat.success(tostring(cfg.m_configValue)))
             :append(chat.message(' -- Type: '))
-            :append(chat.success(cfg.m_configType))
+            :append(chat.success(tostring(cfg.m_configType)))
             :append(chat.message(', Min: '))
-            :append(chat.success(cfg.m_minVal))
+            :append(chat.success(tostring(cfg.m_minVal)))
             :append(chat.message(', Max: '))
-            :append(chat.success(cfg.m_maxVal))
+            :append(chat.success(tostring(cfg.m_maxVal)))
             :append(chat.message(', Default: '))
-            :append(chat.success(cfg.m_defVal))
+            :append(chat.success(tostring(cfg.m_defVal)))
             :append(chat.message(', Flags: '))
-            :append(chat.success(cfg.m_configProc)));
+            :append(chat.success(tostring(cfg.m_configProc))));
         return;
     end
 
