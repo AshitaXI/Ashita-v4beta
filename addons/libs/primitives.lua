@@ -292,10 +292,10 @@ function primlib.load_settings(alias, key)
                         ret = RECT.new();
 
                         local v     = vals:split(',');
-                        ret.left    = tonumber(v[1] or def.left);
-                        ret.top     = tonumber(v[2] or def.top);
-                        ret.right   = tonumber(v[3] or def.right);
-                        ret.bottom  = tonumber(v[4] or def.bottom);
+                        ret.left    = tonumber(v[1] or def.left); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.top     = tonumber(v[2] or def.top); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.right   = tonumber(v[3] or def.right); ---@diagnostic disable-line: assign-type-mismatch
+                        ret.bottom  = tonumber(v[4] or def.bottom); ---@diagnostic disable-line: assign-type-mismatch
                     else
                         ret = def;
                     end
