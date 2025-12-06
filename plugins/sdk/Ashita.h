@@ -435,6 +435,7 @@ typedef BOOL(__stdcall* keyboardcallback_f)(WPARAM, LPARAM, bool);
 typedef BOOL(__stdcall* mousecallback_f)(uint32_t, WPARAM, LPARAM, bool);
 typedef DWORD(__stdcall* xinputgetstatecallback_f)(DWORD, XINPUT_STATE*);
 typedef BOOL(__stdcall* xinputcallback_f)(uint8_t*, int16_t*, bool, bool);
+typedef void(__stdcall* queuepacketcallback_f)(uint8_t*, void*);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -1509,7 +1510,7 @@ struct IPacketManager
     virtual void AddOutgoingPacket(uint16_t id, uint32_t len, uint8_t* data) = 0;
 
     // Methods (Game Packet Queueing)
-    virtual bool QueueOutgoingPacket(uint16_t id, uint16_t len, uint16_t align, uint32_t pparam1, uint32_t pparam2, std::function<void(uint8_t*)> callback) const = 0;
+    virtual bool QueueOutgoingPacket(uint16_t id, uint16_t len, uint16_t align, uint32_t pparam1, uint32_t pparam2, queuepacketcallback_f callback, void* callback_args) const = 0;
 };
 
 struct IPluginManager
@@ -2573,9 +2574,9 @@ public:
 //
 //      Exported function that returns a new instance of the plugins main class, which must inherit
 //      the IPlugin class. This is the main method used by Ashita to communicate with your plugin.
-// 
+//
 // export_DestroyPlugin_f           [Export As: expDestroyPlugin]
-// 
+//
 //      Exported function that is used to allow a plugin to destroy the created instance of itself.
 //
 // export_GetInterfaceVersion_f     [Export As: expGetInterfaceVersion]
@@ -2899,9 +2900,9 @@ public:
 //
 //      Exported function that returns a new instance of the plugins main class, which must inherit
 //      the IPolPlugin class. This is the main method used by Ashita to communicate with your plugin.
-// 
+//
 // export_DestroyPlugin_f               [Export As: expDestroyPlugin]
-// 
+//
 //      Exported function that is used to allow a plugin to destroy the created instance of itself.
 //
 // export_GetInterfaceVersion_f         [Export As: expGetInterfaceVersion]
