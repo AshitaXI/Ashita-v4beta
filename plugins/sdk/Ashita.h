@@ -2573,6 +2573,10 @@ public:
 //
 //      Exported function that returns a new instance of the plugins main class, which must inherit
 //      the IPlugin class. This is the main method used by Ashita to communicate with your plugin.
+// 
+// export_DestroyPlugin_f           [Export As: expDestroyPlugin]
+// 
+//      Exported function that is used to allow a plugin to destroy the created instance of itself.
 //
 // export_GetInterfaceVersion_f     [Export As: expGetInterfaceVersion]
 //
@@ -2583,6 +2587,7 @@ public:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef IPlugin* /**/ (__stdcall* export_CreatePlugin_f)(const char* args);
+typedef void /**/ (__stdcall* export_DestroyPlugin_f)(void* instance);
 typedef double /**/ (__stdcall* export_GetInterfaceVersion_f)(void);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2894,8 +2899,12 @@ public:
 //
 //      Exported function that returns a new instance of the plugins main class, which must inherit
 //      the IPolPlugin class. This is the main method used by Ashita to communicate with your plugin.
+// 
+// export_DestroyPlugin_f               [Export As: expDestroyPlugin]
+// 
+//      Exported function that is used to allow a plugin to destroy the created instance of itself.
 //
-// export_GetInterfaceVersion_f     [Export As: expGetInterfaceVersion]
+// export_GetInterfaceVersion_f         [Export As: expGetInterfaceVersion]
 //
 //      Exported function that returns the Ashita interface version that the plugin was compiled
 //      against. This is used to determine if the plugin is 'safe' to load in the current Ashita
