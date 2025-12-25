@@ -23,6 +23,8 @@ require('common')
       /singer on|off|toggle|status
       /singer now
       /singer songs "Song1" "Song2" ...
+      /singer playlists
+      /singer playlist <name>
       /singer delay <sec>
       /singer interval <sec>
       /singer target <tgt>
