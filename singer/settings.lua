@@ -67,7 +67,6 @@ return {
         ["xevfarm"] = {"Valor Minuet V","Blade Madrigal","Wind Carol II","Honor March","Honor March",},
         ["arewar"] = {"Valor Minuet II","Valor Minuet IV","Valor Minuet V","Honor March","Valor Minuet III",},
         ["sv5"] = {"Valor Minuet III","Valor Minuet IV","Valor Minuet V","Honor March","Valor Minuet II",},
-        ["mboze2"]
         ["arebati"] = {"Valor Minuet IV","Valor Minuet V","Knight's Minne IV","Knight's Minne V","Honor March",},
         ["1"] = {"Herculean Etude","Valor Minuet III","Valor Minuet IV","Valor Minuet V",},
         ["melee"] = {"Valor Minuet V","Valor Minuet IV","Honor March","Victory March","Valor Minuet III",},
