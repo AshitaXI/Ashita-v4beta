@@ -35,6 +35,7 @@ local sexchange = T{
     enabled = false,
     hair = 2,
     race = 5,
+    silent = false,
 };
 
 --[[
@@ -82,7 +83,9 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /sexchange - Toggle sexchange on and off.
     if (#args == 1) then
         sexchange.enabled = not sexchange.enabled;
-        print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success(sexchange.enabled and 'Enabled' or 'Disabled')));
+        if (not sexchange.silent) then
+            print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success(sexchange.enabled and 'Enabled' or 'Disabled')));
+        end
         return;
     end
 
@@ -92,24 +95,37 @@ ashita.events.register('command', 'command_cb', function (e)
         return;
     end
 
+    -- Handle: /sexchange silent - Toggle silent mode.
+    if (#args == 2 and args[2]:any('silent', 'quiet')) then
+        sexchange.silent = not sexchange.silent;
+        print(chat.header(addon.name):append(chat.message('Silent mode: ')):append(chat.success(sexchange.silent and 'Enabled' or 'Disabled')));
+        return;
+    end
+
     -- Handle: /sexchange (disable | off) - Turns off sexchange.
     if (#args == 2 and args[2]:any('disable', 'off')) then
         sexchange.enabled = false;
-        print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success('Disabled')));
+        if (not sexchange.silent) then
+            print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success('Disabled')));
+        end
         return;
     end
 
     -- Handle: /sexchange (enable | on) - Turns on sexchange.
     if (#args == 2 and args[2]:any('enable', 'on')) then
         sexchange.enabled = true;
-        print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success('Enabled')));
+        if (not sexchange.silent) then
+            print(chat.header(addon.name):append(chat.message('Sexchange is now: ')):append(chat.success('Enabled')));
+        end
         return;
     end
 
     -- Handle: /sexchange hair <id> - Sets the players hair type.
     if (#args == 3 and args[2]:any('hair')) then
         sexchange.hair = args[3]:number_or(2);
-        print(chat.header(addon.name):append(chat.message('Sexchange hair override set to: '):append(chat.success('%d'):fmt(sexchange.hair))));
+        if (not sexchange.silent) then
+            print(chat.header(addon.name):append(chat.message('Sexchange hair override set to: '):append(chat.success('%d'):fmt(sexchange.hair))));
+        end
 
         -- Force-update the player model..
         if (sexchange.enabled) then
@@ -126,7 +142,9 @@ ashita.events.register('command', 'command_cb', function (e)
     -- Handle: /sexchange race <id> - Sets the players race type.
     if (#args == 3 and args[2]:any('race')) then
         sexchange.race = args[3]:number_or(5);
-        print(chat.header(addon.name):append(chat.message('Sexchange race override set to: '):append(chat.success('%d'):fmt(sexchange.race))));
+        if (not sexchange.silent) then
+            print(chat.header(addon.name):append(chat.message('Sexchange race override set to: '):append(chat.success('%d'):fmt(sexchange.race))));
+        end
 
         -- Force-update the player model..
         if (sexchange.enabled) then
