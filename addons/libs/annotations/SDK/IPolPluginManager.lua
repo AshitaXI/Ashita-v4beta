@@ -109,3 +109,10 @@ function IPolPluginManager:Count() end
 ---@param event_name string
 ---@param event_data table
 function IPolPluginManager:RaiseEvent(event_name, event_data) end
+
+---Raises an event to be seen by all plugins.
+---@param self IPolPluginManager
+---@param event_name string
+---@param event_data number
+---@param event_size number
+function IPolPluginManager:RaiseEvent(event_name, event_data, event_size) end

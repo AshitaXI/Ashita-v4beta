@@ -116,6 +116,13 @@ function IPluginManager:Count() end
 ---@param event_data table
 function IPluginManager:RaiseEvent(event_name, event_data) end
 
+---Raises an event to be seen by all plugins.
+---@param self IPluginManager
+---@param event_name string
+---@param event_data number
+---@param event_size number
+function IPluginManager:RaiseEvent(event_name, event_data, event_size) end
+
 ---Returns the silent plugins flag.
 ---@param self IPluginManager
 ---@return boolean
