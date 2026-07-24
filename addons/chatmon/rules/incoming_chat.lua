@@ -138,10 +138,14 @@ ruleset.callback = function (e)
     -- Obtain the chat mode..
     local mid = bit.band(e.mode_modified,  0x000000FF);
 
-    -- Tests if the current message contains the local players name..
+    -- Tests if the current message contains the local players name as a whole word..
     local function contains_name()
         local name = AshitaCore:GetMemoryManager():GetParty():GetMemberName(0);
-        return name ~= nil and e.message_modified:lower():contains(name:lower());
+        if (name == nil or name == '') then
+            return false;
+        end
+        local quoted = name:lower():gsub('%W', '%%%0');
+        return e.message_modified:lower():find('%f[%w]' .. quoted .. '%f[%W]') ~= nil;
     end
 
     -- Test if the current mode is valid and the message contains the local player name..
