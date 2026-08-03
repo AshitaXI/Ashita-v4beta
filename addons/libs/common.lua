@@ -19,6 +19,27 @@
 * along with Ashita.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+-- Monotonic os.clock shim: Windows CRT clock() is a 32-bit millisecond
+-- counter that wraps negative after ~24.855 days of process uptime
+-- (2^31 ms), breaking any comparison of os.clock() against 0-initialized
+-- deadlines. Rebase to this Lua state's load time and accumulate across
+-- wraps so os.clock() is always monotonic and never negative.
+if not os.__monotonic_clock then
+    os.__monotonic_clock = true;
+    local real = os.clock;
+    local base = real();
+    local last = base;
+    local offset = 0;
+    os.clock = function()
+        local c = real();
+        if (c < last) then
+            offset = offset + 4294967.296; -- 2^32 ms, one full wrap
+        end
+        last = c;
+        return (c - base) + offset;
+    end
+end
+
 ---@overload fun(value: any, cases: table<any, function>): nil|any
 switch = require 'switch';
 
